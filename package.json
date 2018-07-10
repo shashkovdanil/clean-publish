@@ -1,0 +1,25 @@
+{
+  "name": "clean-publish",
+  "version": "1.0.0",
+  "description": "Clean your package before publish",
+  "keywords": [
+    "npm",
+    "package",
+    "publish",
+    "clean"
+  ],
+  "author": "Shashkov Danil <shashkovdanil@gmail.com>",
+  "license": "MIT",
+  "repository": "shashkovdanil/clean-publish",
+  "bin": "clean-publish.js",
+  "scripts": {
+    "clean-publish": "node clean-publish.js"
+  },
+  "bugs": {
+    "url": "https://github.com/shashkovdanil/clean-publish/issues"
+  },
+  "homepage": "https://github.com/shashkovdanil/clean-publish#readme",
+  "dependencies": {
+    "fs-extra": "^6.0.1"
+  }
+}
