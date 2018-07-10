@@ -1,6 +1,6 @@
 {
   "name": "clean-publish",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Clean your package before publish",
   "keywords": [
     "npm",
@@ -13,7 +13,8 @@
   "repository": "shashkovdanil/clean-publish",
   "bin": "clean-publish.js",
   "scripts": {
-    "clean-publish": "node clean-publish.js"
+    "clean-publish": "node clean-publish.js",
+    "clean": "clean-publish"
   },
   "bugs": {
     "url": "https://github.com/shashkovdanil/clean-publish/issues"

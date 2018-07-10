@@ -1,20 +1,17 @@
-const fs = require('fs');
-const fse = require('fs-extra');
-const CONFIG_FILES_LIST = require('./config-files-list');
+#!/usr/bin/env node
 
-function cleanPublish() {
-  const tmp = './tmp';
+var fs = require('fs');
+var fse = require('fs-extra');
+var CONFIG_FILES_LIST = require('./config-files-list');
+
+(function() {
+  var tmp = './tmp';
   fs.mkdirSync(tmp);
-  fs.readdirSync('./').forEach(i => {
+  fs.readdirSync('./').forEach(function(i) {
     if (i !== 'tmp') {
-      if (!CONFIG_FILES_LIST.includes(i)) {
-        fs.copyFileSync(i, `${tmp}/${i}`);
-      }
-      if (fs.statSync(i).isDirectory()) {
+      if (CONFIG_FILES_LIST.indexOf(i) == -1 || fs.statSync(i).isDirectory()) {
         fse.copy(i, `${tmp}/${i}`);
       }
     }
   });
-};
-
-cleanPublish();
+})();
