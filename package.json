@@ -13,8 +13,7 @@
   "repository": "shashkovdanil/clean-publish",
   "bin": "clean-publish.js",
   "scripts": {
-    "clean-publish": "node clean-publish.js",
-    "clean": "clean-publish"
+    "clean-publish": "node clean-publish.js"
   },
   "bugs": {
     "url": "https://github.com/shashkovdanil/clean-publish/issues"
