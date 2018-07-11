@@ -5,10 +5,23 @@ const fs = require('fs')
 const { spawn } = require('child_process')
 const fse = require('fs-extra')
 const omit = require('lodash.omit')
+const pick = require('lodash.pick')
 const yargs = require('yargs')
 
 const IGNORE_FILES = require('./ignore-files')
 const IGNORE_FIELDS = require('./ignore-fields')
+const NPM_SCRIPTS = require('./npm-scripts')
+
+/* eslint-disable */
+Array.prototype.reIndexOf = function(item) {
+  for (var i in this) {
+      if (this[i].toString().match(item)) {
+          return i;
+      }
+  }
+  return -1;
+};
+/* eslint-enable */
 
 const { argv } = yargs
   .usage('$0')
@@ -34,40 +47,42 @@ const { argv } = yargs
         console.error(chalk.red(readSrcDirErr))
         process.exit()
       }
+      const ignoreFiles = argv.files
+        ? IGNORE_FILES.concat(argv.files)
+        : IGNORE_FILES
       files
-        .filter(file => {
-          const ignoreFiles = argv.files
-            ? IGNORE_FILES.concat(argv.files)
-            : IGNORE_FILES
-          for (let i = 0; i < ignoreFiles.length; i += 1) {
-            return file.search(ignoreFiles[i]) === -1
-          }
-          return null
-        })
         .forEach(file => {
           if (file !== tmpDir) {
-            fse.copy(file, `${ tmpDir }/${ file }`, copyErr => {
-              if (copyErr) {
-                console.error(chalk.red(copyErr))
-                process.exit()
-              }
-              if (file === packageJSON) {
-                fse.readJson(packageJSON, (err, obj) => {
-                  if (err) {
-                    console.error(chalk.red(err))
-                    process.exit()
-                  }
-                  const ignoreFields = argv.fields
-                    ? IGNORE_FIELDS.concat(argv.fields)
-                    : IGNORE_FIELDS
-                  fse.writeJson(
-                    `./${ tmpDir }/${ packageJSON }`,
-                    omit(obj, ignoreFields), {
-                      spaces: 2
-                    })
-                })
-              }
-            })
+            if (ignoreFiles.reIndexOf(file) === -1) {
+              fse.copy(file, `${ tmpDir }/${ file }`, copyErr => {
+                if (copyErr) {
+                  console.error(chalk.red(copyErr))
+                  process.exit()
+                }
+                if (file === packageJSON) {
+                  fse.readJson(packageJSON, (err, obj) => {
+                    if (err) {
+                      console.error(chalk.red(err))
+                      process.exit()
+                    }
+                    const ignoreFields = argv.fields
+                      ? IGNORE_FIELDS.concat(argv.fields)
+                      : IGNORE_FIELDS
+                    const modifiedPackageJSON = Object.assign(
+                      omit(obj, ignoreFields),
+                      {
+                        scripts: pick(obj.scripts, NPM_SCRIPTS)
+                      }
+                    )
+                    fse.writeJson(
+                      `./${ tmpDir }/${ packageJSON }`,
+                      modifiedPackageJSON,
+                      { spaces: 2 }
+                    )
+                  })
+                }
+              })
+            }
           }
         })
     })
