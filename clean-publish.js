@@ -2,12 +2,26 @@
 
 const chalk = require('chalk')
 const fs = require('fs')
+const { spawn } = require('child_process')
 const fse = require('fs-extra')
 const omit = require('lodash.omit')
-const { spawn } = require('child_process')
+const yargs = require('yargs')
 
 const IGNORE_FILES = require('./ignore-files')
-const IGNORE_FIELDS = require('./ignore-fields');
+const IGNORE_FIELDS = require('./ignore-fields')
+
+const {
+  argv
+} = yargs
+  .usage('$0')
+  .option('files', {
+    type: 'array',
+    desc: 'One or more exclude files'
+  })
+  .option('fields', {
+    type: 'array',
+    desc: 'One or more exclude package.json fields'
+  });
 
 (function () {
   const src = './'
@@ -24,8 +38,11 @@ const IGNORE_FIELDS = require('./ignore-fields');
       }
       files
         .filter(file => {
-          for (let i = 0; i < IGNORE_FILES.length; i += 1) {
-            return file.search(IGNORE_FILES[0]) === -1
+          const ignoreFiles = argv.files
+            ? IGNORE_FILES.concat(argv.files)
+            : IGNORE_FILES
+          for (let i = 0; i < ignoreFiles.length; i += 1) {
+            return file.search(ignoreFiles[i]) === -1
           }
           return null
         })
@@ -42,9 +59,12 @@ const IGNORE_FIELDS = require('./ignore-fields');
                     console.error(chalk.red(err))
                     process.exit()
                   }
+                  const ignoreFields = argv.fields
+                    ? IGNORE_FIELDS.concat(argv.fields)
+                    : IGNORE_FIELDS
                   fse.writeJson(
                     `./${ tmpDir }/${ packageJSON }`,
-                    omit(obj, IGNORE_FIELDS), {
+                    omit(obj, ignoreFields), {
                       spaces: 2
                     })
                 })
