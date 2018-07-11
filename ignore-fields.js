@@ -4,5 +4,7 @@ module.exports = [
   'yaspeller',
   'size-limit',
   'devDependencies',
-  'babel'
+  'babel',
+  'lint-staged',
+  'pre-commit'
 ]
