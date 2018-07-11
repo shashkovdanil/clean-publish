@@ -4,5 +4,5 @@ module.exports = [
   'yaspeller',
   'size-limit',
   'devDependencies',
-  'babel',
-];
+  'babel'
+]
