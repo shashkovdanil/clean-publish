@@ -32,12 +32,14 @@
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-security": "^1.4.0",
     "eslint-plugin-standard": "^3.1.0",
+    "jest": "^23.4.0",
     "lint-staged": "^7.2.0",
     "pre-commit": "^1.2.2"
   },
   "scripts": {
     "lint-staged": "lint-staged",
-    "lint": "eslint-ci *.js"
+    "lint": "eslint-ci *.js",
+    "test": "jest && yarn run lint"
   },
   "pre-commit": [
     "lint-staged"
