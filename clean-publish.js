@@ -10,9 +10,7 @@ const yargs = require('yargs')
 const IGNORE_FILES = require('./ignore-files')
 const IGNORE_FIELDS = require('./ignore-fields')
 
-const {
-  argv
-} = yargs
+const { argv } = yargs
   .usage('$0')
   .option('files', {
     type: 'array',
