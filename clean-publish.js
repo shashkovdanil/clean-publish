@@ -1,17 +1,29 @@
 #!/usr/bin/env node
 
-var fs = require('fs');
-var fse = require('fs-extra');
-var CONFIG_FILES_LIST = require('./config-files-list');
+const fs = require('fs');
+const fse = require('fs-extra');
+const omit = require('lodash.omit');
+const IGNORE_FILES = require('./ignore-files');
+const IGNORE_FIELDS = require('./ignore-fields');
 
-(function() {
-  var tmp = './tmp';
-  fs.mkdirSync(tmp);
-  fs.readdirSync('./').forEach(function(i) {
-    if (i !== 'tmp') {
-      if (CONFIG_FILES_LIST.indexOf(i) == -1 || fs.statSync(i).isDirectory()) {
-        fse.copy(i, `${tmp}/${i}`);
+(function () {
+  const tmp = fs.mkdtempSync('tmp');
+  const src = './'
+  const packageJSON = 'package.json'
+  fs.readdirSync(src).forEach(i => {
+    if (i !== tmp) {
+      if (IGNORE_FILES.indexOf(i) == -1 || fs.statSync(i).isDirectory()) {
+        fse.copy(i, `${tmp}/${i}`)
+          .then(() => {
+            if (i === packageJSON) {
+              fse.readJson(packageJSON, (err, obj) => {
+                fse.writeJsonSync(`./${tmp}/${packageJSON}`, omit(obj, IGNORE_FIELDS), {
+                  spaces: 2
+                })
+              })
+            }
+          });
       }
     }
-  });
+  })
 })();

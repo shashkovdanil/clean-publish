@@ -14,13 +14,15 @@
   "bin": "clean-publish.js",
   "scripts": {
     "clean-publish": "node clean-publish.js",
-    "clean": "clean-publish"
+    "clean": "clean-publish",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bugs": {
     "url": "https://github.com/shashkovdanil/clean-publish/issues"
   },
   "homepage": "https://github.com/shashkovdanil/clean-publish#readme",
   "dependencies": {
-    "fs-extra": "^6.0.1"
+    "fs-extra": "^6.0.1",
+    "lodash.omit": "^4.5.0"
   }
 }
