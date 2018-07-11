@@ -28,7 +28,7 @@ Add `clean-publish` script to `package.json`:
 
 ## Exclude files and package.json fields
 
-* Files:
+**Files:**
 
 - `.eslintrc`,
 - `.eslintignore`,
@@ -45,7 +45,7 @@ Add `clean-publish` script to `package.json`:
 - `yarn-error.log`,
 - `appveyor.ym`
 
-* Fields:
+**Fields:**
 
 - `eslintConfig`,
 - `jest`,
@@ -58,7 +58,7 @@ Add `clean-publish` script to `package.json`:
 
 * Before `clean-publish`
 
-Files and directories
+**Files and directories**
 ```
 node_modules
 .eslintrc
@@ -70,7 +70,7 @@ README.md
 yarn.lock
 ```
 
-package.json
+**package.json**
 ```json
 {
   "name": "your-package",
@@ -102,7 +102,7 @@ package.json
 
 * After `clean-publish`
 
-Files and directories
+**Files and directories**
 ```diff
 node_modules
 CHANGELOG.md  
@@ -114,7 +114,7 @@ README.md
 - yarn.lock
 ```
 
-package.json
+**package.json**
 ```diff
 {
   "name": "your-package",
