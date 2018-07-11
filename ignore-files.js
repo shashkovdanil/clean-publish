@@ -1,5 +1,6 @@
 module.exports = [
   '.eslintrc',
+  '.eslintignore',
   '.babelrc',
   '.editorconfig',
   '.jsdocrc',
