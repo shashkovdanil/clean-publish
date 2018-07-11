@@ -26,6 +26,12 @@ Add `clean-publish` script to `package.json`:
 }
 ```
 
+Usage with arguments:
+
+```sh
+$ npm run clean-publish --files file1.js file2.js --fields scripts name
+```
+
 ## Exclude files and package.json fields
 
 **Files:**

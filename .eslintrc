@@ -3,6 +3,7 @@
   "rules": {
     "security/detect-non-literal-require": "off",
     "security/detect-non-literal-regexp": "off",
-    "global-require": "off"
+    "global-require": "off",
+    "multiline-ternary": "off"
   }
 }
