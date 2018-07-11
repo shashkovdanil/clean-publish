@@ -3,6 +3,11 @@
 const fs = require('fs');
 const fse = require('fs-extra');
 const omit = require('lodash.omit');
+const {
+  spawn,
+  execSync,
+} = require('child_process');
+
 const IGNORE_FILES = require('./ignore-files');
 const IGNORE_FIELDS = require('./ignore-fields');
 
@@ -26,4 +31,12 @@ const IGNORE_FIELDS = require('./ignore-fields');
       }
     }
   })
+  process.chdir(tmp);
+  const publish = spawn('npm', ['publish'], {
+    stdio: 'inherit'
+  });
+  publish.on('exit', () => {
+    fse.removeSync(tmp);
+  })
+  process.chdir('../');
 })();

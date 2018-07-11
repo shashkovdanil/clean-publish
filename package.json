@@ -1,6 +1,6 @@
 {
   "name": "clean-publish",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Clean your package before publish",
   "keywords": [
     "npm",
@@ -14,8 +14,7 @@
   "bin": "clean-publish.js",
   "scripts": {
     "clean-publish": "node clean-publish.js",
-    "clean": "clean-publish",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "clean-publish"
   },
   "bugs": {
     "url": "https://github.com/shashkovdanil/clean-publish/issues"
