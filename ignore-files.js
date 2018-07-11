@@ -10,6 +10,7 @@ module.exports = [
   'jest.config.js',
   '.travis.yml',
   'yarn.lock',
+  'package-lock.json',
   'yarn-error.log',
   'appveyor.yml'
 ]
