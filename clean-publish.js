@@ -2,6 +2,7 @@
 
 const chalk = require('chalk')
 const fs = require('fs')
+const os = require('os')
 const { spawn } = require('child_process')
 const fse = require('fs-extra')
 const omit = require('lodash.omit')
@@ -11,17 +12,6 @@ const yargs = require('yargs')
 const IGNORE_FILES = require('./ignore-files')
 const IGNORE_FIELDS = require('./ignore-fields')
 const NPM_SCRIPTS = require('./npm-scripts')
-
-/* eslint-disable */
-Array.prototype.reIndexOf = function(item) {
-  for (var i in this) {
-      if (this[i].toString().match(item)) {
-          return i;
-      }
-  }
-  return -1;
-};
-/* eslint-enable */
 
 const { argv } = yargs
   .usage('$0')
@@ -35,8 +25,17 @@ const { argv } = yargs
   });
 
 (function () {
+  function regExpIndexOf (array, item) {
+    for (const i in array) {
+      if (array[i].toString().match(item)) {
+        return i
+      }
+    }
+    return -1
+  };
   const src = './'
   const packageJSON = 'package.json'
+  const npmScript = os.type().indexOf('Windows') !== -1 ? 'npm.cmd' : 'npm'
   fs.mkdtemp('tmp', (makeTmpDirErr, tmpDir) => {
     if (makeTmpDirErr) {
       console.error(chalk.red(makeTmpDirErr))
@@ -53,7 +52,7 @@ const { argv } = yargs
       files
         .forEach(file => {
           if (file !== tmpDir) {
-            if (ignoreFiles.reIndexOf(file) === -1) {
+            if (regExpIndexOf(ignoreFiles, file) === -1) {
               fse.copy(file, `${ tmpDir }/${ file }`, copyErr => {
                 if (copyErr) {
                   console.error(chalk.red(copyErr))
@@ -87,7 +86,7 @@ const { argv } = yargs
         })
     })
     process.chdir(tmpDir)
-    const publish = spawn('npm', ['publish'], {
+    const publish = spawn(npmScript, ['publish'], {
       stdio: 'inherit'
     })
     publish.on('exit', () => {
