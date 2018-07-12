@@ -6,5 +6,6 @@ module.exports = [
   'devDependencies',
   'babel',
   'lint-staged',
-  'pre-commit'
+  'pre-commit',
+  'prettier'
 ]
