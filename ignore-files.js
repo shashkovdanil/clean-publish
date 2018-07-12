@@ -12,5 +12,13 @@ module.exports = [
   'yarn.lock',
   'package-lock.json',
   'yarn-error.log',
-  'appveyor.yml'
+  'appveyor.yml',
+  '.watchmanconfig',
+  '.yarnrc',
+  'karma.conf.js',
+  '.flowconfig',
+  '.circleci',
+  '.github',
+  '.vscode',
+  '.jsconfig'
 ]
