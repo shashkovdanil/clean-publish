@@ -2,13 +2,12 @@
 [![Build Status](https://travis-ci.org/shashkovdanil/clean-publish.svg?branch=master)](https://travis-ci.org/shashkovdanil/clean-publish)
 [![Cult Of Martians][cult-img]][cult]
 
-<img src="./img/logo.svg" align="right"
-     title="Clean Publish logo by Anton Panachev <pana4eow@yandex.ru>" width="120" height="120">
+<img src="./img/logo.svg" title="Clean Publish logo by Anton Panachev <pana4eow@yandex.ru>" width="180" height="180">
 
 [cult-img]:                         http://cultofmartians.com/assets/badges/badge.svg
 [cult]:                             https://cultofmartians.com/tasks/clean-publish.html
 
-Clean publish is a tool for removing configuration files and fields in package.json before publishing to npm.
+Clean Publish is a tool for removing configuration files, fields and script for development from `package.json` before publishing to `npm`.
 
 ## Table of Contents
 1. [How it works](#how-it-works)
@@ -18,11 +17,11 @@ Clean publish is a tool for removing configuration files and fields in package.j
 
 ## How it works
 
-`clean-publish` command copies project files (excluding configuration files) to a temporary folder, removes the extra from package.json, and calls npm publish on the temporary folder.
+`clean-publish` command copies project files (excluding configuration files) to a temporary folder, removes the extra and development script from `package.json`, and calls `npm publish` on the temporary folder.
 
 **Simple example:**
 
-Before clean:
+- Before clean:
 
 ```
 node_modules
@@ -30,8 +29,8 @@ src
 .eslintrc
 .prettierrc
 package.json
-
-package.json:
+```
+```json
 {
   "name": "author",
   "scripts": {
@@ -42,14 +41,16 @@ package.json:
 }
 ```
 
-After clean:
+- After clean:
+
+`.eslintrc`, `.prettierrc`, `lint` script and `devDependecies` field was removed. 
 
 ```
 node_modules
 src
 package.json
-
-package.json:
+```
+```json
 {
   "name": "author",
   "scripts": {
@@ -62,7 +63,7 @@ package.json:
 
 ## Usage
 
-First, install `clean-publish`:
+1. install `clean-publish`:
 
 ```sh
 $ npm install --save-dev clean-publish
@@ -72,7 +73,7 @@ $ npm install --save-dev clean-publish
 $ yarn add clean-publish --dev
 ```
 
-Add `clean-publish` script to `package.json`:
+2. Add `clean-publish` script to `package.json`:
 
 ```json
 {
@@ -80,7 +81,10 @@ Add `clean-publish` script to `package.json`:
 }
 ```
 
-Usage with arguments:
+3. Usage with arguments:
+
+- `files` - list of files that you want to delete before publishing
+- `fields` - list of fields in the `package.json` file that you want to delete before publishing
 
 ```sh
 $ npm run clean-publish --files file1.js file2.js --fields scripts name
@@ -88,31 +92,10 @@ $ npm run clean-publish --files file1.js file2.js --fields scripts name
 
 ## Exclude files and package.json fields
 
-**Files:**
+[Ignore files](https://github.com/shashkovdanil/clean-publish/blob/master/ignore-files.js)
 
-- `.eslintrc`,
-- `.eslintignore`,
-- `.babelrc`,
-- `.editorconfig`,
-- `.jsdocrc`,
-- `.lintstagedrc`,
-- `.size-limit`,
-- `.yaspellerrc`,
-- `jest.config.js`,
-- `.travis.yml`,
-- `yarn.lock`,
-- `package-lock.json`,
-- `yarn-error.log`,
-- `appveyor.ym`
+[Ignore fields](https://github.com/shashkovdanil/clean-publish/blob/master/ignore-fields.js)
 
-**Fields:**
-
-- `eslintConfig`,
-- `jest`,
-- `yaspeller`,
-- `size-limit`,
-- `devDependencies`,
-- `babel`
 
 ## Examples
 
