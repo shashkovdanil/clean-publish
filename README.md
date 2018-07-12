@@ -10,6 +10,10 @@
 
 Clean publish is a tool for removing configuration files and fields in package.json before publishing to npm.
 
+
+
+
+
 ## Table of Contents
 1. [How it works](#how-it-works)
 2. [Usage](#usage)
