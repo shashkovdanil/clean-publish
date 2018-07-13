@@ -9,3 +9,9 @@
 * Add CI
 * Add linting
 * Remove package.json unused scripts
+
+## 1.0.4
+* Test release
+
+## 1.0.5
+* Fix publish
