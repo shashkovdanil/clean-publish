@@ -53,9 +53,6 @@ package.json
 ```json
 {
   "name": "author",
-  "scripts": {
-  },
-  "dependencies": {},
 }
 ```
 
