@@ -1,6 +1,6 @@
 {
   "name": "clean-publish",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Clean your package before publish",
   "keywords": [
     "npm",
@@ -39,6 +39,7 @@
     "pre-commit": "^1.2.2"
   },
   "scripts": {
+    "test-clean": "cd test/package/jest && node ../../../clean-publish.js --without-publish",
     "lint-staged": "lint-staged",
     "lint": "eslint-ci *.js",
     "test": "jest && yarn run lint"

@@ -85,6 +85,7 @@ $ yarn add clean-publish --dev
 
 - `files` - list of files that you want to delete before publishing
 - `fields` - list of fields in the `package.json` file that you want to delete before publishing
+- `without-publish` - clean project without `npm publish` (tmp directory will not be deleted automatically)
 
 ```sh
 $ npm run clean-publish --files file1.js file2.js --fields scripts name

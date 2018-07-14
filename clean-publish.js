@@ -22,6 +22,10 @@ const { argv } = yargs
   .option('fields', {
     type: 'array',
     desc: 'One or more exclude package.json fields'
+  })
+  .option('without-publish', {
+    type: 'boolean',
+    desc: 'Clean package without npm publish'
   });
 
 (function () {
@@ -41,7 +45,7 @@ const { argv } = yargs
         ? IGNORE_FILES.concat(argv.files)
         : IGNORE_FILES
       const filteredFiles = files.filter(file => (
-        file !== tmpDir && regExpIndexOf(ignoreFiles, file) === -1
+        file !== tmpDir && regExpIndexOf(ignoreFiles, file) === false
       ))
       multiCp(filteredFiles.map(file => ({
         from: `${ src }${ file }`,
@@ -71,17 +75,19 @@ const { argv } = yargs
                   console.error(chalk.red(writePackageJSONErr))
                   process.exit()
                 }
-                spawn('npm', ['publish'], {
-                  stdio: 'inherit',
-                  cwd: tmpDir
-                }).on('close', () => {
-                  fse.remove(tmpDir, removeTmpDirErr => {
-                    if (removeTmpDirErr) {
-                      console.error(chalk.red(removeTmpDirErr))
-                      process.exit()
-                    }
+                if (!argv['without-publish']) {
+                  spawn('npm', ['publish'], {
+                    stdio: 'inherit',
+                    cwd: tmpDir
+                  }).on('close', () => {
+                    fse.remove(tmpDir, removeTmpDirErr => {
+                      if (removeTmpDirErr) {
+                        console.error(chalk.red(removeTmpDirErr))
+                        process.exit()
+                      }
+                    })
                   })
-                })
+                }
               }
             )
           })
