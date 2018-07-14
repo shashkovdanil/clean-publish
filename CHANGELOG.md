@@ -15,3 +15,8 @@
 
 ## 1.0.5
 * Fix publish
+
+## 1.0.6
+* Fix regexp indexOf func
+* Write test
+* Add without-publish arguments

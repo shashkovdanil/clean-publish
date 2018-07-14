@@ -2,11 +2,14 @@ const fse = require('fs-extra')
 
 function regExpIndexOf (array, item) {
   for (const i in array) {
-    if (array[i].toString().match(item)) {
-      return i
+    if (typeof array[i] === 'string' && item === array[i]) {
+      return true
+    }
+    if (array[i] instanceof RegExp && array[i].test(item)) {
+      return true
     }
   }
-  return -1
+  return false
 }
 
 function cp (file) {
