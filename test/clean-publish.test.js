@@ -2,8 +2,7 @@ const spawn = require('cross-spawn')
 const fs = require('fs')
 const fse = require('fs-extra')
 
-const cleanFiles = ['.gitignore',
-  '.npmignore',
+const cleanFiles = [
   'CHANGELOG.md',
   'CONTRIBUTING.md',
   'LICENSE',
@@ -15,7 +14,6 @@ const cleanFiles = ['.gitignore',
   'eslintImportResolver.js',
   'examples',
   'flow-typed',
-  'jest',
   'jsconfig.json',
   'lerna.json',
   'package.json',
@@ -51,10 +49,10 @@ it('Test clean-publish function without "npm publish"', () => {
   spawn('npm', ['run', 'test-clean'], {
     stdio: 'inherit'
   }).on('close', () => {
-    fs.readdir('./test/package/jest', (err, files) => {
+    fs.readdir('./test/package', (err, files) => {
       if (err) console.error(err)
       const tmpDir = files.filter(file => file.search('tmp') === 0)[0]
-      const tmpDirPath = `./test/package/jest/${ tmpDir }`
+      const tmpDirPath = `./test/package/${ tmpDir }`
       fs.readdir(tmpDirPath, (tmpErr, tmpFiles) => {
         if (tmpErr) console.error(tmpErr)
         expect(tmpFiles).toEqual(cleanFiles)

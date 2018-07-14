@@ -39,7 +39,7 @@
     "pre-commit": "^1.2.2"
   },
   "scripts": {
-    "test-clean": "cd test/package/jest && node ../../../clean-publish.js --without-publish",
+    "test-clean": "cd test/package && node ../../clean-publish.js --without-publish",
     "lint-staged": "lint-staged",
     "lint": "eslint-ci *.js",
     "test": "jest && yarn run lint"
