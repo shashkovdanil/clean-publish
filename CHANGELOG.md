@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.7
+* Remove empty fields from package.json
+* Fix README
+
 ## 1.0.6
 * Fix regexp indexOf func
 * Write test
