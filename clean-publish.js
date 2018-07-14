@@ -66,6 +66,13 @@ const { argv } = yargs
                 scripts: pick(obj.scripts, NPM_SCRIPTS)
               }
             )
+            for (const i in modifiedPackageJSON) {
+              if (typeof modifiedPackageJSON[i] === 'object') {
+                if (Object.keys(modifiedPackageJSON[i]).length === 0) {
+                  delete modifiedPackageJSON[i]
+                }
+              }
+            }
             fse.writeJson(
               `./${ tmpDir }/${ packageJSON }`,
               modifiedPackageJSON,
