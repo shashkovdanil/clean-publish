@@ -43,10 +43,9 @@ package.json
 
 - After clean:
 
-`.eslintrc`, `.prettierrc`, `lint` script and `devDependecies` field was removed. 
+`node_modules`, `.eslintrc`, `.prettierrc`, `lint` script and `devDependecies` field was removed (empty objects will also be deleted). 
 
 ```
-node_modules
 src
 package.json
 ```
