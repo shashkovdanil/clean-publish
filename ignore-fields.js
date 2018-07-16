@@ -7,5 +7,6 @@ module.exports = [
   'babel',
   'lint-staged',
   'pre-commit',
-  'prettier'
+  'prettier',
+  'browserslist'
 ]
