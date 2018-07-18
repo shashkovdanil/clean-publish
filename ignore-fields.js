@@ -8,5 +8,6 @@ module.exports = [
   'lint-staged',
   'pre-commit',
   'prettier',
-  'browserslist'
+  'browserslist',
+  'pwmetrics'
 ]
