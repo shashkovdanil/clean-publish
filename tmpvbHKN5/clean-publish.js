@@ -52,7 +52,7 @@ function clearPackageJSON (tempDirectoryName, cleanPackageJSON) {
           stdio: 'inherit',
           cwd: tempDirectoryName
         }).on('close', () => {
-          removeTempDirectory(tempDirectoryName)
+          removeTempDirectory()
         })
       }
     }

@@ -1,6 +1,7 @@
 const spawn = require('cross-spawn')
 const fs = require('fs')
 const fse = require('fs-extra')
+const path = require('path')
 
 const cleanFiles = [
   'CHANGELOG.md',
@@ -45,23 +46,25 @@ const cleanPackageJSON = {
   }
 }
 
-it('Test clean-publish function without "npm publish"', () => {
+it('Test clean-publish function without "npm publish"', done => {
   spawn('npm', ['run', 'test-clean'], {
     stdio: 'inherit'
   }).on('close', () => {
-    fs.readdir('./test/package', (err, files) => {
-      if (err) console.error(err)
+    fs.readdir(path.join(__dirname, 'package'), (err, files) => {
+      if (err) return console.error(err)
       const tmpDir = files.filter(file => file.search('tmp') === 0)[0]
-      const tmpDirPath = `./test/package/${ tmpDir }`
+      const tmpDirPath = path.join(__dirname, 'package', tmpDir)
+      const packageJSON = path.join(tmpDirPath, 'package.json')
       fs.readdir(tmpDirPath, (tmpErr, tmpFiles) => {
-        if (tmpErr) console.error(tmpErr)
+        if (tmpErr) return console.error(tmpErr)
         expect(tmpFiles).toEqual(cleanFiles)
-        fse.readJson(`${ tmpDirPath }/package.json`, (readJSONErr, obj) => {
-          if (readJSONErr) console.error(readJSONErr)
+        fse.readJson(packageJSON, (readJSONErr, obj) => {
+          if (readJSONErr) return console.error(readJSONErr)
           expect(obj).toEqual(cleanPackageJSON)
           fse.removeSync(tmpDirPath)
         })
       })
     })
+    done()
   })
 })
