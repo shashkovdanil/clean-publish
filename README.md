@@ -89,10 +89,11 @@ $ npm run clean-publish --files file1.js file2.js --fields scripts name
 
 ## Exclude files and package.json fields
 
-[Ignore files](https://github.com/shashkovdanil/clean-publish/blob/master/ignore-files.js)
+[Ignore files](https://github.com/shashkovdanil/clean-publish/blob/master/exception/ignore-files.js)
 
-[Ignore fields](https://github.com/shashkovdanil/clean-publish/blob/master/ignore-fields.js)
+[Ignore fields](https://github.com/shashkovdanil/clean-publish/blob/master/exception/ignore-fields.js)
 
+[Ignore npm scripts](https://github.com/shashkovdanil/clean-publish/blob/master/exception/npm-scripts.js)
 
 ## Examples
 
