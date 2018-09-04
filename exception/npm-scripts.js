@@ -3,6 +3,7 @@ module.exports = [
   'postversion',
   'postpack',
   'prepublish',
+  'prepublishOnly',
   'publish',
   'postpublish',
   'postinstall'
