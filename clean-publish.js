@@ -27,6 +27,11 @@ const { argv } = yargs
     type: 'boolean',
     desc: 'Clean package without npm publish'
   })
+  .option('package-manager', {
+    types:   'string',
+    default: 'npm',
+    desc:    'Package manager to use'
+  })
 
 function removeTempDirectory (tempDirectoryName) {
   fse.remove(tempDirectoryName, error => {
@@ -48,7 +53,7 @@ function clearPackageJSON (tempDirectoryName, cleanPackageJSON) {
         process.exit()
       }
       if (!argv['without-publish']) {
-        spawn('npm', ['publish'], {
+        spawn(argv['package-manager'], ['publish'], {
           stdio: 'inherit',
           cwd: tempDirectoryName
         }).on('close', () => {
