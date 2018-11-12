@@ -12,7 +12,7 @@ module.exports = [
   /^\.lintstagedrc/,
   /^\.jsconfig/,
   /^\.size-limit/,
-  /^\.clean-publush/,
+  /^\.clean-publish/,
   '.git',
   '.DS_Store',
   '.eslintignore',
