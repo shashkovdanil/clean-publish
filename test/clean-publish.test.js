@@ -2,6 +2,7 @@ const spawn = require('cross-spawn')
 const fs = require('fs')
 const fse = require('fs-extra')
 const path = require('path')
+const cleanPackageJSON = require('./clean-package.json')
 
 const cleanFiles = [
   'CHANGELOG.md',
@@ -25,29 +26,8 @@ const cleanFiles = [
   'website'
 ]
 
-const cleanPackageJSON = {
-  private: true,
-  scripts: {
-    publish: 'yarn build-clean && yarn build && lerna publish --silent',
-    postinstall: 'opencollective postinstall && yarn build'
-  },
-  workspaces: [
-    'packages/*',
-    'website',
-    'examples/*'
-  ],
-  dependencies: {
-    opencollective: '^1.0.3'
-  },
-  collective: {
-    type: 'opencollective',
-    url: 'https://opencollective.com/jest',
-    logo: 'https://opencollective.com/jest/logo.txt'
-  }
-}
-
 it('Test clean-publish function without "npm publish"', done => {
-  spawn('npm', ['run', 'test-clean'], {
+  spawn('npm', ['run', 'test-clean-publish'], {
     stdio: 'inherit'
   }).on('close', () => {
     fs.readdir(path.join(__dirname, 'package'), (err, files) => {
@@ -62,9 +42,9 @@ it('Test clean-publish function without "npm publish"', done => {
           if (readJSONErr) return console.error(readJSONErr)
           expect(obj).toEqual(cleanPackageJSON)
           fse.removeSync(tmpDirPath)
+          done()
         })
       })
     })
-    done()
   })
 })
