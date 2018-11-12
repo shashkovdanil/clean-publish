@@ -9,6 +9,7 @@ const {
   readJson,
   writeJson
 } = require('./utils')
+const getConfig = require('./get-config')
 
 const { argv } = yargs
   .usage('$0')
@@ -34,9 +35,24 @@ const { argv } = yargs
     desc: 'Output file name'
   })
 
-readJson(argv.input)
+const options = {}
+
+function handleOptions () {
+  Object.assign(options, argv)
+  if (options['_'].length === 0) {
+    return getConfig().then(config => {
+      Object.assign(options, config)
+    })
+  }
+  return Promise.resolve()
+}
+
+handleOptions()
+  .then(() => (
+    readJson(argv.input)
+  ))
   .then(packageJson => {
-    const cleanPackageJSON = clearPackageJSON(packageJson, argv.fields)
+    const cleanPackageJSON = clearPackageJSON(packageJson, options.fields)
     if (argv.output) {
       return writeJson(
         argv.output,

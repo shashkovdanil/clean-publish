@@ -4,10 +4,10 @@ const fse = require('fs-extra')
 
 const mkdtemp = util.promisify(fs.mkdtemp)
 const readdir = util.promisify(fs.readdir)
-const copy = util.promisify(fse.copy)
-const remove = util.promisify(fse.remove)
-const readJson = util.promisify(fse.readJson)
-const writeJson = util.promisify(fse.writeJson)
+const copy = fse.copy
+const remove = fse.remove
+const readJson = fse.readJson
+const writeJson = fse.writeJson
 
 function regExpIndexOf (array, item) {
   for (const i in array) {
