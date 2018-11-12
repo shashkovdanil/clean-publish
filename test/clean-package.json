@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "scripts": {
+    "publish": "yarn build-clean && yarn build && lerna publish --silent",
+    "postinstall": "opencollective postinstall && yarn build"
+  },
+  "workspaces": [
+    "packages/*",
+    "website",
+    "examples/*"
+  ],
+  "dependencies": {
+    "opencollective": "^1.0.3"
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/jest",
+    "logo": "https://opencollective.com/jest/logo.txt"
+  }
+}
