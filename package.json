@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "chalk": "^2.4.1",
+    "cosmiconfig": "^5.0.7",
     "cross-spawn": "^6.0.5",
     "fs-extra": "^6.0.1",
     "ramda": "^0.25.0",
@@ -45,7 +46,7 @@
     "test-clear-package-json": "cd test/package && node ../../clear-package-json.js package.json -o package.min.json",
     "lint-staged": "lint-staged",
     "lint": "eslint-ci *.js",
-    "test": "jest && yarn run lint"
+    "test": "jest --runInBand && yarn run lint"
   },
   "pre-commit": [
     "lint-staged"
