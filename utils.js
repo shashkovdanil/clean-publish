@@ -1,9 +1,9 @@
-const util = require('util')
+const promisify = require('util.promisify/polyfill')()
 const fs = require('fs')
 const fse = require('fs-extra')
 
-const mkdtemp = util.promisify(fs.mkdtemp)
-const readdir = util.promisify(fs.readdir)
+const mkdtemp = promisify(fs.mkdtemp)
+const readdir = promisify(fs.readdir)
 const copy = fse.copy
 const remove = fse.remove
 const readJson = fse.readJson
