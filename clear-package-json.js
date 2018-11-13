@@ -7,22 +7,28 @@ const {
 } = require('./core')
 const {
   readJson,
+  readJsonFromStdin,
   writeJson
 } = require('./utils')
 const getConfig = require('./get-config')
 
+const { isTTY } = process.stdin
 const { argv } = yargs
   .usage('$0')
   .command(
-    '$0 <input> [options]',
+    isTTY
+      ? '$0 <input> [options]'
+      : '$0 [options]',
     'Clear package.json file',
     yargsCommand => {
-      yargsCommand
-        .positional('input', {
-          type: 'string',
-          desc: 'Input package.json file'
-        })
-        .require('input')
+      if (isTTY) {
+        yargsCommand
+          .positional('input', {
+            type: 'string',
+            desc: 'Input package.json file'
+          })
+          .require('input')
+      }
     }
   )
   .option('fields', {
@@ -50,7 +56,9 @@ function handleOptions () {
 
 handleOptions()
   .then(() => (
-    readJson(argv.input)
+    isTTY
+      ? readJson(argv.input)
+      : readJsonFromStdin()
   ))
   .then(packageJson => {
     const cleanPackageJSON = clearPackageJSON(packageJson, options.fields)
