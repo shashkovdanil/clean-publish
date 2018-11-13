@@ -27,12 +27,36 @@ function multiCp (files) {
   )
 }
 
+function readJsonFromStdin () {
+  process.stdin.setEncoding('utf8')
+  return new Promise((resolve, reject) => {
+    let jsonString = ''
+    process.stdin
+      .on('readable', () => {
+        const chunk = process.stdin.read()
+        if (typeof chunk === 'string') {
+          jsonString += chunk
+        }
+      })
+      .on('end', () => {
+        try {
+          const json = JSON.parse(jsonString)
+          resolve(json)
+        } catch (error) {
+          reject(error)
+        }
+      })
+      .on('error', reject)
+  })
+}
+
 module.exports = {
   mkdtemp,
   readdir,
   copy,
   remove,
   readJson,
+  readJsonFromStdin,
   writeJson,
   regExpIndexOf,
   multiCp

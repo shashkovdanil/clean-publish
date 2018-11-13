@@ -96,6 +96,8 @@ $ npm run clean-publish --files file1.js file2.js --fields scripts name
 $ npm run clear-package-json package.json -o package/package.json --fields scripts name
 # or
 $ npm run clear-package-json package.json > package/package.json
+# or
+$ cat package.json | npm run clear-package-json
 # `fields` also will be getted from config file
 ```
 
