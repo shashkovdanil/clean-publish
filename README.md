@@ -88,6 +88,17 @@ $ yarn add clean-publish --dev
 $ npm run clean-publish --files file1.js file2.js --fields scripts name
 ```
 
+### clear-package-json
+
+`clear-package-json` is additional tool to work only with `package.json` file.
+
+```sh
+$ npm run clear-package-json package.json -o package/package.json --fields scripts name
+# or
+$ npm run clear-package-json package.json > package/package.json
+# `fields` also will be getted from config file
+```
+
 ## Config
 
 Clean Publish also supports 3 ways to define config.
