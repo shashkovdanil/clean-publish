@@ -12,8 +12,9 @@ Clean Publish is a tool for removing configuration files, fields and script for 
 ## Table of Contents
 1. [How it works](#how-it-works)
 2. [Usage](#usage)
-3. [Exclude files and package.json fields](#exclude-files-and-packagejson-fields)
-4. [Examples](#examples)
+3. [Config](#config)
+4. [Exclude files and package.json fields](#exclude-files-and-packagejson-fields)
+5. [Examples](#examples)
 
 ## How it works
 
