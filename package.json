@@ -11,15 +11,20 @@
   "author": "Shashkov Danil <shashkovdanil@gmail.com>",
   "license": "MIT",
   "repository": "shashkovdanil/clean-publish",
-  "bin": "clean-publish.js",
+  "bin": {
+    "clean-publish": "clean-publish.js",
+    "clear-package-json": "clear-package-json.js"
+  },
   "engines": {
     "node": ">=6.11.5"
   },
   "dependencies": {
     "chalk": "^2.4.1",
+    "cosmiconfig": "^5.0.7",
     "cross-spawn": "^6.0.5",
     "fs-extra": "^6.0.1",
     "ramda": "^0.25.0",
+    "util.promisify": "^1.0.0",
     "yargs": "^12.0.1"
   },
   "devDependencies": {
@@ -38,10 +43,11 @@
     "pre-commit": "^1.2.2"
   },
   "scripts": {
-    "test-clean": "cd test/package && node ../../clean-publish.js --without-publish",
+    "test-clean-publish": "cd test/package && node ../../clean-publish.js --without-publish",
+    "test-clear-package-json": "cd test/package && node ../../clear-package-json.js package.json -o package.min.json",
     "lint-staged": "lint-staged",
     "lint": "eslint-ci *.js",
-    "test": "jest && yarn run lint"
+    "test": "jest --runInBand && yarn run lint"
   },
   "pre-commit": [
     "lint-staged"

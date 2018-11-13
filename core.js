@@ -1,0 +1,107 @@
+const path = require('path')
+const spawn = require('cross-spawn')
+const {
+  omit,
+  pick
+} = require('ramda')
+const {
+  regExpIndexOf,
+  multiCp,
+  writeJson,
+  readJson,
+  readdir,
+  mkdtemp,
+  remove
+} = require('./utils')
+
+const IGNORE_FILES = require('./exception/ignore-files')
+const IGNORE_FIELDS = require('./exception/ignore-fields')
+const NPM_SCRIPTS = require('./exception/npm-scripts')
+
+function readPackageJSON () {
+  return readJson('package.json')
+}
+
+function writePackageJSON (directoryName, packageJSON) {
+  return writeJson(
+    path.join(directoryName, 'package.json'),
+    packageJSON,
+    { spaces: 2 }
+  )
+}
+
+function clearPackageJSON (packageJson, inputIgnoreFields) {
+  const ignoreFields = inputIgnoreFields
+    ? IGNORE_FIELDS.concat(inputIgnoreFields)
+    : IGNORE_FIELDS
+  const clearedScripts = {
+    scripts: pick(NPM_SCRIPTS, packageJson.scripts)
+  }
+  const cleanPackageJSON = Object.assign(
+    omit(ignoreFields, packageJson),
+    clearedScripts
+  )
+  for (const i in cleanPackageJSON) {
+    if (typeof cleanPackageJSON[i] === 'object') {
+      if (Object.keys(cleanPackageJSON[i]).length === 0) {
+        delete cleanPackageJSON[i]
+      }
+    }
+  }
+  return cleanPackageJSON
+}
+
+function clearFilesList (files, inputIgnoreFiles) {
+  const ignoreFiles = inputIgnoreFiles
+    ? IGNORE_FILES.concat(inputIgnoreFiles)
+    : IGNORE_FILES
+  const filteredFiles = files.filter(file => (
+    regExpIndexOf(ignoreFiles, file) === false
+  ))
+  return filteredFiles
+}
+
+function publish (cwd, packageManager) {
+  return new Promise((resolve, reject) => {
+    spawn(packageManager, ['publish'], {
+      stdio: 'inherit',
+      cwd
+    }).on('close', (code, signal) => {
+      resolve({
+        code,
+        signal
+      })
+    }).on('error', reject)
+  })
+}
+
+function readSrcDirectory () {
+  return readdir('./')
+}
+
+function createTempDirectory () {
+  return mkdtemp('tmp')
+}
+
+function removeTempDirectory (directoryName) {
+  return remove(directoryName)
+}
+
+function copyFiles (files, drectoryName) {
+  return multiCp(files.map(file => ({
+    from: path.join('./', file),
+    to: path.join(drectoryName, file)
+  })))
+}
+
+module.exports = {
+  readPackageJSON,
+  writePackageJSON,
+  clearPackageJSON,
+  clearFilesList,
+  publish,
+  readSrcDirectory,
+  createTempDirectory,
+  removeTempDirectory,
+  copyFiles
+}
