@@ -35,13 +35,14 @@ const { argv } = yargs
     desc: 'Output file name'
   })
 
-const options = {}
+const options = {
+  fields: argv.fields
+}
 
 function handleOptions () {
-  Object.assign(options, argv)
-  if (options['_'].length === 0) {
+  if (!options.fields) {
     return getConfig().then(config => {
-      Object.assign(options, config)
+      options.fields = config.fields
     })
   }
   return Promise.resolve()
