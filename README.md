@@ -12,8 +12,9 @@ Clean Publish is a tool for removing configuration files, fields and script for 
 ## Table of Contents
 1. [How it works](#how-it-works)
 2. [Usage](#usage)
-3. [Exclude files and package.json fields](#exclude-files-and-packagejson-fields)
-4. [Examples](#examples)
+3. [Config](#config)
+4. [Exclude files and package.json fields](#exclude-files-and-packagejson-fields)
+5. [Examples](#examples)
 
 ## How it works
 
@@ -82,9 +83,54 @@ $ yarn add clean-publish --dev
 - `files` - list of files that you want to delete before publishing
 - `fields` - list of fields in the `package.json` file that you want to delete before publishing
 - `without-publish` - clean project without `npm publish` (tmp directory will not be deleted automatically)
+- `package-manager` - name of package manager to use (`npm` by default)
 
 ```sh
 $ npm run clean-publish --files file1.js file2.js --fields scripts name
+```
+
+### clear-package-json
+
+`clear-package-json` is additional tool to work only with `package.json` file.
+
+```sh
+$ npm run clear-package-json package.json -o package/package.json --fields scripts name
+# or
+$ npm run clear-package-json package.json > package/package.json
+# or
+$ cat package.json | npm run clear-package-json
+# `fields` also will be getted from config file
+```
+
+## Config
+
+Clean Publish also supports 3 ways to define config.
+
+1. `clean-publish` section to `package.json`:
+
+```json
+"clean-publish": {
+  "files": ["file1.js", "file2.js"],
+  "packageManager": "yarn"
+}
+```
+
+2. or separated `.clean-publish` config file:
+
+```js
+{
+  "files": ["file1.js", "file2.js"],
+  "packageManager": "yarn"
+}
+```
+
+3. or more flexible `.clean-publish.js` config file:
+
+```js
+module.exports = {
+  "files": ["file1.js", "file2.js"],
+  "packageManager": "yarn"
+}
 ```
 
 ## Exclude files and package.json fields
