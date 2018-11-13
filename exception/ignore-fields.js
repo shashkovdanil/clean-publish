@@ -3,6 +3,7 @@ module.exports = [
   'jest',
   'yaspeller',
   'size-limit',
+  'clean-publish',
   'devDependencies',
   'babel',
   'lint-staged',

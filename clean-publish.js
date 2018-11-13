@@ -1,17 +1,19 @@
 #!/usr/bin/env node
 
 const chalk = require('chalk')
-const fs = require('fs')
-const path = require('path')
-const spawn = require('cross-spawn')
-const fse = require('fs-extra')
-const { omit, pick } = require('ramda')
 const yargs = require('yargs')
-const { regExpIndexOf, multiCp } = require('./utils')
-
-const IGNORE_FILES = require('./exception/ignore-files')
-const IGNORE_FIELDS = require('./exception/ignore-fields')
-const NPM_SCRIPTS = require('./exception/npm-scripts')
+const {
+  createTempDirectory,
+  readSrcDirectory,
+  clearFilesList,
+  copyFiles,
+  readPackageJSON,
+  clearPackageJSON,
+  writePackageJSON,
+  publish,
+  removeTempDirectory
+} = require('./core')
+const getConfig = require('./get-config')
 
 const { argv } = yargs
   .usage('$0')
@@ -27,103 +29,61 @@ const { argv } = yargs
     type: 'boolean',
     desc: 'Clean package without npm publish'
   })
-
-function removeTempDirectory (tempDirectoryName) {
-  fse.remove(tempDirectoryName, error => {
-    if (error) {
-      console.error(chalk.red(error))
-      process.exit()
-    }
+  .option('package-manager', {
+    types: 'string',
+    default: 'npm',
+    desc: 'Package manager to use'
   })
+
+const options = {}
+let tempDirectoryName
+
+function handleOptions () {
+  Object.assign(options, argv, {
+    withoutPublish: argv['without-publish'],
+    packageManager: argv['package-manager']
+  })
+  if (options['_'].length === 0) {
+    return getConfig().then(config => {
+      Object.assign(options, config)
+    })
+  }
+  return Promise.resolve()
 }
 
-function clearPackageJSON (tempDirectoryName, cleanPackageJSON) {
-  fse.writeJson(
-    path.join(tempDirectoryName, 'package.json'),
-    cleanPackageJSON,
-    { spaces: 2 },
-    error => {
-      if (error) {
-        console.error(chalk.red(error))
-        process.exit()
-      }
-      if (!argv['without-publish']) {
-        spawn('npm', ['publish'], {
-          stdio: 'inherit',
-          cwd: tempDirectoryName
-        }).on('close', () => {
-          removeTempDirectory(tempDirectoryName)
-        })
-      }
-    }
-  )
-}
-
-function readPackageJSON (tempDirectoryName) {
-  fse.readJson('package.json', (error, content) => {
-    if (error) {
-      console.error(chalk.red(error))
-      process.exit()
-    }
-    const ignoreFields = argv.fields
-      ? IGNORE_FIELDS.concat(argv.fields)
-      : IGNORE_FIELDS
-    const clearedScripts = {
-      scripts: pick(NPM_SCRIPTS, content.scripts)
-    }
-    const cleanPackageJSON = Object.assign(
-      omit(ignoreFields, content),
-      clearedScripts
+handleOptions()
+  .then(() => (
+    createTempDirectory()
+  ))
+  .then(directoryName => {
+    tempDirectoryName = directoryName
+    return readSrcDirectory()
+  })
+  .then(files => {
+    const filteredFiles = clearFilesList(
+      files,
+      [tempDirectoryName].concat(options.files)
     )
-    for (const i in cleanPackageJSON) {
-      if (typeof cleanPackageJSON[i] === 'object') {
-        if (Object.keys(cleanPackageJSON[i]).length === 0) {
-          delete cleanPackageJSON[i]
-        }
-      }
-    }
-    clearPackageJSON(tempDirectoryName, cleanPackageJSON)
+    return copyFiles(filteredFiles, tempDirectoryName)
   })
-}
-
-function copyFiles (files, tempDirectoryName) {
-  multiCp(files.map(file => ({
-    from: path.join('./', file),
-    to: path.join(tempDirectoryName, file)
-  })))
-    .then(() => {
-      readPackageJSON(tempDirectoryName)
-    })
-    .catch(error => {
-      console.error(chalk.red(error))
-      process.exit()
-    })
-}
-
-function readSrcDirectory (tempDirectoryName) {
-  fs.readdir('./', (error, files) => {
-    if (error) {
-      console.error(chalk.red(error))
-      process.exit()
-    }
-    const ignoreFiles = argv.files
-      ? IGNORE_FILES.concat(argv.files)
-      : IGNORE_FILES
-    const filteredFiles = files.filter(file => (
-      file !== tempDirectoryName && regExpIndexOf(ignoreFiles, file) === false
-    ))
-    copyFiles(filteredFiles, tempDirectoryName)
+  .then(() => (
+    readPackageJSON()
+  ))
+  .then(packageJson => {
+    const cleanPackageJSON = clearPackageJSON(packageJson, options.fields)
+    return writePackageJSON(tempDirectoryName, cleanPackageJSON)
   })
-}
-
-function createTempDirectory () {
-  fs.mkdtemp('tmp', (error, name) => {
-    if (error) {
-      console.error(chalk.red(error))
-      process.exit()
+  .then(() => {
+    if (!options.withoutPublish) {
+      return publish(tempDirectoryName, options.packageManager)
     }
-    readSrcDirectory(name)
   })
-}
-
-createTempDirectory()
+  .then(() => {
+    if (!options.withoutPublish) {
+      return removeTempDirectory(tempDirectoryName)
+    }
+  })
+  .catch(error => {
+    console.error(chalk.red(error))
+    process.exit()
+  })
