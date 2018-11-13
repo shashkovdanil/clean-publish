@@ -95,10 +95,10 @@ Clean Publish also supports 3 ways to define config.
 1. `clean-publish` section to `package.json`:
 
 ```json
-  "clean-publish": {
-    "files": ["file1.js", "file2.js"],
-    "packageManager": "yarn"
-  }
+"clean-publish": {
+  "files": ["file1.js", "file2.js"],
+  "packageManager": "yarn"
+}
 ```
 
 2. or separated `.clean-publish` config file:
