@@ -2,7 +2,7 @@ language: node_js
 cache: yarn
 node_js:
   - node
-  - "9"
+  - "10"
   - "8"
   - "6"
 git:
