@@ -8,6 +8,7 @@ module.exports = [
   'babel',
   'lint-staged',
   'pre-commit',
+  'husky',
   'prettier',
   'browserslist',
   'pwmetrics'
