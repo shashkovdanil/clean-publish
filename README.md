@@ -1,11 +1,7 @@
 # Clean Publish
 [![Build Status](https://travis-ci.org/shashkovdanil/clean-publish.svg?branch=master)](https://travis-ci.org/shashkovdanil/clean-publish)
-[![Cult Of Martians][cult-img]][cult]
 
 <img src="./img/logo.svg" title="Clean Publish logo by Anton Panachev <pana4eow@yandex.ru>" width="180" height="180" align="right">
-
-[cult-img]:                         http://cultofmartians.com/assets/badges/badge.svg
-[cult]:                             https://cultofmartians.com/tasks/clean-publish.html
 
 Clean Publish is a tool for removing configuration files, fields and script for development from `package.json` before publishing to `npm`.
 
