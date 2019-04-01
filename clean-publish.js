@@ -34,6 +34,11 @@ const { argv } = yargs
     default: 'npm',
     desc: 'Package manager to use'
   })
+  .option('access', {
+    types: 'string',
+    desc: 'Whether the npm registry publishes' +
+      ' this package as a public package, or restricted'
+  })
 
 const options = {}
 let tempDirectoryName
@@ -75,7 +80,7 @@ handleOptions()
   })
   .then(() => {
     if (!options.withoutPublish) {
-      return publish(tempDirectoryName, options.packageManager)
+      return publish(tempDirectoryName, options.packageManager, options.access)
     }
   })
   .then(() => {
