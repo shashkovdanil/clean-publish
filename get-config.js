@@ -11,7 +11,8 @@ const PACKAGE_ERRORS = {
              'must be `an object`',
   empty: 'The `"clean-publish"` section of package.json must `not be empty`',
   filesNotStringsOrRegExps: 'The `files` in the `"clean-publish"` section ' +
-                   'of package.json must be `an array of strings or RegExps`',
+                            'of package.json must be ' +
+                            '`an array of strings or RegExps`',
   fieldsNotStrings: 'The `fields` in the `"clean-publish"` section ' +
                     'of package.json must be `an array of strings`'
 }
