@@ -10,8 +10,8 @@ const PACKAGE_ERRORS = {
   notObject: 'The `"clean-publish"` section of package.json ' +
              'must be `an object`',
   empty: 'The `"clean-publish"` section of package.json must `not be empty`',
-  filesNotStrings: 'The `files` in the `"clean-publish"` section ' +
-                   'of package.json must be `an array of strings`',
+  filesNotStringsOrRegExps: 'The `files` in the `"clean-publish"` section ' +
+                   'of package.json must be `an array of strings or RegExps`',
   fieldsNotStrings: 'The `fields` in the `"clean-publish"` section ' +
                     'of package.json must be `an array of strings`'
 }
@@ -45,6 +45,10 @@ function isStringOrUndefined (value) {
   return type !== 'undefined' && type !== 'string' && !isStrings(value)
 }
 
+function isStringOrRegExpOrUndefined (value) {
+  return isStringOrUndefined(value) || value instanceof RegExp
+}
+
 function capitalize (str) {
   return str[0].toUpperCase() + str.slice(1)
 }
@@ -56,8 +60,8 @@ function configError (config) {
   if (Object.keys(config).length === 0) {
     return 'empty'
   }
-  if (isStringOrUndefined(config.files)) {
-    return 'filesNotStrings'
+  if (isStringOrRegExpOrUndefined(config.files)) {
+    return 'filesNotStringsOrRegExps'
   }
   if (isStringOrUndefined(config.fields)) {
     return 'fieldsNotStrings'
@@ -111,13 +115,13 @@ function getConfig () {
         if (/package\.json$/.test(config.filepath)) {
           throw new Error(
             PACKAGE_ERRORS[error] + '. ' +
-            'Fix it according to Size Limit docs.' +
+            'Fix it according to Clean Publish docs.' +
             `\n${ PACKAGE_EXAMPLE }\n`
           )
         } else {
           throw new Error(
             FILE_ERRORS[error] + '. ' +
-            'Fix it according to Size Limit docs.' +
+            'Fix it according to Clean Publish docs.' +
             `\n${ FILE_EXAMPLE }\n`
           )
         }

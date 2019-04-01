@@ -61,9 +61,14 @@ function clearFilesList (files, inputIgnoreFiles) {
   return filteredFiles
 }
 
-function publish (cwd, packageManager) {
+function publish (cwd, packageManager, access) {
   return new Promise((resolve, reject) => {
-    spawn(packageManager, ['publish'], {
+    const args = ['publish'].concat(
+      access
+        ? ['--access', access]
+        : []
+    )
+    spawn(packageManager, args, {
       stdio: 'inherit',
       cwd
     }).on('close', (code, signal) => {
