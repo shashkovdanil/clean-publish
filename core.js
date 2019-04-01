@@ -63,11 +63,9 @@ function clearFilesList (files, inputIgnoreFiles) {
 
 function publish (cwd, packageManager, access) {
   return new Promise((resolve, reject) => {
-    const args = ['publish'].concat(
-      access
-        ? ['--access', access]
-        : []
-    )
+    const args = access
+      ? ['publish', '--access', access]
+      : ['publish']
     spawn(packageManager, args, {
       stdio: 'inherit',
       cwd
