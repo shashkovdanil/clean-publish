@@ -36,8 +36,8 @@ const { argv } = yargs
   })
   .option('access', {
     types: 'string',
-    desc: 'Whether the npm registry publishes' +
-      ' this package as a public package, or restricted'
+    desc: 'Whether the npm registry publishes ' +
+      'this package as a public package, or restricted'
   })
 
 const options = {}
