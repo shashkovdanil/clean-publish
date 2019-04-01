@@ -19,8 +19,8 @@ const PACKAGE_ERRORS = {
 const FILE_ERRORS = {
   notObject: 'Clean Publish config must contain `an object`',
   empty: 'Clean Publish config must `not be empty`',
-  filesNotStrings: 'The `files` in Clean Publish config ' +
-                   'must be `an array of strings`',
+  filesNotStringsOrRegExps: 'The `files` in the Clean Publish config ' +
+                            'must be `an array of strings or RegExps`',
   fieldsNotStrings: 'The `fields` in Clean Publish config ' +
                     'must be `an array of strings`'
 }
@@ -41,13 +41,17 @@ function isStrings (value) {
   return value.every(i => typeof i === 'string')
 }
 
-function isStringOrUndefined (value) {
-  const type = typeof value
-  return type !== 'undefined' && type !== 'string' && !isStrings(value)
+function isStringsOrRegExps (value) {
+  if (!Array.isArray(value)) return false
+  return value.every(i => typeof i === 'string' || i instanceof RegExp)
 }
 
-function isStringOrRegExpOrUndefined (value) {
-  return isStringOrUndefined(value) || value instanceof RegExp
+function isStringsOrUndefined (value) {
+  return typeof value === 'undefined' || isStrings(value)
+}
+
+function isStringsOrRegExpsOrUndefined (value) {
+  return typeof value === 'undefined' || isStringsOrRegExps(value)
 }
 
 function capitalize (str) {
@@ -61,10 +65,10 @@ function configError (config) {
   if (Object.keys(config).length === 0) {
     return 'empty'
   }
-  if (isStringOrRegExpOrUndefined(config.files)) {
+  if (!isStringsOrRegExpsOrUndefined(config.files)) {
     return 'filesNotStringsOrRegExps'
   }
-  if (isStringOrUndefined(config.fields)) {
+  if (!isStringsOrUndefined(config.fields)) {
     return 'fieldsNotStrings'
   }
   return false
