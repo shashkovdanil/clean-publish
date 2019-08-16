@@ -72,7 +72,7 @@ $ yarn add clean-publish --dev
 {
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-+    "clean-publish": "clean-publish"
++    "publish": "clean-publish"
   }
 }
 
