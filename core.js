@@ -37,10 +37,12 @@ function clearPackageJSON (packageJson, inputIgnoreFields) {
   const clearedScripts = {
     scripts: pick(NPM_SCRIPTS, packageJson.scripts)
   }
-  const cleanPackageJSON = Object.assign(
-    omit(ignoreFields, packageJson),
+  const cleanPackageJSON = omit(ignoreFields, Object.assign(
+    {},
+    packageJson,
     clearedScripts
-  )
+  ))
+
   for (const i in cleanPackageJSON) {
     if (typeof cleanPackageJSON[i] === 'object') {
       if (Object.keys(cleanPackageJSON[i]).length === 0) {
