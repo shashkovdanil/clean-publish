@@ -68,10 +68,14 @@ $ yarn add clean-publish --dev
 
 2. Add `clean-publish` script to `package.json`:
 
-```json
+```diff
 {
-  "scripts": "clean-publish"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
++    "publish": "clean-publish"
+  }
 }
+
 ```
 
 3. Usage with arguments:
