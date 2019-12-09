@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const path = require('path')
 const chalk = require('chalk')
 const yargs = require('yargs')
 const {
@@ -87,8 +86,7 @@ handleOptions()
   })
   .then(() => {
     if (options.beforeScript) {
-      const dirPath = path.join(__dirname, tempDirectoryName)
-      const { code } = runScript(options.beforeScript, dirPath)
+      const { code } = runScript(options.beforeScript, tempDirectoryName)
       isPrepublishSuccess = (code === 0)
     }
   })
