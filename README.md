@@ -85,6 +85,7 @@ $ yarn add clean-publish --dev
 - `without-publish` - clean project without `npm publish` (tmp directory will not be deleted automatically)
 - `package-manager` - name of package manager to use (`npm` by default)
 - `access` - whether the npm registry publishes this package as a public package, or restricted
+- `before-script` - Run script on the to-release dir before `npm publish`.
 
 ```sh
 $ npm run clean-publish --files file1.js file2.js --fields scripts name

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const path = require('path')
 const chalk = require('chalk')
 const yargs = require('yargs')
 const {
@@ -11,7 +12,8 @@ const {
   clearPackageJSON,
   writePackageJSON,
   publish,
-  removeTempDirectory
+  removeTempDirectory,
+  runScript
 } = require('./core')
 const getConfig = require('./get-config')
 
@@ -39,9 +41,14 @@ const { argv } = yargs
     desc: 'Whether the npm registry publishes ' +
       'this package as a public package, or restricted'
   })
+  .option('before-script', {
+    types: 'string',
+    desc: 'Run script on the to-release dir before npm publish'
+  })
 
 const options = {}
 let tempDirectoryName
+let isPrepublishSuccess
 
 function handleOptions () {
   Object.assign(options, argv, {
@@ -79,7 +86,17 @@ handleOptions()
     return writePackageJSON(tempDirectoryName, cleanPackageJSON)
   })
   .then(() => {
+    if (options.beforeScript) {
+      const dirPath = path.join(__dirname, tempDirectoryName)
+      const { code } = runScript(options.beforeScript, dirPath)
+      isPrepublishSuccess = (code === 0)
+    }
+  })
+  .then(() => {
     if (!options.withoutPublish) {
+      if (options.beforeScript && !isPrepublishSuccess) {
+        return
+      }
       return publish(tempDirectoryName, options.packageManager, options.access)
     }
   })
