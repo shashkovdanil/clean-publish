@@ -1,5 +1,6 @@
 const path = require('path')
 const spawn = require('cross-spawn')
+const shell = require('shelljs')
 const {
   omit,
   pick
@@ -99,6 +100,11 @@ function copyFiles (files, drectoryName) {
   })))
 }
 
+function runScript (script, ...args) {
+  const command = [script, ...args].join(' ')
+  return shell.exec(command)
+}
+
 module.exports = {
   readPackageJSON,
   writePackageJSON,
@@ -108,5 +114,6 @@ module.exports = {
   readSrcDirectory,
   createTempDirectory,
   removeTempDirectory,
-  copyFiles
+  copyFiles,
+  runScript
 }
