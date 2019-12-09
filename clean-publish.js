@@ -41,7 +41,7 @@ const { argv } = yargs
     desc: 'Whether the npm registry publishes ' +
       'this package as a public package, or restricted'
   })
-  .option('beforeScript', {
+  .option('before-script', {
     types: 'string',
     desc: 'Run script on the to-release dir before npm publish'
   })
