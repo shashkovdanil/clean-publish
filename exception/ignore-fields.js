@@ -11,5 +11,6 @@ module.exports = [
   'husky',
   'prettier',
   'browserslist',
-  'pwmetrics'
+  'pwmetrics',
+  'sharec'
 ]
