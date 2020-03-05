@@ -47,7 +47,6 @@ const { argv } = yargs
 
 const options = {}
 let tempDirectoryName
-let isPrepublishSuccess
 
 function handleOptions () {
   Object.assign(options, argv, {
@@ -86,15 +85,13 @@ handleOptions()
   })
   .then(() => {
     if (options.beforeScript) {
-      const { code } = runScript(options.beforeScript, tempDirectoryName)
-      isPrepublishSuccess = (code === 0)
+      return runScript(options.beforeScript, tempDirectoryName)
+    } else {
+      return true
     }
   })
-  .then(() => {
-    if (!options.withoutPublish) {
-      if (options.beforeScript && !isPrepublishSuccess) {
-        return
-      }
+  .then(isPrepublishSuccess => {
+    if (!options.withoutPublish && isPrepublishSuccess) {
       return publish(tempDirectoryName, options.packageManager, options.access)
     }
   })
