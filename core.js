@@ -35,8 +35,11 @@ function clearPackageJSON (packageJson, inputIgnoreFields) {
   const ignoreFields = inputIgnoreFields
     ? IGNORE_FIELDS.concat(inputIgnoreFields)
     : IGNORE_FIELDS
-  const clearedScripts = {
-    scripts: pick(NPM_SCRIPTS, packageJson.scripts)
+  let clearedScripts = { }
+  if (packageJson.scripts) {
+    clearedScripts = {
+      scripts: pick(NPM_SCRIPTS, packageJson.scripts)
+    }
   }
   const cleanPackageJSON = omit(ignoreFields, Object.assign(
     {},
