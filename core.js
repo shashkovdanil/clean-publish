@@ -1,6 +1,5 @@
 const path = require('path')
 const spawn = require('cross-spawn')
-const shell = require('shelljs')
 const {
   omit,
   pick
@@ -101,8 +100,13 @@ function copyFiles (files, drectoryName) {
 }
 
 function runScript (script, ...args) {
-  const command = [script, ...args].join(' ')
-  return shell.exec(command)
+  return new Promise((resolve, reject) => {
+    spawn(script, args, { stdio: 'inherit' })
+      .on('close', code => {
+        resolve(code === 0)
+      })
+      .on('error', reject)
+  })
 }
 
 module.exports = {
