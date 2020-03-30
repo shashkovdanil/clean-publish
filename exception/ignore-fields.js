@@ -1,5 +1,6 @@
 module.exports = [
   'eslintConfig',
+  'eslintIgnore',
   'jest',
   'yaspeller',
   'size-limit',
