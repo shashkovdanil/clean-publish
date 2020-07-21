@@ -102,5 +102,5 @@ handleOptions()
   })
   .catch(error => {
     console.error(chalk.red(error))
-    process.exit()
+    process.exit(1)
   })
