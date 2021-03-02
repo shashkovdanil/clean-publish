@@ -13,5 +13,6 @@ module.exports = [
   'prettier',
   'browserslist',
   'pwmetrics',
-  'sharec'
+  'sharec',
+  'simple-pre-commit'
 ]
