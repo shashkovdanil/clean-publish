@@ -6,7 +6,6 @@ const cleanPackageJSON = require('./clean-package.json')
 const cleanPublishConfig = require('./clean-publish-config.json')
 
 const cleanFiles = [
-  'CHANGELOG.md',
   'CONTRIBUTING.md',
   'LICENSE',
   'README.md',
