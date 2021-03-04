@@ -40,8 +40,6 @@
     "simple-pre-commit": "^1.2.1"
   },
   "scripts": {
-    "test-clean-publish": "cd test/package && node ../../clean-publish.js --without-publish",
-    "test-clear-package-json": "cd test/package && node ../../clear-package-json.js package.json -o package.min.json",
     "lint": "eslint *.js",
     "test": "jest --runInBand && yarn run lint"
   }
