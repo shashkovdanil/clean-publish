@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const chalk = require('chalk')
 const yargs = require('yargs')
 const {
   createTempDirectory,
@@ -101,6 +100,6 @@ handleOptions()
     }
   })
   .catch(error => {
-    console.error(chalk.red(error))
+    console.error(error)
     process.exit(1)
   })

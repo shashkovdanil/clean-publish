@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-const chalk = require('chalk')
 const yargs = require('yargs')
 const {
   clearPackageJSON
@@ -72,6 +71,6 @@ handleOptions()
     process.stdout.write(`${ JSON.stringify(cleanPackageJSON, null, '  ') }\n`)
   })
   .catch(error => {
-    console.error(chalk.red(error))
+    console.error(error)
     process.exit()
   })
