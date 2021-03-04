@@ -1,4 +1,4 @@
-const promisify = require('util.promisify/polyfill')()
+const { promisify } = require('util')
 const fs = require('fs')
 const fse = require('fs-extra')
 
