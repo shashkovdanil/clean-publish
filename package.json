@@ -21,8 +21,7 @@
   "dependencies": {
     "cross-spawn": "^6.0.5",
     "fs-extra": "^6.0.1",
-    "lilconfig": "^2.0.2",
-    "ramda": "^0.25.0"
+    "lilconfig": "^2.0.2"
   },
   "devDependencies": {
     "eslint": "^5.1.0",
