@@ -22,8 +22,7 @@
     "cosmiconfig": "^5.0.7",
     "cross-spawn": "^6.0.5",
     "fs-extra": "^6.0.1",
-    "ramda": "^0.25.0",
-    "yargs": "^12.0.1"
+    "ramda": "^0.25.0"
   },
   "devDependencies": {
     "eslint": "^5.1.0",
