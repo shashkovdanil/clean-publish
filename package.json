@@ -40,7 +40,7 @@
     "eslint-plugin-standard": "^3.1.0",
     "jest": "^23.4.0",
     "lint-staged": "^7.2.0",
-    "pre-commit": "^1.2.2"
+    "simple-pre-commit": "^1.2.1"
   },
   "scripts": {
     "test-clean-publish": "cd test/package && node ../../clean-publish.js --without-publish",
@@ -48,8 +48,5 @@
     "lint-staged": "lint-staged",
     "lint": "eslint-ci *.js",
     "test": "jest --runInBand && yarn run lint"
-  },
-  "pre-commit": [
-    "lint-staged"
-  ]
+  }
 }
