@@ -26,6 +26,7 @@ const cleanFiles = [
   'types',
   'website'
 ]
+const binPath = path.join(__dirname, '..', 'clean-publish.js')
 const packagePath = path.join(__dirname, 'package')
 const cleanPublishConfigPath = path.join(packagePath, '.clean-publish')
 
@@ -42,7 +43,8 @@ afterAll(() => {
 })
 
 it('test clean-publish function without "npm publish"', done => {
-  spawn('npm', ['run', 'test-clean-publish'], {
+  spawn(binPath, ['--without-publish'], {
+    cwd: packagePath,
     stdio: 'inherit'
   }).on('close', () => {
     fs.readdir(packagePath, (err, files) => {
@@ -70,7 +72,8 @@ it('test clean-publish to get config from file', done => {
     JSON.stringify(cleanPublishConfig),
     'utf8'
   )
-  spawn('npm', ['run', 'test-clean-publish'], {
+  spawn(binPath, ['--without-publish'], {
+    cwd: packagePath,
     stdio: 'inherit'
   }).on('close', () => {
     fs.readdir(packagePath, (err, files) => {
