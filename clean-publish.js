@@ -58,10 +58,10 @@ function handleOptions () {
       options.fields = process.argv[i + 1].split(/,\s*/)
       i += 1
     } else {
-      options['_'] = process.argv[i]
+      options._ = process.argv[i]
     }
   }
-  if (!options['_']) {
+  if (!options._) {
     return getConfig().then(config => {
       Object.assign(options, config)
     })

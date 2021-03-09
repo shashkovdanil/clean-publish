@@ -6,6 +6,7 @@
     "global-require": "off",
     "multiline-ternary": "off",
     "consistent-return": "off",
-    "node/no-unsupported-features": "off"
+    "node/no-unsupported-features": "off",
+    "prefer-let/prefer-let": "off"
   }
 }
