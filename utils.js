@@ -30,7 +30,6 @@ function readJsonFromStdin () {
       })
       .on('end', () => {
         try {
-          console.log(jsonString)
           const json = JSON.parse(jsonString)
           resolve(json)
         } catch (error) {
