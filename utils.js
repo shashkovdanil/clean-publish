@@ -14,9 +14,7 @@ function regExpIndexOf (array, item) {
 }
 
 function multiCp (files) {
-  return Promise.all(
-    files.map(({ from, to }) => copy(from, to))
-  )
+  return Promise.all(files.map(({ from, to }) => copy(from, to)))
 }
 
 function readJsonFromStdin () {

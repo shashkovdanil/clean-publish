@@ -7,34 +7,39 @@ const path = require('path')
 const { lilconfig } = require('lilconfig')
 
 const PACKAGE_ERRORS = {
-  notObject: 'The `"clean-publish"` section of package.json ' +
-             'must be `an object`',
+  notObject:
+    'The `"clean-publish"` section of package.json ' + 'must be `an object`',
   empty: 'The `"clean-publish"` section of package.json must `not be empty`',
-  filesNotStringsOrRegExps: 'The `files` in the `"clean-publish"` section ' +
-                            'of package.json must be ' +
-                            '`an array of strings or RegExps`',
-  fieldsNotStrings: 'The `fields` in the `"clean-publish"` section ' +
-                    'of package.json must be `an array of strings`'
+  filesNotStringsOrRegExps:
+    'The `files` in the `"clean-publish"` section ' +
+    'of package.json must be ' +
+    '`an array of strings or RegExps`',
+  fieldsNotStrings:
+    'The `fields` in the `"clean-publish"` section ' +
+    'of package.json must be `an array of strings`'
 }
 const FILE_ERRORS = {
   notObject: 'Clean Publish config must contain `an object`',
   empty: 'Clean Publish config must `not be empty`',
-  filesNotStringsOrRegExps: 'The `files` in the Clean Publish config ' +
-                            'must be `an array of strings or RegExps`',
-  fieldsNotStrings: 'The `fields` in Clean Publish config ' +
-                    'must be `an array of strings`'
+  filesNotStringsOrRegExps:
+    'The `files` in the Clean Publish config ' +
+    'must be `an array of strings or RegExps`',
+  fieldsNotStrings:
+    'The `fields` in Clean Publish config ' + 'must be `an array of strings`'
 }
 
-const PACKAGE_EXAMPLE = '\n' +
-                        '  "clean-publish": {\n' +
-                        '    "files": ["file1.js", "file2.js"],\n' +
-                        '    "packageManager": "yarn"\n' +
-                        '  }'
-const FILE_EXAMPLE = '\n' +
-                     '  {\n' +
-                     '    "files": ["file1.js", "file2.js"],\n' +
-                     '    "packageManager": "yarn"\n' +
-                     '  }'
+const PACKAGE_EXAMPLE =
+  '\n' +
+  '  "clean-publish": {\n' +
+  '    "files": ["file1.js", "file2.js"],\n' +
+  '    "packageManager": "yarn"\n' +
+  '  }'
+const FILE_EXAMPLE =
+  '\n' +
+  '  {\n' +
+  '    "files": ["file1.js", "file2.js"],\n' +
+  '    "packageManager": "yarn"\n' +
+  '  }'
 
 function isStrings (value) {
   if (!Array.isArray(value)) return false
@@ -76,11 +81,7 @@ function configError (config) {
 
 function getConfig () {
   const explorer = lilconfig('clean-publish', {
-    searchPlaces: [
-      'package.json',
-      '.clean-publish',
-      '.clean-publish.js'
-    ]
+    searchPlaces: ['package.json', '.clean-publish', '.clean-publish.js']
   })
   return explorer
     .search()
@@ -93,18 +94,26 @@ function getConfig () {
         }
         throw new Error(
           'Can not parse `package.json`. ' +
-          message + '. ' +
-          'Change config according to Clean Publish docs.\n' +
-          PACKAGE_EXAMPLE + '\n'
+            message +
+            '. ' +
+            'Change config according to Clean Publish docs.\n' +
+            PACKAGE_EXAMPLE +
+            '\n'
         )
       } else if (err.reason && err.mark && err.mark.name) {
         const file = path.relative(process.cwd(), err.mark.name)
         const position = err.mark.line + ':' + err.mark.column
         throw new Error(
-          'Can not parse `' + file + '` at ' + position + '. ' +
-          capitalize(err.reason) + '. ' +
-          'Change config according to Clean Publish docs.\n' +
-          FILE_EXAMPLE + '\n'
+          'Can not parse `' +
+            file +
+            '` at ' +
+            position +
+            '. ' +
+            capitalize(err.reason) +
+            '. ' +
+            'Change config according to Clean Publish docs.\n' +
+            FILE_EXAMPLE +
+            '\n'
         )
       } else {
         throw err
@@ -119,15 +128,17 @@ function getConfig () {
       if (error) {
         if (/package\.json$/.test(config.filepath)) {
           throw new Error(
-            PACKAGE_ERRORS[error] + '. ' +
-            'Fix it according to Clean Publish docs.' +
-            `\n${ PACKAGE_EXAMPLE }\n`
+            PACKAGE_ERRORS[error] +
+              '. ' +
+              'Fix it according to Clean Publish docs.' +
+              `\n${PACKAGE_EXAMPLE}\n`
           )
         } else {
           throw new Error(
-            FILE_ERRORS[error] + '. ' +
-            'Fix it according to Clean Publish docs.' +
-            `\n${ FILE_EXAMPLE }\n`
+            FILE_ERRORS[error] +
+              '. ' +
+              'Fix it according to Clean Publish docs.' +
+              `\n${FILE_EXAMPLE}\n`
           )
         }
       }

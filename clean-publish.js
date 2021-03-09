@@ -14,7 +14,8 @@ const {
 } = require('./core')
 const getConfig = require('./get-config')
 
-const HELP = 'npx clean-publish\n' +
+const HELP =
+  'npx clean-publish\n' +
   '\n' +
   'Options:\n' +
   '  --help             Show help\n' +
@@ -35,10 +36,10 @@ function handleOptions () {
   options.packageManager = 'npm'
   for (let i = 2; i < process.argv.length; i++) {
     if (process.argv[i] === '--help') {
-      console.log(HELP)
+      process.stdout.write(HELP + '\n')
       process.exit(0)
     } else if (process.argv[i] === '--version') {
-      console.log(require('./package.json').version)
+      process.stdout.write(require('./package.json').version + '\n')
       process.exit(0)
     } else if (process.argv[i] === '--without-publish') {
       options.withoutPublish = true
@@ -70,9 +71,7 @@ function handleOptions () {
 }
 
 handleOptions()
-  .then(() => (
-    createTempDirectory()
-  ))
+  .then(() => createTempDirectory())
   .then(directoryName => {
     tempDirectoryName = directoryName
     return readSrcDirectory()
@@ -84,9 +83,7 @@ handleOptions()
     )
     return copyFiles(filteredFiles, tempDirectoryName)
   })
-  .then(() => (
-    readPackageJSON()
-  ))
+  .then(() => readPackageJSON())
   .then(packageJson => {
     const cleanPackageJSON = clearPackageJSON(packageJson, options.fields)
     return writePackageJSON(tempDirectoryName, cleanPackageJSON)
@@ -109,6 +106,6 @@ handleOptions()
     }
   })
   .catch(error => {
-    console.error(error)
+    process.stderr.write(error.stack + '\n')
     process.exit(1)
   })

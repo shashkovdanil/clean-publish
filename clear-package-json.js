@@ -1,18 +1,13 @@
 #!/usr/bin/env node
 
-const {
-  clearPackageJSON
-} = require('./core')
-const {
-  readJson,
-  readJsonFromStdin,
-  writeJson
-} = require('./utils')
+const { clearPackageJSON } = require('./core')
+const { readJson, readJsonFromStdin, writeJson } = require('./utils')
 const getConfig = require('./get-config')
 
 const { isTTY } = process.stdin
 
-const HELP = 'npx clear-package-json <input> [options]\n' +
+const HELP =
+  'npx clear-package-json <input> [options]\n' +
   '\n' +
   'Options:\n' +
   '  --help        Show help\n' +
@@ -26,10 +21,10 @@ let input, output
 function handleOptions () {
   for (let i = 2; i < process.argv.length; i++) {
     if (process.argv[i] === '--help') {
-      console.log(HELP)
+      process.stdout.write(HELP + '\n')
       process.exit(0)
     } else if (process.argv[i] === '--version') {
-      console.log(require('./package.json').version)
+      process.stdout.write(require('./package.json').version + '\n')
       process.exit(0)
     } else if (process.argv[i] === '-o' || process.argv[i] === '--output') {
       output = process.argv[i + 1]
@@ -42,8 +37,9 @@ function handleOptions () {
     }
   }
   if (!input) {
-    console.log(HELP)
-    console.error('\nNot enough non-option arguments: got 0, need at least 1')
+    process.stderr.write(
+      HELP + '\n\nNot enough non-option arguments: got 0, need at least 1'
+    )
     process.exit(1)
   }
   if (!options.fields) {
@@ -55,23 +51,15 @@ function handleOptions () {
 }
 
 handleOptions()
-  .then(() => (
-    isTTY
-      ? readJson(input)
-      : readJsonFromStdin()
-  ))
+  .then(() => (isTTY ? readJson(input) : readJsonFromStdin()))
   .then(packageJson => {
     const cleanPackageJSON = clearPackageJSON(packageJson, options.fields)
     if (output) {
-      return writeJson(
-        output,
-        cleanPackageJSON,
-        { spaces: 2 }
-      )
+      return writeJson(output, cleanPackageJSON, { spaces: 2 })
     }
-    process.stdout.write(`${ JSON.stringify(cleanPackageJSON, null, '  ') }\n`)
+    process.stdout.write(`${JSON.stringify(cleanPackageJSON, null, '  ')}\n`)
   })
   .catch(error => {
-    console.error(error)
+    process.stderr.write(error.stack + '\n')
     process.exit()
   })

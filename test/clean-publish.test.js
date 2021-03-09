@@ -2,6 +2,7 @@ const spawn = require('cross-spawn')
 const fs = require('fs')
 const fse = require('fs-extra')
 const path = require('path')
+
 const cleanPackageJSON = require('./clean-package.json')
 const cleanPublishConfig = require('./clean-publish-config.json')
 
@@ -41,7 +42,7 @@ afterAll(() => {
   })
 })
 
-it('Test clean-publish function without "npm publish"', done => {
+it('test clean-publish function without "npm publish"', done => {
   spawn('npm', ['run', 'test-clean-publish'], {
     stdio: 'inherit'
   }).on('close', () => {
@@ -64,7 +65,7 @@ it('Test clean-publish function without "npm publish"', done => {
   })
 })
 
-it('Test clean-publish to get config from file', done => {
+it('test clean-publish to get config from file', done => {
   fs.writeFileSync(
     cleanPublishConfigPath,
     JSON.stringify(cleanPublishConfig),
