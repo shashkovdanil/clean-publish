@@ -26,6 +26,7 @@ const HELP =
   '  --package-manager  Package manager to use\n' +
   '  --access           Whether the npm registry publishes this package\n' +
   '                     as a public package, or restricted\n' +
+  '  --tag              Registers the package with the given tag\n' +
   '  --before-script    Run script on the to-release dir before npm\n' +
   '                     publish'
 
@@ -54,6 +55,9 @@ function handleOptions () {
       i += 1
     } else if (process.argv[i] === '--files') {
       options.files = process.argv[i + 1].split(/,\s*/)
+      i += 1
+    } else if (process.argv[i] === '--tag') {
+      options.tag = process.argv[i + 1].split(/,\s*/)
       i += 1
     } else if (process.argv[i] === '--fields') {
       options.fields = process.argv[i + 1].split(/,\s*/)
@@ -97,7 +101,12 @@ handleOptions()
   })
   .then(isPrepublishSuccess => {
     if (!options.withoutPublish && isPrepublishSuccess) {
-      return publish(tempDirectoryName, options.packageManager, options.access)
+      return publish(
+        tempDirectoryName,
+        options.packageManager,
+        options.access,
+        options.tag
+      )
     }
   })
   .then(() => {
