@@ -4,7 +4,7 @@
  */
 
 const path = require('path')
-const cosmiconfig = require('cosmiconfig')
+const { lilconfig } = require('lilconfig')
 
 const PACKAGE_ERRORS = {
   notObject: 'The `"clean-publish"` section of package.json ' +
@@ -75,7 +75,7 @@ function configError (config) {
 }
 
 function getConfig () {
-  const explorer = cosmiconfig('clean-publish', {
+  const explorer = lilconfig('clean-publish', {
     searchPlaces: [
       'package.json',
       '.clean-publish',
