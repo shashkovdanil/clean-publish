@@ -26,5 +26,6 @@ module.exports = [
   '.watchmanconfig',
   '.yarnrc',
   'karma.conf.js',
-  '.flowconfig'
+  '.flowconfig',
+  /^changelog/i
 ]
