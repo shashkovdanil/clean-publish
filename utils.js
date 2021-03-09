@@ -1,13 +1,5 @@
-const promisify = require('util.promisify/polyfill')()
-const fs = require('fs')
-const fse = require('fs-extra')
-
-const mkdtemp = promisify(fs.mkdtemp)
-const readdir = promisify(fs.readdir)
-const copy = fse.copy
-const remove = fse.remove
-const readJson = fse.readJson
-const writeJson = fse.writeJson
+const { mkdtemp, readdir } = require('fs').promises
+const { copy, remove, readJson, writeJson } = require('fs-extra')
 
 function regExpIndexOf (array, item) {
   for (const i in array) {

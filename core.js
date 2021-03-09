@@ -1,10 +1,6 @@
 const path = require('path')
 const spawn = require('cross-spawn')
 const {
-  omit,
-  pick
-} = require('ramda')
-const {
   regExpIndexOf,
   multiCp,
   writeJson,
@@ -34,17 +30,20 @@ function clearPackageJSON (packageJson, inputIgnoreFields) {
   const ignoreFields = inputIgnoreFields
     ? IGNORE_FIELDS.concat(inputIgnoreFields)
     : IGNORE_FIELDS
-  let clearedScripts = { }
-  if (packageJson.scripts) {
-    clearedScripts = {
-      scripts: pick(NPM_SCRIPTS, packageJson.scripts)
+  const cleanPackageJSON = {}
+  for (const key in packageJson) {
+    if (!ignoreFields.includes(key) && key !== 'scripts') {
+      cleanPackageJSON[key] = packageJson[key]
     }
   }
-  const cleanPackageJSON = omit(ignoreFields, Object.assign(
-    {},
-    packageJson,
-    clearedScripts
-  ))
+  if (packageJson.scripts && !ignoreFields.includes('scripts')) {
+    cleanPackageJSON.scripts = {}
+    for (const script in packageJson.scripts) {
+      if (NPM_SCRIPTS.includes(script)) {
+        cleanPackageJSON.scripts[script] = packageJson.scripts[script]
+      }
+    }
+  }
 
   for (const i in cleanPackageJSON) {
     if (typeof cleanPackageJSON[i] === 'object') {
