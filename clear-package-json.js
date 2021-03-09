@@ -4,8 +4,6 @@ const { clearPackageJSON } = require('./core')
 const { readJson, readJsonFromStdin, writeJson } = require('./utils')
 const getConfig = require('./get-config')
 
-const { isTTY } = process.stdin
-
 const HELP =
   'npx clear-package-json <input> [options]\n' +
   '\n' +
@@ -51,7 +49,7 @@ function handleOptions () {
 }
 
 handleOptions()
-  .then(() => (isTTY ? readJson(input) : readJsonFromStdin()))
+  .then(() => (input ? readJson(input) : readJsonFromStdin()))
   .then(packageJson => {
     const cleanPackageJSON = clearPackageJSON(packageJson, options.fields)
     if (output) {
