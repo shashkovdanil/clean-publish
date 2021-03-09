@@ -27,5 +27,6 @@ module.exports = [
   '.yarnrc',
   'karma.conf.js',
   '.flowconfig',
-  /^changelog/i
+  /^changelog/i,
+  '.simple-pre-commit.json'
 ]
