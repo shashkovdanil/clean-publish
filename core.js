@@ -1,5 +1,6 @@
 const path = require('path')
 const spawn = require('cross-spawn')
+
 const {
   regExpIndexOf,
   multiCp,
@@ -9,7 +10,6 @@ const {
   mkdtemp,
   remove
 } = require('./utils')
-
 const IGNORE_FILES = require('./exception/ignore-files')
 const IGNORE_FIELDS = require('./exception/ignore-fields')
 const NPM_SCRIPTS = require('./exception/npm-scripts')
@@ -19,11 +19,9 @@ function readPackageJSON () {
 }
 
 function writePackageJSON (directoryName, packageJSON) {
-  return writeJson(
-    path.join(directoryName, 'package.json'),
-    packageJSON,
-    { spaces: 2 }
-  )
+  return writeJson(path.join(directoryName, 'package.json'), packageJSON, {
+    spaces: 2
+  })
 }
 
 function clearPackageJSON (packageJson, inputIgnoreFields) {
@@ -59,26 +57,26 @@ function clearFilesList (files, inputIgnoreFiles) {
   const ignoreFiles = inputIgnoreFiles
     ? IGNORE_FILES.concat(inputIgnoreFiles)
     : IGNORE_FILES
-  const filteredFiles = files.filter(file => (
-    regExpIndexOf(ignoreFiles, file) === false
-  ))
+  const filteredFiles = files.filter(
+    file => regExpIndexOf(ignoreFiles, file) === false
+  )
   return filteredFiles
 }
 
 function publish (cwd, packageManager, access) {
   return new Promise((resolve, reject) => {
-    const args = access
-      ? ['publish', '--access', access]
-      : ['publish']
+    const args = access ? ['publish', '--access', access] : ['publish']
     spawn(packageManager, args, {
       stdio: 'inherit',
       cwd
-    }).on('close', (code, signal) => {
-      resolve({
-        code,
-        signal
+    })
+      .on('close', (code, signal) => {
+        resolve({
+          code,
+          signal
+        })
       })
-    }).on('error', reject)
+      .on('error', reject)
   })
 }
 
@@ -95,10 +93,12 @@ function removeTempDirectory (directoryName) {
 }
 
 function copyFiles (files, drectoryName) {
-  return multiCp(files.map(file => ({
-    from: path.join('./', file),
-    to: path.join(drectoryName, file)
-  })))
+  return multiCp(
+    files.map(file => ({
+      from: path.join('./', file),
+      to: path.join(drectoryName, file)
+    }))
+  )
 }
 
 function runScript (script, ...args) {

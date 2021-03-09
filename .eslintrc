@@ -1,12 +1,13 @@
 {
-  "extends": "eslint-config-logux/node",
+  "extends": "@logux/eslint-config",
   "rules": {
     "security/detect-non-literal-require": "off",
     "security/detect-non-literal-regexp": "off",
-    "global-require": "off",
+    "node/global-require": "off",
     "multiline-ternary": "off",
     "consistent-return": "off",
     "node/no-unsupported-features": "off",
-    "prefer-let/prefer-let": "off"
+    "prefer-let/prefer-let": "off",
+    "jest/no-done-callback": "off"
   }
 }
