@@ -1,5 +1,10 @@
 # Change Log
 
+## 2.0
+* Set Node.js 12 as a minimum requirement.
+* Added `ChangeLog` to ignored files.
+* Reduced dependencies.
+
 ## 1.0.7
 * Remove empty fields from package.json
 * Fix README
