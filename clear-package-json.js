@@ -51,7 +51,7 @@ function handleOptions () {
 }
 
 handleOptions()
-  .then(() => (isTTY ? readJson(input) : readJsonFromStdin()))
+  .then(() => (isTTY && input ? readJson(input) : readJsonFromStdin()))
   .then(packageJson => {
     const cleanPackageJSON = clearPackageJSON(packageJson, options.fields)
     if (output) {
