@@ -24,11 +24,11 @@
     "lilconfig": "^2.0.2"
   },
   "devDependencies": {
-    "@logux/eslint-config": "^45.1.0",
+    "@logux/eslint-config": "^45.2.0",
     "eslint": "^7.21.0",
     "eslint-config-standard": "^16.0.2",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-jest": "^24.2.0",
+    "eslint-plugin-jest": "^24.2.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prefer-let": "^1.1.0",
     "eslint-plugin-prettierx": "^0.17.1",
