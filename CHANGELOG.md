@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.1
+* Added `simple-git-hooks` to ignored fields.
+
 ## 2.0
 * Set Node.js 12 as a minimum requirement.
 * Added `ChangeLog` to ignored files.
