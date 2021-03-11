@@ -14,5 +14,6 @@ module.exports = [
   'browserslist',
   'pwmetrics',
   'sharec',
-  'simple-pre-commit'
+  'simple-pre-commit',
+  'simple-git-hooks'
 ]
