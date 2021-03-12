@@ -4704,15 +4704,15 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.3.tgz#a1410c2edd8f077b08b4e253c8eacfcaf057461c"
   integrity sha512-VUJ49FC8U1OxwZLxIbTTrDvLnf/6TDgxZcK8wxR8zs13xpx7xbG60ndBlhNrFi2EMuFRoeDoJO7wthSLq42EjA==
 
+simple-git-hooks@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/simple-git-hooks/-/simple-git-hooks-2.0.2.tgz#e142a9bbc7b84614cc7b2d99a861179503d3c050"
+  integrity sha512-1oG+Nqo5WCl3lYvMp7BjOI7XQQyrn3sdZqgrfVMNeA/1Ru6QqAblF7tgZTF3vMxOWFcuTTz7WHs3cak/DNvd5g==
+
 simple-html-tokenizer@^0.5.9:
   version "0.5.11"
   resolved "https://registry.yarnpkg.com/simple-html-tokenizer/-/simple-html-tokenizer-0.5.11.tgz#4c5186083c164ba22a7b477b7687ac056ad6b1d9"
   integrity sha512-C2WEK/Z3HoSFbYq8tI7ni3eOo/NneSPRoPpcM7WdLjFOArFuyXEjAoCdOC3DgMfRyziZQ1hCNR4mrNdWEvD0og==
-
-simple-pre-commit@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/simple-pre-commit/-/simple-pre-commit-1.2.1.tgz#7e41fa30dcdc059fe0d2f022c343678a75b78cdc"
-  integrity sha512-9p8nYsBScz9wqYIKEjXJ5Ihrbl2yrbJsrp5a+gc5MIfOTLvjz3I+VhvDIL3qweNJA6RrvkHcGWELeJ3dAisLEQ==
 
 sisteransi@^1.0.5:
   version "1.0.5"
