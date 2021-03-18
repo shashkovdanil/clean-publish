@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.1.1
+* Added `uninstall` to ignored scripts (by Mikhail Gorbunov).
+
 ## 2.1
 * Added `simple-git-hooks` to ignored fields.
 
