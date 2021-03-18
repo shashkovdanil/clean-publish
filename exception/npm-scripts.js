@@ -5,5 +5,6 @@ module.exports = [
   'prepublish',
   'publish',
   'postpublish',
-  'postinstall'
+  'postinstall',
+  'uninstall'
 ]
