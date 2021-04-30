@@ -1,5 +1,12 @@
 # Change Log
 
+## 2.2
+* Added `commitlint` support (by @JounQin).
+* Added `remark` support (by @JounQin).
+* Added `renovate` (by @JounQin).
+* Added `typeCoverage` support (by @JounQin).
+* Added Yarn `resolutions` support (by @JounQin).
+
 ## 2.1.1
 * Added `uninstall` to ignored scripts (by Mikhail Gorbunov).
 
