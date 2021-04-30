@@ -15,5 +15,10 @@ module.exports = [
   'pwmetrics',
   'sharec',
   'simple-pre-commit',
-  'simple-git-hooks'
+  'simple-git-hooks',
+  'commitlint',
+  'remarkConfig',
+  'renovate',
+  'resolutions',
+  'typeCoverage'
 ]
