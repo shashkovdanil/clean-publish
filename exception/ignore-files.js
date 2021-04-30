@@ -17,7 +17,7 @@ module.exports = [
   '.DS_Store',
   '.eslintignore',
   '.editorconfig',
-  'jest.config.js',
+  /^(babel|commitlint|jest)\.config\.js$/,
   '.travis.yml',
   'yarn.lock',
   'package-lock.json',
@@ -28,5 +28,8 @@ module.exports = [
   'karma.conf.js',
   '.flowconfig',
   /^changelog/i,
-  '.simple-pre-commit.json'
+  /^\.?simple-pre-commit.js(on)?$/,
+  /^\.commitlintrc/,
+  /^\.renovaterc/,
+  /^\.remarkrc/,
 ]
