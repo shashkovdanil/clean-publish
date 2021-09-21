@@ -11,7 +11,7 @@
   "browser": "build-es5/index.js",
   "author": "James Kyle <me@thejameskyle.com>",
   "dependencies": {
-    "ansi-regex": "^3.0.0",
+    "ansi-regex": "^6.0.1",
     "ansi-styles": "^3.2.0"
   },
   "devDependencies": {
