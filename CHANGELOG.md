@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.0.2
+* Added `README` translations to ignore.
+
 ## 3.0.1
 * Fixed `cleanDocs` option.
 * Reduced package size.
