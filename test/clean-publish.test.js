@@ -1,10 +1,15 @@
-const spawn = require('cross-spawn')
-const fs = require('fs')
-const fse = require('fs-extra')
-const path = require('path')
+import spawn from 'cross-spawn'
+import fs from 'fs'
+import fse from 'fs-extra'
+import { join } from 'path'
+import { fileURLToPath } from 'url'
 
-const cleanPackageJSON = require('./clean-package.json')
-const cleanPublishConfig = require('./clean-publish-config.json')
+const dirname = join(fileURLToPath(import.meta.url), '..')
+
+const cleanPackageJSON = fse.readJSONSync(join(dirname, './clean-package.json'))
+const cleanPublishConfig = fse.readJSONSync(
+  join(dirname, './clean-publish-config.json')
+)
 
 const cleanFiles = [
   'CONTRIBUTING.md',
@@ -26,9 +31,9 @@ const cleanFiles = [
   'types',
   'website'
 ]
-const binPath = path.join(__dirname, '..', 'clean-publish.js')
-const packagePath = path.join(__dirname, 'package')
-const cleanPublishConfigPath = path.join(packagePath, '.clean-publish')
+const binPath = join(dirname, '..', 'clean-publish.js')
+const packagePath = join(dirname, 'package')
+const cleanPublishConfigPath = join(packagePath, '.clean-publish')
 
 // Removing artifacts if tests are failed.
 afterAll(() => {
@@ -37,7 +42,7 @@ afterAll(() => {
     if (err) return
     const tmpDir = files.filter(file => file.search('tmp') === 0)[0]
     if (!tmpDir) return
-    const tmpDirPath = path.join(packagePath, tmpDir)
+    const tmpDirPath = join(packagePath, tmpDir)
     fse.remove(tmpDirPath)
   })
 })
@@ -50,8 +55,8 @@ it('test clean-publish function without "npm publish"', done => {
     fs.readdir(packagePath, (err, files) => {
       if (err) return done(err)
       const tmpDir = files.filter(file => file.search('tmp') === 0)[0]
-      const tmpDirPath = path.join(packagePath, tmpDir)
-      const packageJSONPath = path.join(tmpDirPath, 'package.json')
+      const tmpDirPath = join(packagePath, tmpDir)
+      const packageJSONPath = join(tmpDirPath, 'package.json')
       fs.readdir(tmpDirPath, (tmpErr, tmpFiles) => {
         if (tmpErr) return done(tmpErr)
         expect(tmpFiles).toEqual(cleanFiles)
@@ -79,8 +84,8 @@ it('test clean-publish to get config from file', done => {
     fs.readdir(packagePath, (err, files) => {
       if (err) return done(err)
       const tmpDir = files.filter(file => file.search('tmp') === 0)[0]
-      const tmpDirPath = path.join(packagePath, tmpDir)
-      const packageJSONPath = path.join(tmpDirPath, 'package.json')
+      const tmpDirPath = join(packagePath, tmpDir)
+      const packageJSONPath = join(tmpDirPath, 'package.json')
       fse.readJson(packageJSONPath, (readJSONErr, obj) => {
         if (readJSONErr) return done(readJSONErr)
         const cleanerPackageJSON = Object.assign({}, cleanPackageJSON)

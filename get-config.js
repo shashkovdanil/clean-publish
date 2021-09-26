@@ -3,8 +3,8 @@
  * https://github.com/ai/size-limit/blob/master/cli.js
  */
 
-const path = require('path')
-const { lilconfig } = require('lilconfig')
+import { lilconfig } from 'lilconfig'
+import { relative } from 'path'
 
 const PACKAGE_ERRORS = {
   notObject:
@@ -79,7 +79,7 @@ function configError (config) {
   return false
 }
 
-function getConfig () {
+export function getConfig () {
   const explorer = lilconfig('clean-publish', {
     searchPlaces: ['package.json', '.clean-publish', '.clean-publish.js']
   })
@@ -101,7 +101,7 @@ function getConfig () {
             '\n'
         )
       } else if (err.reason && err.mark && err.mark.name) {
-        const file = path.relative(process.cwd(), err.mark.name)
+        const file = relative(process.cwd(), err.mark.name)
         const position = err.mark.line + ':' + err.mark.column
         throw new Error(
           'Can not parse `' +
@@ -145,5 +145,3 @@ function getConfig () {
       return config
     })
 }
-
-module.exports = getConfig

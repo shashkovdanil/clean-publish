@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const {
+import {
   createTempDirectory,
   readSrcDirectory,
   clearFilesList,
@@ -12,8 +12,8 @@ const {
   removeTempDirectory,
   runScript,
   cleanDocs
-} = require('./core')
-const getConfig = require('./get-config')
+} from './core.js'
+import { getConfig } from './get-config.js'
 
 const HELP =
   'npx clean-publish\n' +
@@ -32,10 +32,8 @@ const HELP =
   '  --before-script    Run script on the to-release dir before npm\n' +
   '                     publish'
 
-const options = {}
-let tempDirectoryName
-
-function handleOptions () {
+async function handleOptions () {
+  let options = {}
   options.packageManager = 'npm'
   for (let i = 2; i < process.argv.length; i++) {
     if (process.argv[i] === '--help') {
@@ -72,63 +70,56 @@ function handleOptions () {
     }
   }
   if (!options._) {
-    return getConfig().then(config => {
-      Object.assign(options, config)
-    })
+    let config = await getConfig()
+    return { ...config, ...options }
+  } else {
+    return options
   }
-  return Promise.resolve()
 }
 
-handleOptions()
-  .then(() => createTempDirectory())
-  .then(directoryName => {
-    tempDirectoryName = directoryName
-    return readSrcDirectory()
-  })
-  .then(files => {
-    const filteredFiles = clearFilesList(
-      files,
-      [tempDirectoryName].concat(options.files)
+async function run () {
+  const options = await handleOptions()
+
+  const tempDirectoryName = await createTempDirectory()
+
+  const files = await readSrcDirectory()
+
+  const filteredFiles = clearFilesList(
+    files,
+    [tempDirectoryName].concat(options.files)
+  )
+  await copyFiles(filteredFiles, tempDirectoryName)
+
+  const packageJson = await readPackageJSON()
+
+
+  if (options.cleanDocs) {
+    await cleanDocs(tempDirectoryName, packageJson.repository)
+  }
+
+  const cleanPackageJSON = clearPackageJSON(packageJson, options.fields)
+  await writePackageJSON(tempDirectoryName, cleanPackageJSON)
+
+  let prepublishSuccess = true
+  if (options.beforeScript) {
+    prepublishSuccess = await runScript(options.beforeScript, tempDirectoryName)
+  }
+
+  if (!options.withoutPublish && prepublishSuccess) {
+    await publish(
+      tempDirectoryName,
+      options.packageManager,
+      options.access,
+      options.tag
     )
-    return copyFiles(filteredFiles, tempDirectoryName)
-  })
-  .then(() => readPackageJSON())
-  .then(packageJson => {
-    if (options.cleanDocs) {
-      return cleanDocs(tempDirectoryName, packageJson.repository).then(() => {
-        return packageJson
-      })
-    } else {
-      return packageJson
-    }
-  })
-  .then(packageJson => {
-    const cleanPackageJSON = clearPackageJSON(packageJson, options.fields)
-    return writePackageJSON(tempDirectoryName, cleanPackageJSON)
-  })
-  .then(() => {
-    if (options.beforeScript) {
-      return runScript(options.beforeScript, tempDirectoryName)
-    } else {
-      return true
-    }
-  })
-  .then(isPrepublishSuccess => {
-    if (!options.withoutPublish && isPrepublishSuccess) {
-      return publish(
-        tempDirectoryName,
-        options.packageManager,
-        options.access,
-        options.tag
-      )
-    }
-  })
-  .then(() => {
-    if (!options.withoutPublish) {
-      return removeTempDirectory(tempDirectoryName)
-    }
-  })
-  .catch(error => {
-    process.stderr.write(error.stack + '\n')
-    process.exit(1)
-  })
+  }
+
+  if (!options.withoutPublish) {
+    await removeTempDirectory(tempDirectoryName)
+  }
+}
+
+run().catch(error => {
+  process.stderr.write(error.stack + '\n')
+  process.exit(1)
+})
