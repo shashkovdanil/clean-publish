@@ -117,9 +117,11 @@ export function runScript (script, ...args) {
 export async function cleanDocs (drectoryName, repository) {
   let readmePath = join(drectoryName, 'README.md')
   let readme = await readFile(readmePath)
-  let name = repository.match(/[^/]+\/[^/]+$/)
-  const cleaned = readme.toString().split(/\n##\s*\w/m)[0] +
-    '\n## Docs\n' +
-    `Read **[full docs](https://github.com/${name}#readme)** on GitHub.\n`
-  await writeFile(readmePath, cleaned)
+  if (repository) {
+    let name = repository.match(/[^/]+\/[^/]+$/)
+    const cleaned = readme.toString().split(/\n##\s*\w/m)[0] +
+      '\n## Docs\n' +
+      `Read **[full docs](https://github.com/${name}#readme)** on GitHub.\n`
+    await writeFile(readmePath, cleaned)
+  }
 }
