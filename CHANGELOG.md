@@ -1,5 +1,9 @@
 # Change Log
 
+## 3.0
+* Added `cleanDocs` option.
+* Removed Node.js 10 support.
+
 ## 2.2
 * Added `commitlint` support (by @JounQin).
 * Added `remark` support (by @JounQin).
