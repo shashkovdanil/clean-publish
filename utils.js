@@ -1,7 +1,8 @@
-const { mkdtemp, readdir } = require('fs').promises
-const { copy, remove, readJson, writeJson } = require('fs-extra')
+import fse from 'fs-extra'
 
-function regExpIndexOf (array, item) {
+export { mkdtemp, readdir } from 'fs/promises'
+
+export function regExpIndexOf (array, item) {
   for (const i in array) {
     if (typeof array[i] === 'string' && item === array[i]) {
       return true
@@ -13,11 +14,16 @@ function regExpIndexOf (array, item) {
   return false
 }
 
-function multiCp (files) {
-  return Promise.all(files.map(({ from, to }) => copy(from, to)))
+export const remove = fse.remove
+export const readJson = fse.readJSON
+export const writeJson = fse.writeJSON
+export const copy = fse.copy
+
+export function multiCp (files) {
+  return Promise.all(files.map(({ from, to }) => fse.copy(from, to)))
 }
 
-function readJsonFromStdin () {
+export function readJsonFromStdin () {
   process.stdin.setEncoding('utf8')
   return new Promise((resolve, reject) => {
     let jsonString = ''
@@ -38,16 +44,4 @@ function readJsonFromStdin () {
       })
       .on('error', reject)
   })
-}
-
-module.exports = {
-  mkdtemp,
-  readdir,
-  copy,
-  remove,
-  readJson,
-  readJsonFromStdin,
-  writeJson,
-  regExpIndexOf,
-  multiCp
 }

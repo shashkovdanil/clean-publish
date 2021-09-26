@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const { clearPackageJSON } = require('./core')
-const { readJson, readJsonFromStdin, writeJson } = require('./utils')
-const getConfig = require('./get-config')
+import { readJson, readJsonFromStdin, writeJson } from './utils.js'
+import { clearPackageJSON } from './core.js'
+import { getConfig } from './get-config.js'
 
 const HELP =
   'npx clear-package-json <input> [options]\n' +
@@ -13,10 +13,10 @@ const HELP =
   '  --fields      One or more exclude package.json fields\n' +
   '  --output, -o  Output file name'
 
-const options = {}
-let input, output
+async function handleOptions () {
+  const options = {}
+  let input, output
 
-function handleOptions () {
   for (let i = 2; i < process.argv.length; i++) {
     if (process.argv[i] === '--help') {
       process.stdout.write(HELP + '\n')
@@ -34,30 +34,33 @@ function handleOptions () {
       input = process.argv[i]
     }
   }
+
   if (!input) {
     process.stderr.write(
       HELP + '\n\nNot enough non-option arguments: got 0, need at least 1'
     )
     process.exit(1)
   }
+
   if (!options.fields) {
-    return getConfig().then(config => {
-      options.fields = config.fields
-    })
+    let config = await getConfig()
+    options.fields = config.fields
   }
-  return Promise.resolve()
+  return [input, output, options]
 }
 
-handleOptions()
-  .then(() => (input ? readJson(input) : readJsonFromStdin()))
-  .then(packageJson => {
-    const cleanPackageJSON = clearPackageJSON(packageJson, options.fields)
-    if (output) {
-      return writeJson(output, cleanPackageJSON, { spaces: 2 })
-    }
+async function run () {
+  const [input, output, options] = await handleOptions()
+  const packageJson = await (input ? readJson(input) : readJsonFromStdin())
+  const cleanPackageJSON = clearPackageJSON(packageJson, options.fields)
+  if (output) {
+    await writeJson(output, cleanPackageJSON, { spaces: 2 })
+  } else {
     process.stdout.write(`${JSON.stringify(cleanPackageJSON, null, '  ')}\n`)
-  })
-  .catch(error => {
-    process.stderr.write(error.stack + '\n')
-    process.exit()
-  })
+  }
+}
+
+run().catch(error => {
+  process.stderr.write(error.stack + '\n')
+  process.exit(1)
+})
