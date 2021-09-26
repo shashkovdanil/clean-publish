@@ -1,16 +1,21 @@
-const spawn = require('cross-spawn')
-const fs = require('fs')
-const fse = require('fs-extra')
-const path = require('path')
+import spawn from 'cross-spawn'
+import fs from 'fs'
+import fse from 'fs-extra'
+import { join } from 'path'
+import { fileURLToPath } from 'url'
 
-const cleanPackageJSON = require('./clean-package.json')
-const cleanPublishConfig = require('./clean-publish-config.json')
+const dirname = join(fileURLToPath(import.meta.url), '..')
 
-const binPath = path.join(__dirname, '..', 'clear-package-json.js')
-const packagePath = path.join(__dirname, 'package')
-const packageJSONPath = path.join(packagePath, 'package.json')
-const minPackageJSONPath = path.join(packagePath, 'package.min.json')
-const cleanPublishConfigPath = path.join(packagePath, '.clean-publish')
+const cleanPackageJSON = fse.readJSONSync(join(dirname, './clean-package.json'))
+const cleanPublishConfig = fse.readJSONSync(
+  join(dirname, './clean-publish-config.json')
+)
+
+const binPath = join(dirname, '..', 'clear-package-json.js')
+const packagePath = join(dirname, 'package')
+const packageJSONPath = join(packagePath, 'package.json')
+const minPackageJSONPath = join(packagePath, 'package.min.json')
+const cleanPublishConfigPath = join(packagePath, '.clean-publish')
 
 // Removing artifacts if tests are failed.
 afterAll(() => {

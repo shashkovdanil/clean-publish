@@ -1,9 +1,8 @@
-const spawn = require('cross-spawn')
-const { promisify } = require('util')
-const path = require('path')
-const fs = require('fs')
+import { writeFile, readFile } from 'fs'
+import spawn from 'cross-spawn'
+import { join } from 'path'
 
-const {
+import {
   regExpIndexOf,
   multiCp,
   writeJson,
@@ -11,25 +10,22 @@ const {
   readdir,
   mkdtemp,
   remove
-} = require('./utils')
-const IGNORE_FILES = require('./exception/ignore-files')
-const IGNORE_FIELDS = require('./exception/ignore-fields')
-const NPM_SCRIPTS = require('./exception/npm-scripts')
+} from './utils.js'
+import IGNORE_FILES from './exception/ignore-files.js'
+import IGNORE_FIELDS from './exception/ignore-fields.js'
+import NPM_SCRIPTS from './exception/npm-scripts.js'
 
-const readFile = promisify(fs.readFile)
-const writeFile = promisify(fs.writeFile)
-
-function readPackageJSON () {
+export function readPackageJSON () {
   return readJson('package.json')
 }
 
-function writePackageJSON (directoryName, packageJSON) {
-  return writeJson(path.join(directoryName, 'package.json'), packageJSON, {
+export function writePackageJSON (directoryName, packageJSON) {
+  return writeJson(join(directoryName, 'package.json'), packageJSON, {
     spaces: 2
   })
 }
 
-function clearPackageJSON (packageJson, inputIgnoreFields) {
+export function clearPackageJSON (packageJson, inputIgnoreFields) {
   const ignoreFields = inputIgnoreFields
     ? IGNORE_FIELDS.concat(inputIgnoreFields)
     : IGNORE_FIELDS
@@ -58,7 +54,7 @@ function clearPackageJSON (packageJson, inputIgnoreFields) {
   return cleanPackageJSON
 }
 
-function clearFilesList (files, inputIgnoreFiles) {
+export function clearFilesList (files, inputIgnoreFiles) {
   const ignoreFiles = inputIgnoreFiles
     ? IGNORE_FILES.concat(inputIgnoreFiles)
     : IGNORE_FILES
@@ -68,7 +64,7 @@ function clearFilesList (files, inputIgnoreFiles) {
   return filteredFiles
 }
 
-function publish (cwd, packageManager, access, tag) {
+export function publish (cwd, packageManager, access, tag) {
   return new Promise((resolve, reject) => {
     const args = ['publish']
     if (access) args.push('--access', access)
@@ -87,28 +83,28 @@ function publish (cwd, packageManager, access, tag) {
   })
 }
 
-function readSrcDirectory () {
+export function readSrcDirectory () {
   return readdir('./')
 }
 
-function createTempDirectory () {
+export function createTempDirectory () {
   return mkdtemp('tmp')
 }
 
-function removeTempDirectory (directoryName) {
+export function removeTempDirectory (directoryName) {
   return remove(directoryName)
 }
 
-function copyFiles (files, drectoryName) {
+export function copyFiles (files, drectoryName) {
   return multiCp(
     files.map(file => ({
-      from: path.join('./', file),
-      to: path.join(drectoryName, file)
+      from: join('./', file),
+      to: join(drectoryName, file)
     }))
   )
 }
 
-function runScript (script, ...args) {
+export function runScript (script, ...args) {
   return new Promise((resolve, reject) => {
     spawn(script, args, { stdio: 'inherit' })
       .on('close', code => {
@@ -118,8 +114,8 @@ function runScript (script, ...args) {
   })
 }
 
-function cleanDocs (drectoryName, repository) {
-  let readmePath = path.join(drectoryName, 'README.md')
+export function cleanDocs (drectoryName, repository) {
+  let readmePath = join(drectoryName, 'README.md')
   return readFile(readmePath).then(readme => {
     let name = repository.match(/[^/]+\/[^/]+$/)
     const cleaned = readme.toString().split(/\n##\s*\w/m)[0] +
@@ -127,18 +123,4 @@ function cleanDocs (drectoryName, repository) {
       `Read **[full docs](https://github.com/${name}#readme)** on GitHub.\n`
     return writeFile(readmePath, cleaned)
   })
-}
-
-module.exports = {
-  readPackageJSON,
-  writePackageJSON,
-  clearPackageJSON,
-  clearFilesList,
-  publish,
-  readSrcDirectory,
-  createTempDirectory,
-  removeTempDirectory,
-  copyFiles,
-  runScript,
-  cleanDocs
 }

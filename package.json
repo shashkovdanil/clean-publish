@@ -11,6 +11,7 @@
   "author": "Shashkov Danil <shashkovdanil@gmail.com>",
   "license": "MIT",
   "repository": "shashkovdanil/clean-publish",
+  "type": "module",
   "bin": {
     "clean-publish": "clean-publish.js",
     "clear-package-json": "clear-package-json.js"
@@ -20,7 +21,7 @@
   },
   "dependencies": {
     "cross-spawn": "^7.0.3",
-    "fs-extra": "^9.1.0",
+    "fs-extra": "^10.0.0",
     "lilconfig": "^2.0.3"
   },
   "devDependencies": {
@@ -40,6 +41,6 @@
   },
   "scripts": {
     "lint": "eslint *.js",
-    "test": "jest --runInBand && yarn run lint"
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --runInBand && yarn run lint"
   }
 }
