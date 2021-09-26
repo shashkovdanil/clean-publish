@@ -1,4 +1,4 @@
-import { writeFile, readFile } from 'fs'
+import { writeFile, readFile } from 'fs/promises'
 import spawn from 'cross-spawn'
 import { join } from 'path'
 
@@ -114,13 +114,12 @@ export function runScript (script, ...args) {
   })
 }
 
-export function cleanDocs (drectoryName, repository) {
+export async function cleanDocs (drectoryName, repository) {
   let readmePath = join(drectoryName, 'README.md')
-  return readFile(readmePath).then(readme => {
-    let name = repository.match(/[^/]+\/[^/]+$/)
-    const cleaned = readme.toString().split(/\n##\s*\w/m)[0] +
-      '\n## Docs\n' +
-      `Read **[full docs](https://github.com/${name}#readme)** on GitHub.\n`
-    return writeFile(readmePath, cleaned)
-  })
+  let readme = await readFile(readmePath)
+  let name = repository.match(/[^/]+\/[^/]+$/)
+  const cleaned = readme.toString().split(/\n##\s*\w/m)[0] +
+    '\n## Docs\n' +
+    `Read **[full docs](https://github.com/${name}#readme)** on GitHub.\n`
+  await writeFile(readmePath, cleaned)
 }
