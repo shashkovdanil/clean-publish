@@ -1,5 +1,6 @@
-const path = require('path')
+const { readFile, writeFile } = require('fs/promises')
 const spawn = require('cross-spawn')
+const path = require('path')
 
 const {
   regExpIndexOf,
@@ -113,6 +114,17 @@ function runScript (script, ...args) {
   })
 }
 
+function cleanDocs (drectoryName, repository) {
+  let readmePath = path.join(drectoryName, 'README.md')
+  return readFile(readmePath).then(readme => {
+    let name = repository.match(/[^/]+\/[^/]+$/)
+    const cleaned = readme.toString().split(/\n##\s*\w/m)[0] +
+      '\n## Docs\n' +
+      `Read **[full docs](https://github.com/${name}#readme)** on GitHub.\n`
+    return writeFile(readmePath, cleaned)
+  })
+}
+
 module.exports = {
   readPackageJSON,
   writePackageJSON,
@@ -123,5 +135,6 @@ module.exports = {
   createTempDirectory,
   removeTempDirectory,
   copyFiles,
-  runScript
+  runScript,
+  cleanDocs
 }

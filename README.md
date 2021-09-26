@@ -40,7 +40,7 @@ package.json
 
 - After clean:
 
-`node_modules`, `.eslintrc`, `.prettierrc`, `lint` script and `devDependecies` field was removed (empty objects will also be deleted). 
+`node_modules`, `.eslintrc`, `.prettierrc`, `lint` script and `devDependecies` field was removed (empty objects will also be deleted).
 
 ```
 src
@@ -80,12 +80,13 @@ $ yarn add clean-publish --dev
 
 3. Usage with arguments:
 
+- `cleanDocs` - keep only main section of `README.md`.
 - `files` - list of files that you want to delete before publishing
 - `fields` - list of fields in the `package.json` file that you want to delete before publishing
 - `without-publish` - clean project without `npm publish` (tmp directory will not be deleted automatically)
 - `package-manager` - name of package manager to use (`npm` by default)
 - `access` - whether the npm registry publishes this package as a public package, or restricted
-- `before-script` - Run script on the to-release dir before `npm publish`.
+- `before-script` - run script on the to-release dir before `npm publish`.
 
 ```sh
 $ npm run clean-publish --files file1.js file2.js --fields scripts name

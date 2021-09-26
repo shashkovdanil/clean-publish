@@ -10,7 +10,8 @@ const {
   writePackageJSON,
   publish,
   removeTempDirectory,
-  runScript
+  runScript,
+  cleanDocs
 } = require('./core')
 const getConfig = require('./get-config')
 
@@ -20,6 +21,7 @@ const HELP =
   'Options:\n' +
   '  --help             Show help\n' +
   '  --version          Show version number\n' +
+  '  --cleanDocs        keep only main section of README.md' +
   '  --files            One or more exclude files\n' +
   '  --fields           One or more exclude package.json fields\n' +
   '  --without-publish  Clean package without npm publish\n' +
@@ -56,6 +58,9 @@ function handleOptions () {
     } else if (process.argv[i] === '--files') {
       options.files = process.argv[i + 1].split(/,\s*/)
       i += 1
+    } else if (process.argv[i] === '--clean-docs') {
+      options.cleanDocs = true
+      i += 1
     } else if (process.argv[i] === '--tag') {
       options.tag = process.argv[i + 1].split(/,\s*/)
       i += 1
@@ -88,6 +93,15 @@ handleOptions()
     return copyFiles(filteredFiles, tempDirectoryName)
   })
   .then(() => readPackageJSON())
+  .then(packageJson => {
+    if (options.cleanDocs) {
+      return cleanDocs(tempDirectoryName, packageJson.repository).then(() => {
+        return packageJson
+      })
+    } else {
+      return packageJson
+    }
+  })
   .then(packageJson => {
     const cleanPackageJSON = clearPackageJSON(packageJson, options.fields)
     return writePackageJSON(tempDirectoryName, cleanPackageJSON)
