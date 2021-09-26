@@ -33,4 +33,5 @@ export default [
   /^\.commitlintrc/,
   /^\.renovaterc/,
   /^\.remarkrc/,
+  /README\.[\w-]+\.md/
 ]
