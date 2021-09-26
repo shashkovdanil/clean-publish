@@ -1,6 +1,7 @@
-const { readFile, writeFile } = require('fs/promises')
 const spawn = require('cross-spawn')
+const { promisify } = require('util')
 const path = require('path')
+const fs = require('fs')
 
 const {
   regExpIndexOf,
@@ -14,6 +15,9 @@ const {
 const IGNORE_FILES = require('./exception/ignore-files')
 const IGNORE_FIELDS = require('./exception/ignore-fields')
 const NPM_SCRIPTS = require('./exception/npm-scripts')
+
+const readFile = promisify(fs.readFile)
+const writeFile = promisify(fs.writeFile)
 
 function readPackageJSON () {
   return readJson('package.json')
