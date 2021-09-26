@@ -1,5 +1,9 @@
 # Change Log
 
+## 3.0.1
+* Fixed `cleanDocs` option.
+* Reduced package size.
+
 ## 3.0
 * Added `cleanDocs` option.
 * Removed Node.js 10 support.
