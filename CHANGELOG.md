@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.0.3
+* Fixed Node.js 12 support.
+
 ## 3.0.2
 * Added `README` translations to ignore.
 
