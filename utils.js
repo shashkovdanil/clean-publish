@@ -1,6 +1,8 @@
+import { promises as fs } from "fs"
 import fse from 'fs-extra'
 
-export { mkdtemp, readdir } from 'fs/promises'
+export const mkdtemp = fs.mkdtemp
+export const readdir = fs.readdir
 
 export function regExpIndexOf (array, item) {
   for (const i in array) {
