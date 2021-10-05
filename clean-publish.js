@@ -9,6 +9,7 @@ import {
   clearPackageJSON,
   writePackageJSON,
   publish,
+  cleanComments,
   removeTempDirectory,
   runScript,
   cleanDocs
@@ -21,7 +22,8 @@ const HELP =
   'Options:\n' +
   '  --help             Show help\n' +
   '  --version          Show version number\n' +
-  '  --cleanDocs        keep only main section of README.md' +
+  '  --clean-docs       Keep only main section of README.md' +
+  '  --clean-comments   Clean inline comments from JS files' +
   '  --files            One or more exclude files\n' +
   '  --fields           One or more exclude package.json fields\n' +
   '  --without-publish  Clean package without npm publish\n' +
@@ -59,6 +61,9 @@ async function handleOptions () {
     } else if (process.argv[i] === '--clean-docs') {
       options.cleanDocs = true
       i += 1
+    } else if (process.argv[i] === '--clean-commentd') {
+      options.cleanComments = true
+      i += 1
     } else if (process.argv[i] === '--tag') {
       options.tag = process.argv[i + 1].split(/,\s*/)
       i += 1
@@ -92,9 +97,12 @@ async function run () {
 
   const packageJson = await readPackageJSON()
 
-
   if (options.cleanDocs) {
     await cleanDocs(tempDirectoryName, packageJson.repository)
+  }
+
+  if (options.cleanComments) {
+    await cleanComments(tempDirectoryName)
   }
 
   const cleanPackageJSON = clearPackageJSON(packageJson, options.fields)
