@@ -129,12 +129,14 @@ export async function cleanDocs (drectoryName, repository) {
 
 export async function cleanComments (drectoryName) {
   const files = await glob(['**/*.js'], { cwd: drectoryName })
-  await files.map(async file => {
+  await files.map(async i => {
+    const file = join(drectoryName, i)
     const content = await fs.readFile(file)
     const cleaned = content
       .toString()
       .replace(/\s*\/\/.*\n/gm, '\n')
       .replace(/\n+/gm, '\n')
+      .replace(/^\n+/gm, '')
     await fs.writeFile(file, cleaned)
   })
 }
