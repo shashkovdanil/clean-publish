@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.1
+* Added `cleanComments` option.
+
 ## 3.0.3
 * Fixed Node.js 12 support.
 
