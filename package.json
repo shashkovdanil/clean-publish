@@ -30,14 +30,14 @@
     "eslint": "^7.32.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.24.2",
-    "eslint-plugin-jest": "^24.4.2",
+    "eslint-plugin-jest": "^24.5.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prefer-let": "^1.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-security": "^1.4.0",
     "eslint-plugin-unicorn": "^36.0.0",
-    "jest": "^27.2.2",
-    "lint-staged": "^11.1.2",
+    "jest": "^27.2.4",
+    "lint-staged": "^11.2.0",
     "simple-git-hooks": "^2.6.1"
   },
   "scripts": {
