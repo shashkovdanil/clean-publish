@@ -1,6 +1,7 @@
 import { promises as fs } from "fs"
-import spawn from 'cross-spawn'
 import { join } from 'path'
+import spawn from 'cross-spawn'
+import glob from 'fast-glob'
 
 import {
   regExpIndexOf,
@@ -115,13 +116,25 @@ export function runScript (script, ...args) {
 }
 
 export async function cleanDocs (drectoryName, repository) {
-  let readmePath = join(drectoryName, 'README.md')
-  let readme = await fs.readFile(readmePath)
+  const readmePath = join(drectoryName, 'README.md')
+  const readme = await fs.readFile(readmePath)
   if (repository) {
-    let name = repository.match(/[^/]+\/[^/]+$/)
+    const name = repository.match(/[^/]+\/[^/]+$/)
     const cleaned = readme.toString().split(/\n##\s*\w/m)[0] +
       '\n## Docs\n' +
       `Read **[full docs](https://github.com/${name}#readme)** on GitHub.\n`
     await fs.writeFile(readmePath, cleaned)
   }
+}
+
+export async function cleanComments (drectoryName) {
+  const files = await glob(['**/*.js'], { cwd: drectoryName })
+  await files.map(async file => {
+    const content = await fs.readFile(file)
+    const cleaned = content
+      .toString()
+      .replace(/\s*\/\/.*\n/gm, '\n')
+      .replace(/\n+/gm, '\n')
+    await fs.writeFile(file, cleaned)
+  })
 }
