@@ -65,11 +65,12 @@ export function clearFilesList (files, inputIgnoreFiles) {
   return filteredFiles
 }
 
-export function publish (cwd, packageManager, access, tag) {
+export function publish (cwd, { packageManager, access, tag, dryRun }) {
   return new Promise((resolve, reject) => {
     const args = ['publish']
     if (access) args.push('--access', access)
     if (tag) args.push('--tag', tag)
+    if (dryRun) args.push('--dry-run')
     spawn(packageManager, args, {
       stdio: 'inherit',
       cwd
