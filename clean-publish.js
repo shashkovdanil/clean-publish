@@ -27,6 +27,7 @@ const HELP =
   '  --files            One or more exclude files\n' +
   '  --fields           One or more exclude package.json fields\n' +
   '  --without-publish  Clean package without npm publish\n' +
+  '  --dry-run          Reports the details of what would have been published\n' +
   '  --package-manager  Package manager to use\n' +
   '  --access           Whether the npm registry publishes this package\n' +
   '                     as a public package, or restricted\n' +
@@ -46,6 +47,9 @@ async function handleOptions () {
       process.exit(0)
     } else if (process.argv[i] === '--without-publish') {
       options.withoutPublish = true
+    } else if (process.argv[i] === '--dry-run') {
+      options.dryRun = true
+      i += 1
     } else if (process.argv[i] === '--package-manager') {
       options.packageManager = process.argv[i + 1]
       i += 1
@@ -114,12 +118,7 @@ async function run () {
   }
 
   if (!options.withoutPublish && prepublishSuccess) {
-    await publish(
-      tempDirectoryName,
-      options.packageManager,
-      options.access,
-      options.tag
-    )
+    await publish(tempDirectoryName, options)
   }
 
   if (!options.withoutPublish) {
