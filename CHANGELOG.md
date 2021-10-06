@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.2
+* Added `--dry-run` argument (by Igor Kamyshev).
+
 ## 3.1
 * Added `cleanComments` option.
 
