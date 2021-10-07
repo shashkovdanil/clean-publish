@@ -11,6 +11,7 @@ const HELP =
   '  --help        Show help\n' +
   '  --version     Show version number\n' +
   '  --fields      One or more exclude package.json fields\n' +
+  '  --exports     One or more exclude exports conditions\n' +
   '  --output, -o  Output file name'
 
 async function handleOptions () {
@@ -34,6 +35,10 @@ async function handleOptions () {
         options.fields = parseListArg(process.argv[i + 1])
         i += 1
         break
+      case '--exports':
+        options.exports = parseListArg(process.argv[i + 1])
+        i += 1
+        break
       default:
         input = process.argv[i]
     }
@@ -46,9 +51,10 @@ async function handleOptions () {
     process.exit(1)
   }
 
-  if (!options.fields) {
+  if (!options.fields && !options.exports) {
     let config = await getConfig()
     options.fields = config.fields
+    options.exports = config.exports
   }
   return [input, output, options]
 }
@@ -56,7 +62,7 @@ async function handleOptions () {
 async function run () {
   const [input, output, options] = await handleOptions()
   const packageJson = await (input ? readJson(input) : readJsonFromStdin())
-  const cleanPackageJSON = clearPackageJSON(packageJson, options.fields)
+  const cleanPackageJSON = clearPackageJSON(packageJson, options.fields, options.exports)
   if (output) {
     await writeJson(output, cleanPackageJSON, { spaces: 2 })
   } else {
