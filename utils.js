@@ -51,3 +51,7 @@ export function readJsonFromStdin () {
 export function parseListArg(arg) {
   return arg.split(/,\s*/)
 }
+
+export function isObject(object) {
+  return object && typeof object === 'object'
+}

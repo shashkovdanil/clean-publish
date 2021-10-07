@@ -6,6 +6,8 @@
 import { lilconfig } from 'lilconfig'
 import { relative } from 'path'
 
+import { isObject } from './utils.js'
+
 const PACKAGE_ERRORS = {
   notObject:
     'The `"clean-publish"` section of package.json ' + 'must be `an object`',
@@ -64,7 +66,7 @@ function capitalize (str) {
 }
 
 function configError (config) {
-  if (!config || typeof config !== 'object') {
+  if (!isObject(config)) {
     return 'notObject'
   }
   if (Object.keys(config).length === 0) {
