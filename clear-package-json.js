@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { readJson, readJsonFromStdin, writeJson } from './utils.js'
+import { readJson, readJsonFromStdin, writeJson, parseListArg } from './utils.js'
 import { clearPackageJSON } from './core.js'
 import { getConfig } from './get-config.js'
 
@@ -18,20 +18,24 @@ async function handleOptions () {
   let input, output
 
   for (let i = 2; i < process.argv.length; i++) {
-    if (process.argv[i] === '--help') {
-      process.stdout.write(HELP + '\n')
-      process.exit(0)
-    } else if (process.argv[i] === '--version') {
-      process.stdout.write(require('./package.json').version + '\n')
-      process.exit(0)
-    } else if (process.argv[i] === '-o' || process.argv[i] === '--output') {
-      output = process.argv[i + 1]
-      i += 1
-    } else if (process.argv[i] === '--fields') {
-      options.fields = process.argv[i + 1].split(/,\s*/)
-      i += 1
-    } else {
-      input = process.argv[i]
+    switch (process.argv[i]) {
+      case '--help':
+        process.stdout.write(HELP + '\n')
+        process.exit(0)
+      case '--version':
+        process.stdout.write(require('./package.json').version + '\n')
+        process.exit(0)
+      case '-o':
+      case '--output':
+        output = process.argv[i + 1]
+        i += 1
+        break
+      case '--fields':
+        options.fields = parseListArg(process.argv[i + 1])
+        i += 1
+        break
+      default:
+        input = process.argv[i]
     }
   }
 

@@ -47,3 +47,7 @@ export function readJsonFromStdin () {
       .on('error', reject)
   })
 }
+
+export function parseListArg(arg) {
+  return arg.split(/,\s*/)
+}
