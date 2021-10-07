@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.3
+* Added `exports` option (by Dan Onoshko).
+
 ## 3.2
 * Added `--dry-run` argument (by Igor Kamyshev).
 
