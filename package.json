@@ -42,6 +42,7 @@
   },
   "scripts": {
     "lint": "eslint *.js",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest --runInBand && yarn run lint"
+    "unit": "node --experimental-vm-modules node_modules/.bin/jest --runInBand",
+    "test": "yarn unit && yarn lint"
   }
 }
