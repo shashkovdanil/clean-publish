@@ -84,6 +84,7 @@ $ yarn add clean-publish --dev
 - `clean-comments` - clean inline comments from JS files.
 - `files` - list of files that you want to delete before publishing
 - `fields` - list of fields in the `package.json` file that you want to delete before publishing
+- `exports` - list of [exports conditions](https://nodejs.org/api/packages.html#packages_conditional_exports) in the `package.json` file that you want to delete before publishing
 - `without-publish` - clean project without `npm publish` (tmp directory will not be deleted automatically)
 - `package-manager` - name of package manager to use (`npm` by default)
 - `access` - whether the npm registry publishes this package as a public package, or restricted
