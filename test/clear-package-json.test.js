@@ -45,6 +45,20 @@ it('test clear-package-json function', async () => {
   await fse.remove(minPackageJSONPath)
 })
 
+it('test clear-package-json to omit exports', async () => {
+  await spawn(binPath, [packageJSONPath, '-o', minPackageJSONPath, '--exports', 'development'], {
+    cwd: packagePath
+  })
+
+  const obj = await fse.readJSON(minPackageJSONPath)
+  const cleanerPackageJSON = Object.assign({}, cleanPackageJSON)
+  delete cleanerPackageJSON.exports['.'].development
+
+  expect(obj).toEqual(cleanerPackageJSON)
+
+  await fse.remove(minPackageJSONPath)
+})
+
 it('test clear-package-json to get fields from config file', async () => {
   await fse.writeFile(
     cleanPublishConfigPath,
@@ -58,6 +72,7 @@ it('test clear-package-json to get fields from config file', async () => {
   const obj = await fse.readJSON(minPackageJSONPath)
   const cleanerPackageJSON = Object.assign({}, cleanPackageJSON)
   delete cleanerPackageJSON.collective
+  delete cleanerPackageJSON.exports['.'].development
 
   expect(obj).toEqual(cleanerPackageJSON)
 

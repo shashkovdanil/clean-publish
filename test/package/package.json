@@ -174,5 +174,11 @@
     "type": "opencollective",
     "url": "https://opencollective.com/jest",
     "logo": "https://opencollective.com/jest/logo.txt"
+  },
+  "exports": {
+    ".": {
+      "development": "./src/index.js",
+      "default": "./dist/index.js"
+    }
   }
 }
