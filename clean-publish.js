@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { parseListArg } from './utils.js'
 import {
   createTempDirectory,
   readSrcDirectory,
@@ -26,6 +27,7 @@ const HELP =
   '  --clean-comments   Clean inline comments from JS files' +
   '  --files            One or more exclude files\n' +
   '  --fields           One or more exclude package.json fields\n' +
+  '  --exports          One or more exclude exports conditions\n' +
   '  --without-publish  Clean package without npm publish\n' +
   '  --dry-run          Reports the details of what would have been published\n' +
   '  --package-manager  Package manager to use\n' +
@@ -60,7 +62,7 @@ async function handleOptions () {
       options.access = process.argv[i + 1]
       i += 1
     } else if (process.argv[i] === '--files') {
-      options.files = process.argv[i + 1].split(/,\s*/)
+      options.files = parseListArg(process.argv[i + 1])
       i += 1
     } else if (process.argv[i] === '--clean-docs') {
       options.cleanDocs = true
@@ -69,10 +71,13 @@ async function handleOptions () {
       options.cleanComments = true
       i += 1
     } else if (process.argv[i] === '--tag') {
-      options.tag = process.argv[i + 1].split(/,\s*/)
+      options.tag = parseListArg(process.argv[i + 1])
       i += 1
     } else if (process.argv[i] === '--fields') {
-      options.fields = process.argv[i + 1].split(/,\s*/)
+      options.fields = parseListArg(process.argv[i + 1])
+      i += 1
+    } else if (process.argv[i] === '--exports') {
+      options.exports = parseListArg(process.argv[i + 1])
       i += 1
     } else {
       options._ = process.argv[i]
@@ -109,7 +114,7 @@ async function run () {
     await cleanComments(tempDirectoryName)
   }
 
-  const cleanPackageJSON = clearPackageJSON(packageJson, options.fields)
+  const cleanPackageJSON = clearPackageJSON(packageJson, options.fields, options.exports)
   await writePackageJSON(tempDirectoryName, cleanPackageJSON)
 
   let prepublishSuccess = true

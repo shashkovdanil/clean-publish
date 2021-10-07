@@ -6,6 +6,8 @@
 import { lilconfig } from 'lilconfig'
 import { relative } from 'path'
 
+import { isObject } from './utils.js'
+
 const PACKAGE_ERRORS = {
   notObject:
     'The `"clean-publish"` section of package.json ' + 'must be `an object`',
@@ -16,6 +18,9 @@ const PACKAGE_ERRORS = {
     '`an array of strings or RegExps`',
   fieldsNotStrings:
     'The `fields` in the `"clean-publish"` section ' +
+    'of package.json must be `an array of strings`',
+  exportsNotStrings:
+    'The `exports` in the `"clean-publish"` section ' +
     'of package.json must be `an array of strings`'
 }
 const FILE_ERRORS = {
@@ -25,7 +30,9 @@ const FILE_ERRORS = {
     'The `files` in the Clean Publish config ' +
     'must be `an array of strings or RegExps`',
   fieldsNotStrings:
-    'The `fields` in Clean Publish config ' + 'must be `an array of strings`'
+    'The `fields` in Clean Publish config ' + 'must be `an array of strings`',
+  exportsNotStrings:
+    'The `exports` in Clean Publish config ' + 'must be `an array of strings`'
 }
 
 const PACKAGE_EXAMPLE =
@@ -64,7 +71,7 @@ function capitalize (str) {
 }
 
 function configError (config) {
-  if (!config || typeof config !== 'object') {
+  if (!isObject(config)) {
     return 'notObject'
   }
   if (Object.keys(config).length === 0) {
@@ -75,6 +82,9 @@ function configError (config) {
   }
   if (!isStringsOrUndefined(config.fields)) {
     return 'fieldsNotStrings'
+  }
+  if (!isStringsOrUndefined(config.exports)) {
+    return 'exportsNotStrings'
   }
   return false
 }
