@@ -1,15 +1,13 @@
-import spawn from 'cross-spawn'
-import fs from 'fs'
 import fse from 'fs-extra'
 import { join } from 'path'
 import { fileURLToPath } from 'url'
 
+import { spawn, removeTmpDirs, findTmpDir } from './utils.js'
+
 const dirname = join(fileURLToPath(import.meta.url), '..')
 
-const cleanPackageJSON = fse.readJSONSync(join(dirname, './clean-package.json'))
-const cleanPublishConfig = fse.readJSONSync(
-  join(dirname, './clean-publish-config.json')
-)
+const cleanPackageJSONPath = join(dirname, './clean-package.json')
+const cleanPublishConfigSrcPath = join(dirname, './clean-publish-config.json')
 
 const cleanFiles = [
   'CONTRIBUTING.md',
@@ -35,66 +33,62 @@ const binPath = join(dirname, '..', 'clean-publish.js')
 const packagePath = join(dirname, 'package')
 const cleanPublishConfigPath = join(packagePath, '.clean-publish')
 
+let cleanPackageJSON
+let cleanPublishConfig
+
+beforeAll(async () => {
+  [cleanPackageJSON, cleanPublishConfig] = await Promise.all([
+    fse.readJSON(cleanPackageJSONPath),
+    fse.readJSON(cleanPublishConfigSrcPath)
+  ])
+})
+
 // Removing artifacts if tests are failed.
-afterAll(() => {
-  fse.remove(cleanPublishConfigPath)
-  fs.readdir(packagePath, (err, files) => {
-    if (err) return
-    const tmpDir = files.filter(file => file.search('tmp') === 0)[0]
-    if (!tmpDir) return
-    const tmpDirPath = join(packagePath, tmpDir)
-    fse.remove(tmpDirPath)
-  })
+afterAll(async () => {
+  await Promise.all([
+    fse.remove(cleanPublishConfigPath),
+    removeTmpDirs(packagePath)
+  ])
 })
 
-it('test clean-publish function without "npm publish"', done => {
-  spawn(binPath, ['--without-publish'], {
+it('test clean-publish function without "npm publish"', async () => {
+  await spawn(binPath, ['--without-publish'], {
     cwd: packagePath,
-    stdio: 'inherit'
-  }).on('close', () => {
-    fs.readdir(packagePath, (err, files) => {
-      if (err) return done(err)
-      const tmpDir = files.filter(file => file.search('tmp') === 0)[0]
-      const tmpDirPath = join(packagePath, tmpDir)
-      const packageJSONPath = join(tmpDirPath, 'package.json')
-      fs.readdir(tmpDirPath, (tmpErr, tmpFiles) => {
-        if (tmpErr) return done(tmpErr)
-        expect(tmpFiles).toEqual(cleanFiles)
-        fse.readJson(packageJSONPath, (readJSONErr, obj) => {
-          if (readJSONErr) return done(readJSONErr)
-          expect(obj).toEqual(cleanPackageJSON)
-          fse.removeSync(tmpDirPath)
-          done()
-        })
-      })
-    })
   })
+
+  const tmpDirPath = await findTmpDir(packagePath)
+  const packageJSONPath = join(tmpDirPath, 'package.json')
+  const [tmpFiles, obj] = await Promise.all([
+    fse.readdir(tmpDirPath),
+    fse.readJSON(packageJSONPath)
+  ])
+
+  expect(tmpFiles).toEqual(cleanFiles)
+  expect(obj).toEqual(cleanPackageJSON)
+
+  await fse.remove(tmpDirPath)
 })
 
-it('test clean-publish to get config from file', done => {
-  fs.writeFileSync(
+it('test clean-publish to get config from file', async () => {
+  await fse.writeFile(
     cleanPublishConfigPath,
     JSON.stringify(cleanPublishConfig),
     'utf8'
   )
-  spawn(binPath, ['--without-publish'], {
-    cwd: packagePath,
-    stdio: 'inherit'
-  }).on('close', () => {
-    fs.readdir(packagePath, (err, files) => {
-      if (err) return done(err)
-      const tmpDir = files.filter(file => file.search('tmp') === 0)[0]
-      const tmpDirPath = join(packagePath, tmpDir)
-      const packageJSONPath = join(tmpDirPath, 'package.json')
-      fse.readJson(packageJSONPath, (readJSONErr, obj) => {
-        if (readJSONErr) return done(readJSONErr)
-        const cleanerPackageJSON = Object.assign({}, cleanPackageJSON)
-        delete cleanerPackageJSON.collective
-        expect(obj).toEqual(cleanerPackageJSON)
-        fse.removeSync(tmpDirPath)
-        fse.removeSync(cleanPublishConfigPath)
-        done()
-      })
-    })
+  await spawn(binPath, ['--without-publish'], {
+    cwd: packagePath
   })
+
+  const tmpDirPath = await findTmpDir(packagePath)
+  const packageJSONPath = join(tmpDirPath, 'package.json')
+  const obj = await fse.readJSON(packageJSONPath)
+  const cleanerPackageJSON = Object.assign({}, cleanPackageJSON)
+  delete cleanerPackageJSON.collective
+
+  expect(obj).toEqual(cleanerPackageJSON)
+
+  await Promise.all([
+    fse.remove(tmpDirPath),
+    fse.remove(cleanPublishConfigPath)
+  ])
 })
