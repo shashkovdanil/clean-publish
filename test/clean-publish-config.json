@@ -1,3 +1,4 @@
 {
-  "fields": ["collective"]
+  "fields": ["collective"],
+  "exports": ["development"]
 }
