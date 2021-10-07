@@ -41,58 +41,46 @@ async function handleOptions () {
   let options = {}
   options.packageManager = 'npm'
   for (let i = 2; i < process.argv.length; i++) {
-    switch (process.argv[i]) {
-      case '--help':
-        process.stdout.write(HELP + '\n')
-        process.exit(0)
-      case '--version':
-        process.stdout.write(require('./package.json').version + '\n')
-        process.exit(0)
-      case '--without-publish':
-        options.withoutPublish = true
-        break
-      case '--dry-run':
-        options.dryRun = true
-        i += 1
-        break
-      case '--package-manager':
-        options.packageManager = process.argv[i + 1]
-        i += 1
-        break
-      case '--before-script':
-        options.beforeScript = process.argv[i + 1]
-        i += 1
-        break
-      case '--access':
-        options.access = process.argv[i + 1]
-        i += 1
-        break
-      case '--files':
-        options.files = parseListArg(process.argv[i + 1])
-        i += 1
-        break
-      case '--clean-docs':
-        options.cleanDocs = true
-        i += 1
-        break
-      case '--clean-commentd':
-        options.cleanComments = true
-        i += 1
-        break
-      case '--tag':
-        options.tag = parseListArg(process.argv[i + 1])
-        i += 1
-        break
-      case '--fields':
-        options.fields = parseListArg(process.argv[i + 1])
-        i += 1
-        break
-      case '--exports':
-        options.exports = parseListArg(process.argv[i + 1])
-        i += 1
-        break
-      default:
-        options._ = process.argv[i]
+    if (process.argv[i] === '--help') {
+      process.stdout.write(HELP + '\n')
+      process.exit(0)
+    } else if (process.argv[i] === '--version') {
+      process.stdout.write(require('./package.json').version + '\n')
+      process.exit(0)
+    } else if (process.argv[i] === '--without-publish') {
+      options.withoutPublish = true
+    } else if (process.argv[i] === '--dry-run') {
+      options.dryRun = true
+      i += 1
+    } else if (process.argv[i] === '--package-manager') {
+      options.packageManager = process.argv[i + 1]
+      i += 1
+    } else if (process.argv[i] === '--before-script') {
+      options.beforeScript = process.argv[i + 1]
+      i += 1
+    } else if (process.argv[i] === '--access') {
+      options.access = process.argv[i + 1]
+      i += 1
+    } else if (process.argv[i] === '--files') {
+      options.files = parseListArg(process.argv[i + 1])
+      i += 1
+    } else if (process.argv[i] === '--clean-docs') {
+      options.cleanDocs = true
+      i += 1
+    } else if (process.argv[i] === '--clean-commentd') {
+      options.cleanComments = true
+      i += 1
+    } else if (process.argv[i] === '--tag') {
+      options.tag = parseListArg(process.argv[i + 1])
+      i += 1
+    } else if (process.argv[i] === '--fields') {
+      options.fields = parseListArg(process.argv[i + 1])
+      i += 1
+    } else if (process.argv[i] === '--exports') {
+      options.exports = parseListArg(process.argv[i + 1])
+      i += 1
+    } else {
+      options._ = process.argv[i]
     }
   }
   if (!options._) {
