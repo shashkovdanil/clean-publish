@@ -49,9 +49,32 @@ export function readJsonFromStdin () {
 }
 
 export function parseListArg(arg) {
-  return arg.split(/,\s*/)
+  return arg.trim().split(/\s*,\s*/)
 }
 
 export function isObject(object) {
-  return object && typeof object === 'object'
+  return Boolean(object) && typeof object === 'object'
+}
+
+export function filterObjectByKey (object, filterByKey = () => true, deep) {
+  let result = {}
+  let changed = false
+
+  for (const key in object) {
+    if (filterByKey(key)) {
+      if (deep && isObject(object[key])) {
+        result[key] = filterObjectByKey(object[key], filterByKey, deep)
+
+        if (result[key] !== object[key]) {
+          changed = true
+        }
+      } else {
+        result[key] = object[key]
+      }
+    } else {
+      changed = true
+    }
+  }
+
+  return changed ? result : object
 }

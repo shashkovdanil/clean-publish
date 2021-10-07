@@ -10,7 +10,9 @@ import {
   readJson,
   readdir,
   mkdtemp,
-  remove
+  remove,
+  isObject,
+  filterObjectByKey
 } from './utils.js'
 import IGNORE_FILES from './exception/ignore-files.js'
 import IGNORE_FIELDS from './exception/ignore-fields.js'
@@ -26,30 +28,24 @@ export function writePackageJSON (directoryName, packageJSON) {
   })
 }
 
-export function clearPackageJSON (packageJson, inputIgnoreFields) {
+export function clearPackageJSON (packageJson, inputIgnoreFields, ignoreExports) {
   const ignoreFields = inputIgnoreFields
     ? IGNORE_FIELDS.concat(inputIgnoreFields)
     : IGNORE_FIELDS
-  const cleanPackageJSON = {}
-  for (const key in packageJson) {
-    if (!ignoreFields.includes(key) && key !== 'scripts') {
-      cleanPackageJSON[key] = packageJson[key]
-    }
-  }
+  const cleanPackageJSON = filterObjectByKey(packageJson, key => !ignoreFields.includes(key) && key !== 'scripts')
+
   if (packageJson.scripts && !ignoreFields.includes('scripts')) {
-    cleanPackageJSON.scripts = {}
-    for (const script in packageJson.scripts) {
-      if (NPM_SCRIPTS.includes(script)) {
-        cleanPackageJSON.scripts[script] = packageJson.scripts[script]
-      }
-    }
+    cleanPackageJSON.scripts = filterObjectByKey(packageJson.scripts, script => NPM_SCRIPTS.includes(script))
+  }
+
+  if (isObject(packageJson.exports) && !ignoreFields.includes('exports')) {
+    const exportsFilter = ignoreExports && (condition => !ignoreExports.includes(condition))
+    cleanPackageJSON.exports = filterObjectByKey(packageJson.exports, exportsFilter, true)
   }
 
   for (const i in cleanPackageJSON) {
-    if (typeof cleanPackageJSON[i] === 'object') {
-      if (Object.keys(cleanPackageJSON[i]).length === 0) {
-        delete cleanPackageJSON[i]
-      }
+    if (isObject(cleanPackageJSON[i]) && Object.keys(cleanPackageJSON[i]).length === 0) {
+      delete cleanPackageJSON[i]
     }
   }
   return cleanPackageJSON
