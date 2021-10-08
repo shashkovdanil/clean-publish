@@ -77,8 +77,14 @@ it('test clean-publish to omit exports', async () => {
   const tmpDirPath = await findTmpDir(packagePath)
   const packageJSONPath = join(tmpDirPath, 'package.json')
   const obj = await fse.readJSON(packageJSONPath)
-  const cleanerPackageJSON = Object.assign({}, cleanPackageJSON)
-  delete cleanerPackageJSON.exports['.'].development
+  const cleanerPackageJSON = {
+    ...cleanPackageJSON,
+    exports: {
+      '.': {
+        default: cleanPackageJSON.exports['.'].default
+      }
+    }
+  }
 
   expect(obj).toEqual(cleanerPackageJSON)
 
@@ -98,9 +104,15 @@ it('test clean-publish to get config from file', async () => {
   const tmpDirPath = await findTmpDir(packagePath)
   const packageJSONPath = join(tmpDirPath, 'package.json')
   const obj = await fse.readJSON(packageJSONPath)
-  const cleanerPackageJSON = Object.assign({}, cleanPackageJSON)
+  const cleanerPackageJSON = {
+    ...cleanPackageJSON,
+    exports: {
+      '.': {
+        default: cleanPackageJSON.exports['.'].default
+      }
+    }
+  }
   delete cleanerPackageJSON.collective
-  delete cleanerPackageJSON.exports['.'].development
 
   expect(obj).toEqual(cleanerPackageJSON)
 
