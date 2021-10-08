@@ -32,7 +32,7 @@ const cleanFiles = [
 const binPath = join(dirname, '..', 'clean-publish.js')
 const packagePath = join(dirname, 'package')
 const cleanPublishConfigPath = join(packagePath, '.clean-publish')
-const tmpContentsDir = 'tmp-contents-package'
+const tempDir = 'tmp-package'
 
 let cleanPackageJSON
 let cleanPublishConfig
@@ -92,22 +92,22 @@ it('test clean-publish to omit exports', async () => {
   await fse.remove(tmpDirPath)
 })
 
-it('test clean-publish to make `contents` directory', async () => {
-  await spawn(binPath, ['--without-publish', '--contents', tmpContentsDir], {
+it('test clean-publish to make `temp-dir` directory', async () => {
+  await spawn(binPath, ['--without-publish', '--temp-dir', tempDir], {
     cwd: packagePath,
   })
 
-  const contentsDirPath = join(packagePath, tmpContentsDir)
-  const packageJSONPath = join(contentsDirPath, 'package.json')
+  const tempDirPath = join(packagePath, tempDir)
+  const packageJSONPath = join(tempDirPath, 'package.json')
   const [tmpFiles, obj] = await Promise.all([
-    fse.readdir(contentsDirPath),
+    fse.readdir(tempDirPath),
     fse.readJSON(packageJSONPath)
   ])
 
   expect(tmpFiles).toEqual(cleanFiles)
   expect(obj).toEqual(cleanPackageJSON)
 
-  await fse.remove(contentsDirPath)
+  await fse.remove(tempDirPath)
 })
 
 it('test clean-publish to get config from file', async () => {
@@ -141,12 +141,12 @@ it('test clean-publish to get config from file', async () => {
   ])
 })
 
-it('test clean-publish to get `contents` from config file', async () => {
+it('test clean-publish to get `temp-dir` from config file', async () => {
   await fse.writeFile(
     cleanPublishConfigPath,
     JSON.stringify({
       ...cleanPublishConfig,
-      contents: tmpContentsDir
+      tempDir
     }),
     'utf8'
   )
@@ -154,13 +154,13 @@ it('test clean-publish to get `contents` from config file', async () => {
     cwd: packagePath
   })
 
-  const contentsDirPath = join(packagePath, tmpContentsDir)
-  const tmpFiles = await fse.readdir(contentsDirPath)
+  const tempDirPath = join(packagePath, tempDir)
+  const tmpFiles = await fse.readdir(tempDirPath)
 
   expect(tmpFiles).toEqual(cleanFiles)
 
   await Promise.all([
-    fse.remove(contentsDirPath),
+    fse.remove(tempDirPath),
     fse.remove(cleanPublishConfigPath)
   ])
 })

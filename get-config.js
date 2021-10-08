@@ -22,8 +22,8 @@ const PACKAGE_ERRORS = {
   exportsNotStrings:
     'The `exports` in the `"clean-publish"` section ' +
     'of package.json must be `an array of strings`',
-  contentsNotString:
-    'The `contents` in the `"clean-publish"` section ' +
+  tempDirNotString:
+    'The `temp-dir` in the `"clean-publish"` section ' +
     'of package.json must be `an string`'
 }
 const FILE_ERRORS = {
@@ -36,8 +36,8 @@ const FILE_ERRORS = {
     'The `fields` in Clean Publish config ' + 'must be `an array of strings`',
   exportsNotStrings:
     'The `exports` in Clean Publish config ' + 'must be `an array of strings`',
-  contentsNotString:
-    'The `contents` in Clean Publish config ' + 'must be `an string`'
+  tempDirNotString:
+    'The `temp-dir` in Clean Publish config ' + 'must be `an string`'
 }
 
 const PACKAGE_EXAMPLE =
@@ -99,8 +99,8 @@ function configError (config) {
   if (!isStringsOrUndefined(config.exports)) {
     return 'exportsNotStrings'
   }
-  if (!isStringOrUndefined(config.contents)) {
-    return 'contentsNotString'
+  if (!isStringOrUndefined(config.tempDir)) {
+    return 'tempDirNotString'
   }
   return false
 }
