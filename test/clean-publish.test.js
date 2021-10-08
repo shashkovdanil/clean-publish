@@ -110,6 +110,18 @@ it('test clean-publish to make `temp-dir` directory', async () => {
   await fse.remove(tempDirPath)
 })
 
+it('test clean-publish to print message if `temp-dir` directory already exists', async () => {
+  const tempDirPath = join(packagePath, tempDir)
+
+  await fse.mkdir(tempDirPath)
+
+  await expect(spawn(binPath, ['--without-publish', '--temp-dir', tempDir], {
+    cwd: packagePath,
+  })).rejects.toThrow('Temporary directory "tmp-package" already exists.')
+
+  await fse.remove(tempDirPath)
+})
+
 it('test clean-publish to get config from file', async () => {
   await fse.writeFile(
     cleanPublishConfigPath,
