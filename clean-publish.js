@@ -36,7 +36,7 @@ const HELP =
   '  --tag              Registers the package with the given tag\n' +
   '  --before-script    Run script on the to-release dir before npm\n' +
   '                     publish\n' +
-  '  --contents         Create temporary directory with given name'
+  '  --temp-dir         Create temporary directory with given name'
 
 async function handleOptions () {
   let options = {}
@@ -80,8 +80,8 @@ async function handleOptions () {
     } else if (process.argv[i] === '--exports') {
       options.exports = parseListArg(process.argv[i + 1])
       i += 1
-    }  else if (process.argv[i] === '--contents') {
-      options.contents = process.argv[i + 1]
+    }  else if (process.argv[i] === '--temp-dir') {
+      options.tempDir = process.argv[i + 1]
       i += 1
     } else {
       options._ = process.argv[i]
@@ -98,7 +98,7 @@ async function handleOptions () {
 async function run () {
   const options = await handleOptions()
 
-  const tempDirectoryName = await createTempDirectory(options.contents)
+  const tempDirectoryName = await createTempDirectory(options.tempDir)
 
   const files = await readSrcDirectory()
 
