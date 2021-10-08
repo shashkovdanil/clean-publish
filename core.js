@@ -85,8 +85,13 @@ export function readSrcDirectory () {
   return readdir('./')
 }
 
-export function createTempDirectory () {
-  return mkdtemp('tmp')
+export async function createTempDirectory (name) {
+  if (name) {
+    await fs.mkdir(name)
+    return name
+  }
+
+  return await mkdtemp('tmp')
 }
 
 export function removeTempDirectory (directoryName) {
