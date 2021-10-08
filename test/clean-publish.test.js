@@ -32,6 +32,7 @@ const cleanFiles = [
 const binPath = join(dirname, '..', 'clean-publish.js')
 const packagePath = join(dirname, 'package')
 const cleanPublishConfigPath = join(packagePath, '.clean-publish')
+const tmpContentsDir = 'tmp-contents-package'
 
 let cleanPackageJSON
 let cleanPublishConfig
@@ -91,6 +92,24 @@ it('test clean-publish to omit exports', async () => {
   await fse.remove(tmpDirPath)
 })
 
+it('test clean-publish to make `contents` directory', async () => {
+  await spawn(binPath, ['--without-publish', '--contents', tmpContentsDir], {
+    cwd: packagePath,
+  })
+
+  const contentsDirPath = join(packagePath, tmpContentsDir)
+  const packageJSONPath = join(contentsDirPath, 'package.json')
+  const [tmpFiles, obj] = await Promise.all([
+    fse.readdir(contentsDirPath),
+    fse.readJSON(packageJSONPath)
+  ])
+
+  expect(tmpFiles).toEqual(cleanFiles)
+  expect(obj).toEqual(cleanPackageJSON)
+
+  await fse.remove(contentsDirPath)
+})
+
 it('test clean-publish to get config from file', async () => {
   await fse.writeFile(
     cleanPublishConfigPath,
@@ -118,6 +137,30 @@ it('test clean-publish to get config from file', async () => {
 
   await Promise.all([
     fse.remove(tmpDirPath),
+    fse.remove(cleanPublishConfigPath)
+  ])
+})
+
+it('test clean-publish to get `contents` from config file', async () => {
+  await fse.writeFile(
+    cleanPublishConfigPath,
+    JSON.stringify({
+      ...cleanPublishConfig,
+      contents: tmpContentsDir
+    }),
+    'utf8'
+  )
+  await spawn(binPath, ['--without-publish'], {
+    cwd: packagePath
+  })
+
+  const contentsDirPath = join(packagePath, tmpContentsDir)
+  const tmpFiles = await fse.readdir(contentsDirPath)
+
+  expect(tmpFiles).toEqual(cleanFiles)
+
+  await Promise.all([
+    fse.remove(contentsDirPath),
     fse.remove(cleanPublishConfigPath)
   ])
 })
