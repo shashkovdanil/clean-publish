@@ -85,8 +85,20 @@ export function readSrcDirectory () {
   return readdir('./')
 }
 
-export function createTempDirectory () {
-  return mkdtemp('tmp')
+export async function createTempDirectory (name) {
+  if (name) {
+    try {
+      await fs.mkdir(name)
+    } catch (err) {
+      if (err.code === 'EEXIST') {
+        throw new Error(`Temporary directory "${name}" already exists.`)
+      }
+    }
+
+    return name
+  }
+
+  return await mkdtemp('tmp')
 }
 
 export function removeTempDirectory (directoryName) {

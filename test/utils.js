@@ -4,10 +4,31 @@ import fse from 'fs-extra'
 
 export function spawn(cmd, args, opts) {
   return new Promise((resolve, reject) => {
-    crossSpawn(cmd, args, {
-      stdio: 'inherit',
-      ...opts
-    }).on('close', resolve).on('error', reject)
+    const child = crossSpawn(cmd, args, {
+      ...opts,
+      stdio: 'pipe'
+    })
+    let output = ''
+    const onData = (data) => {
+      output += data.toString()
+    }
+    const onDone = (error) => {
+      if (error) {
+        reject(
+          error instanceof Error
+            ? error
+            : new Error(output)
+        )
+      } else {
+        resolve(output)
+      }
+    }
+
+    child.stdout.on('data', onData)
+    child.stderr.on('data', onData)
+    child.on('close', onDone)
+    child.on('exit', onDone)
+    child.on('error', onDone)
   })
 }
 
