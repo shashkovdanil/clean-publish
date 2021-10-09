@@ -21,7 +21,10 @@ const PACKAGE_ERRORS = {
     'of package.json must be `an array of strings`',
   exportsNotStrings:
     'The `exports` in the `"clean-publish"` section ' +
-    'of package.json must be `an array of strings`'
+    'of package.json must be `an array of strings`',
+  tempDirNotString:
+    'The `temp-dir` in the `"clean-publish"` section ' +
+    'of package.json must be `an string`'
 }
 const FILE_ERRORS = {
   notObject: 'Clean Publish config must contain `an object`',
@@ -32,7 +35,9 @@ const FILE_ERRORS = {
   fieldsNotStrings:
     'The `fields` in Clean Publish config ' + 'must be `an array of strings`',
   exportsNotStrings:
-    'The `exports` in Clean Publish config ' + 'must be `an array of strings`'
+    'The `exports` in Clean Publish config ' + 'must be `an array of strings`',
+  tempDirNotString:
+    'The `temp-dir` in Clean Publish config ' + 'must be `an string`'
 }
 
 const PACKAGE_EXAMPLE =
@@ -48,14 +53,22 @@ const FILE_EXAMPLE =
   '    "packageManager": "yarn"\n' +
   '  }'
 
+function isString(value) {
+  return typeof value === 'string' && value
+}
+
 function isStrings (value) {
   if (!Array.isArray(value)) return false
-  return value.every(i => typeof i === 'string')
+  return value.every(isString)
 }
 
 function isStringsOrRegExps (value) {
   if (!Array.isArray(value)) return false
-  return value.every(i => typeof i === 'string' || i instanceof RegExp)
+  return value.every(i => isString(i) || i instanceof RegExp)
+}
+
+function isStringOrUndefined (value) {
+  return typeof value === 'undefined' || isString(value)
 }
 
 function isStringsOrUndefined (value) {
@@ -85,6 +98,9 @@ function configError (config) {
   }
   if (!isStringsOrUndefined(config.exports)) {
     return 'exportsNotStrings'
+  }
+  if (!isStringOrUndefined(config.tempDir)) {
+    return 'tempDirNotString'
   }
   return false
 }

@@ -51,8 +51,14 @@ it('test clear-package-json to omit exports', async () => {
   })
 
   const obj = await fse.readJSON(minPackageJSONPath)
-  const cleanerPackageJSON = Object.assign({}, cleanPackageJSON)
-  delete cleanerPackageJSON.exports['.'].development
+  const cleanerPackageJSON = {
+    ...cleanPackageJSON,
+    exports: {
+      '.': {
+        default: cleanPackageJSON.exports['.'].default
+      }
+    }
+  }
 
   expect(obj).toEqual(cleanerPackageJSON)
 
@@ -70,9 +76,15 @@ it('test clear-package-json to get fields from config file', async () => {
   })
 
   const obj = await fse.readJSON(minPackageJSONPath)
-  const cleanerPackageJSON = Object.assign({}, cleanPackageJSON)
+  const cleanerPackageJSON = {
+    ...cleanPackageJSON,
+    exports: {
+      '.': {
+        default: cleanPackageJSON.exports['.'].default
+      }
+    }
+  }
   delete cleanerPackageJSON.collective
-  delete cleanerPackageJSON.exports['.'].development
 
   expect(obj).toEqual(cleanerPackageJSON)
 
