@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.4
+* Added `--tmp-dir` argument (by Dan Onoshko).
+
 ## 3.3
 * Added `exports` option (by Dan Onoshko).
 
