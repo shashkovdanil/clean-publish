@@ -72,7 +72,7 @@ $ yarn add clean-publish --dev
 {
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-+    "publish": "clean-publish"
++   "publish": "clean-publish"
   }
 }
 
@@ -88,7 +88,8 @@ $ yarn add clean-publish --dev
 - `without-publish` - clean project without `npm publish` (tmp directory will not be deleted automatically)
 - `package-manager` - name of package manager to use (`npm` by default)
 - `access` - whether the npm registry publishes this package as a public package, or restricted
-- `before-script` - run script on the to-release dir before `npm publish`.
+- `before-script` - run script on the to-release dir before `npm publish`
+- `temp-dir` - create temporary directory with given name.
 
 ```sh
 $ npm run clean-publish --files file1.js file2.js --fields scripts name
@@ -105,6 +106,15 @@ $ npm run clear-package-json package.json > package/package.json
 # or
 $ cat package.json | npm run clear-package-json
 # `fields` also will be getted from config file
+```
+
+### Usage with [Lerna](https://github.com/lerna/lerna)
+
+```sh
+# Clean each package using `package` temporary directory without publish it
+lerna exec -- clean-publish --without-publish --temp-dir package
+# Publish all packages from `package` subdirectory
+lerna publish --contents package
 ```
 
 ## Config
