@@ -2,6 +2,7 @@ import { promises as fs } from "fs"
 import { join } from 'path'
 import spawn from 'cross-spawn'
 import glob from 'fast-glob'
+import hostedGitInfo from 'hosted-git-info'
 
 import {
   regExpIndexOf,
@@ -124,14 +125,23 @@ export function runScript (script, ...args) {
   })
 }
 
+export function getReadmeUrlFromRepository (repository) {
+  const repoUrl = typeof repository === 'string'
+    ? repository
+    : repository && repository.url
+  if (repoUrl) return hostedGitInfo.fromUrl(repoUrl).docs()
+
+  return null
+}
+
 export async function cleanDocs (drectoryName, repository) {
   const readmePath = join(drectoryName, 'README.md')
   const readme = await fs.readFile(readmePath)
-  if (repository) {
-    const name = repository.match(/[^/]+\/[^/]+$/)
+  const readmeUrl = getReadmeUrlFromRepository(repository)
+  if (readmeUrl) {
     const cleaned = readme.toString().split(/\n##\s*\w/m)[0] +
       '\n## Docs\n' +
-      `Read **[full docs](https://github.com/${name}#readme)** on GitHub.\n`
+      `Read **[full docs](${readmeUrl})** on GitHub.\n`
     await fs.writeFile(readmePath, cleaned)
   }
 }
