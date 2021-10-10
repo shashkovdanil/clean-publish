@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.4.1
+* Fixed repository URL parsing for `cleanDocs` (by Dan Onoshko).
+
 ## 3.4
 * Added `--tmp-dir` argument (by Dan Onoshko).
 
