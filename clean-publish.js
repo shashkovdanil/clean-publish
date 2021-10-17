@@ -38,9 +38,12 @@ const HELP =
   '                     publish\n' +
   '  --temp-dir         Create temporary directory with given name'
 
+const DEFAULT_OPTIONS = {
+  packageManager: 'npm'
+}
+
 async function handleOptions () {
   let options = {}
-  options.packageManager = 'npm'
   for (let i = 2; i < process.argv.length; i++) {
     if (process.argv[i] === '--help') {
       process.stdout.write(HELP + '\n')
@@ -89,7 +92,7 @@ async function handleOptions () {
   }
   if (!options._) {
     let config = await getConfig()
-    return { ...config, ...options }
+    return { ...DEFAULT_OPTIONS, ...config, ...options }
   } else {
     return options
   }
