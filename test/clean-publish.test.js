@@ -38,7 +38,7 @@ let cleanPackageJSON
 let cleanPublishConfig
 
 beforeAll(async () => {
-  [cleanPackageJSON, cleanPublishConfig] = await Promise.all([
+  ;[cleanPackageJSON, cleanPublishConfig] = await Promise.all([
     fse.readJSON(cleanPackageJSONPath),
     fse.readJSON(cleanPublishConfigSrcPath)
   ])
@@ -54,7 +54,7 @@ afterAll(async () => {
 
 it('test clean-publish function without "npm publish"', async () => {
   await spawn(binPath, ['--without-publish'], {
-    cwd: packagePath,
+    cwd: packagePath
   })
 
   const tmpDirPath = await findTmpDir(packagePath)
@@ -72,7 +72,7 @@ it('test clean-publish function without "npm publish"', async () => {
 
 it('test clean-publish to omit exports', async () => {
   await spawn(binPath, ['--without-publish', '--exports', 'development'], {
-    cwd: packagePath,
+    cwd: packagePath
   })
 
   const tmpDirPath = await findTmpDir(packagePath)
@@ -94,7 +94,7 @@ it('test clean-publish to omit exports', async () => {
 
 it('test clean-publish to make `temp-dir` directory', async () => {
   await spawn(binPath, ['--without-publish', '--temp-dir', tempDir], {
-    cwd: packagePath,
+    cwd: packagePath
   })
 
   const tempDirPath = join(packagePath, tempDir)
@@ -115,9 +115,11 @@ it('test clean-publish to print message if `temp-dir` directory already exists',
 
   await fse.mkdir(tempDirPath)
 
-  await expect(spawn(binPath, ['--without-publish', '--temp-dir', tempDir], {
-    cwd: packagePath,
-  })).rejects.toThrow('Temporary directory "tmp-package" already exists.')
+  await expect(
+    spawn(binPath, ['--without-publish', '--temp-dir', tempDir], {
+      cwd: packagePath
+    })
+  ).rejects.toThrow('Temporary directory "tmp-package" already exists.')
 
   await fse.remove(tempDirPath)
 })

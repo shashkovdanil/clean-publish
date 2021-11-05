@@ -13,7 +13,7 @@ describe('clearPackageJSON', () => {
   let cleanPackageJson
 
   beforeAll(async () => {
-    [srcPackageJson, cleanPackageJson] = await Promise.all([
+    ;[srcPackageJson, cleanPackageJson] = await Promise.all([
       fse.readJSON(srcPackageJSONPath),
       fse.readJSON(cleanPackageJSONPath)
     ])
@@ -38,8 +38,8 @@ describe('clearPackageJSON', () => {
       ...srcPackageJson,
       exports: {
         '.': {
-          'development': './src/index.js',
-          'default': './dest/index.js'
+          development: './src/index.js',
+          default: './dest/index.js'
         }
       }
     }
@@ -47,7 +47,7 @@ describe('clearPackageJSON', () => {
       ...cleanPackageJson,
       exports: {
         '.': {
-          'default': './dest/index.js'
+          default: './dest/index.js'
         }
       }
     }
@@ -70,8 +70,10 @@ describe('getReadmeUrlFromRepository', () => {
   })
 
   it('should handle repo object', () => {
-    expect(getReadmeUrlFromRepository({
-      url: git
-    })).toBe(readme)
+    expect(
+      getReadmeUrlFromRepository({
+        url: git
+      })
+    ).toBe(readme)
   })
 })
