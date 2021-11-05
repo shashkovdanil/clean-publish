@@ -29,8 +29,7 @@ const obj = {
   c: 'str',
   d: {
     a: false,
-    b: 321,
-    c: null
+    b: 321
   },
   e: []
 }

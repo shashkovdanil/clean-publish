@@ -19,7 +19,6 @@ const cleanFiles = [
   'crowdin.yaml',
   'docs',
   'eslintImportResolver.js',
-  'examples',
   'flow-typed',
   'jsconfig.json',
   'lerna.json',
@@ -27,8 +26,7 @@ const cleanFiles = [
   'packages',
   'scripts',
   'testSetupFile.js',
-  'types',
-  'website'
+  'types'
 ]
 const binPath = join(dirname, '..', 'clean-publish.js')
 const packagePath = join(dirname, 'package')

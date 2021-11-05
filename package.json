@@ -39,7 +39,7 @@
   },
   "scripts": {
     "lint": "eslint *.js test/*.js",
-    "unit": "tsm ./test/*.test.js",
+    "unit": "tsm node_modules/uvu/bin.js . 'test/[^/]+\\.test\\.js$'",
     "test": "yarn unit && yarn lint"
   }
 }
