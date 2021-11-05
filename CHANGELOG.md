@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.4.3
+* Added `c8` support.
+
 ## 3.4.2
 * Fixed `packageManager` option (by Dan Onoshko).
 
