@@ -27,19 +27,14 @@
     "lilconfig": "^2.0.3"
   },
   "devDependencies": {
-    "@logux/eslint-config": "^46.0.0",
-    "eslint": "^8.0.1",
+    "@logux/eslint-config": "^46.1.0",
+    "eslint": "^8.1.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-jest": "^25.2.2",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prefer-let": "^1.1.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-security": "^1.4.0",
-    "eslint-plugin-unicorn": "^37.0.1",
-    "jest": "^27.3.0",
-    "lint-staged": "^11.2.3",
-    "simple-git-hooks": "^2.6.1"
+    "eslint-plugin-prefer-let": "^3.0.1",
+    "eslint-plugin-promise": "^5.1.1",
+    "jest": "^27.3.1"
   },
   "scripts": {
     "lint": "eslint *.js",
