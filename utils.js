@@ -1,10 +1,10 @@
-import { promises as fs } from "fs"
+import { promises as fs } from 'fs'
 import fse from 'fs-extra'
 
 export const mkdtemp = fs.mkdtemp
 export const readdir = fs.readdir
 
-export function regExpIndexOf (array, item) {
+export function regExpIndexOf(array, item) {
   for (const i in array) {
     if (typeof array[i] === 'string' && item === array[i]) {
       return true
@@ -21,11 +21,11 @@ export const readJson = fse.readJSON
 export const writeJson = fse.writeJSON
 export const copy = fse.copy
 
-export function multiCp (files) {
+export function multiCp(files) {
   return Promise.all(files.map(({ from, to }) => fse.copy(from, to)))
 }
 
-export function readJsonFromStdin () {
+export function readJsonFromStdin() {
   process.stdin.setEncoding('utf8')
   return new Promise((resolve, reject) => {
     let jsonString = ''
@@ -56,7 +56,7 @@ export function isObject(object) {
   return Boolean(object) && typeof object === 'object'
 }
 
-export function filterObjectByKey (object, filterByKey = () => true, deep) {
+export function filterObjectByKey(object, filterByKey = () => true, deep) {
   let result = {}
   let changed = false
 
