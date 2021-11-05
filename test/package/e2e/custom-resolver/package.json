@@ -1,7 +1,0 @@
-{
-  "name": "custom-resolver",
-  "jest": {
-    "globalSetup": "foo",
-    "resolver": "./resolver.js"
-  }
-}

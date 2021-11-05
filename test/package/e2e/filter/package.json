@@ -1,5 +1,0 @@
-{
-  "jest": {
-    "filter": "<rootDir>/my-filter.js"
-  }
-}

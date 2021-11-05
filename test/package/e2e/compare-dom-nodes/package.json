@@ -1,6 +1,0 @@
-{
-  "jest": {
-    "automock": true,
-    "testEnvironment": "jsdom"
-  }
-}

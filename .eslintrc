@@ -8,7 +8,6 @@
     "consistent-return": "off",
     "node/no-unsupported-features": "off",
     "prefer-let/prefer-let": "off",
-    "jest/no-done-callback": "off",
     "no-console": "off"
   }
 }

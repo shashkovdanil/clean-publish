@@ -1,6 +1,8 @@
-import fse from 'fs-extra'
-import { join } from 'path'
 import { fileURLToPath } from 'url'
+import { equal, ok } from 'uvu/assert'
+import { join } from 'path'
+import { test } from 'uvu'
+import fse from 'fs-extra'
 
 import { spawn, removeTmpDirs, findTmpDir } from './utils.js'
 
@@ -16,7 +18,6 @@ const cleanFiles = [
   'TestUtils.js',
   'crowdin.yaml',
   'docs',
-  'e2e',
   'eslintImportResolver.js',
   'examples',
   'flow-typed',
@@ -37,7 +38,7 @@ const tempDir = 'tmp-package'
 let cleanPackageJSON
 let cleanPublishConfig
 
-beforeAll(async () => {
+test.before(async () => {
   ;[cleanPackageJSON, cleanPublishConfig] = await Promise.all([
     fse.readJSON(cleanPackageJSONPath),
     fse.readJSON(cleanPublishConfigSrcPath)
@@ -45,14 +46,14 @@ beforeAll(async () => {
 })
 
 // Removing artifacts if tests are failed.
-afterAll(async () => {
+test.after(async () => {
   await Promise.all([
     fse.remove(cleanPublishConfigPath),
     removeTmpDirs(packagePath)
   ])
 })
 
-it('test clean-publish function without "npm publish"', async () => {
+test('clean-publish function without "npm publish"', async () => {
   await spawn(binPath, ['--without-publish'], {
     cwd: packagePath
   })
@@ -64,13 +65,13 @@ it('test clean-publish function without "npm publish"', async () => {
     fse.readJSON(packageJSONPath)
   ])
 
-  expect(tmpFiles).toEqual(cleanFiles)
-  expect(obj).toEqual(cleanPackageJSON)
+  equal(tmpFiles, cleanFiles)
+  equal(obj, cleanPackageJSON)
 
   await fse.remove(tmpDirPath)
 })
 
-it('test clean-publish to omit exports', async () => {
+test('clean-publish to omit exports', async () => {
   await spawn(binPath, ['--without-publish', '--exports', 'development'], {
     cwd: packagePath
   })
@@ -87,12 +88,12 @@ it('test clean-publish to omit exports', async () => {
     }
   }
 
-  expect(obj).toEqual(cleanerPackageJSON)
+  equal(obj, cleanerPackageJSON)
 
   await fse.remove(tmpDirPath)
 })
 
-it('test clean-publish to make `temp-dir` directory', async () => {
+test('clean-publish to make `temp-dir` directory', async () => {
   await spawn(binPath, ['--without-publish', '--temp-dir', tempDir], {
     cwd: packagePath
   })
@@ -104,27 +105,31 @@ it('test clean-publish to make `temp-dir` directory', async () => {
     fse.readJSON(packageJSONPath)
   ])
 
-  expect(tmpFiles).toEqual(cleanFiles)
-  expect(obj).toEqual(cleanPackageJSON)
+  equal(tmpFiles, cleanFiles)
+  equal(obj, cleanPackageJSON)
 
   await fse.remove(tempDirPath)
 })
 
-it('test clean-publish to print message if `temp-dir` directory already exists', async () => {
+test('clean-publish to print message if `temp-dir` directory already exists', async () => {
   const tempDirPath = join(packagePath, tempDir)
 
   await fse.mkdir(tempDirPath)
 
-  await expect(
-    spawn(binPath, ['--without-publish', '--temp-dir', tempDir], {
+  let error
+  try {
+    await spawn(binPath, ['--without-publish', '--temp-dir', tempDir], {
       cwd: packagePath
     })
-  ).rejects.toThrow('Temporary directory "tmp-package" already exists.')
+  } catch (e) {
+    error = e
+  }
+  ok(error.message.includes('Temporary directory "tmp-package" already exists'))
 
   await fse.remove(tempDirPath)
 })
 
-it('test clean-publish to get config from file', async () => {
+test('clean-publish to get config from file', async () => {
   await fse.writeFile(
     cleanPublishConfigPath,
     JSON.stringify(cleanPublishConfig),
@@ -147,7 +152,7 @@ it('test clean-publish to get config from file', async () => {
   }
   delete cleanerPackageJSON.collective
 
-  expect(obj).toEqual(cleanerPackageJSON)
+  equal(obj, cleanerPackageJSON)
 
   await Promise.all([
     fse.remove(tmpDirPath),
@@ -155,7 +160,7 @@ it('test clean-publish to get config from file', async () => {
   ])
 })
 
-it('test clean-publish to get `temp-dir` from config file', async () => {
+test('clean-publish to get `temp-dir` from config file', async () => {
   await fse.writeFile(
     cleanPublishConfigPath,
     JSON.stringify({
@@ -171,10 +176,12 @@ it('test clean-publish to get `temp-dir` from config file', async () => {
   const tempDirPath = join(packagePath, tempDir)
   const tmpFiles = await fse.readdir(tempDirPath)
 
-  expect(tmpFiles).toEqual(cleanFiles)
+  equal(tmpFiles, cleanFiles)
 
   await Promise.all([
     fse.remove(tempDirPath),
     fse.remove(cleanPublishConfigPath)
   ])
 })
+
+test.run()

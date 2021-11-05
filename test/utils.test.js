@@ -1,87 +1,86 @@
+import { equal, is } from 'uvu/assert'
+import { test } from 'uvu'
+
 import { parseListArg, isObject, filterObjectByKey } from '../utils.js'
 
-describe('parseListArg', () => {
-  it('should parse arg as list', () => {
-    expect(parseListArg('foo,bar,baz')).toEqual(['foo', 'bar', 'baz'])
-  })
-
-  it('should trim spaces', () => {
-    expect(parseListArg(' foo , bar , baz ')).toEqual(['foo', 'bar', 'baz'])
-  })
+test('parseListArg parses arg as list', () => {
+  equal(parseListArg('foo,bar,baz'), ['foo', 'bar', 'baz'])
 })
 
-describe('isObject', () => {
-  it('should return true for object', () => {
-    expect(isObject({})).toBe(true)
-  })
-
-  it('should return false for null', () => {
-    expect(isObject(null)).toBe(false)
-  })
-
-  it('should return false for non-object', () => {
-    expect(isObject('str')).toBe(false)
-  })
+test('parseListArg trims spaces', () => {
+  equal(parseListArg(' foo , bar , baz '), ['foo', 'bar', 'baz'])
 })
 
-describe('filterObjectByKey', () => {
-  const obj = {
-    a: true,
-    b: 123,
-    c: 'str',
-    d: {
-      a: false,
-      b: 321,
-      c: null
-    },
-    e: []
+test('isObject returns true for object', () => {
+  is(isObject({}), true)
+})
+
+test('isObject returns false for null', () => {
+  is(isObject(null), false)
+})
+
+test('isObject returns false for non-object', () => {
+  is(isObject('str'), false)
+})
+
+const obj = {
+  a: true,
+  b: 123,
+  c: 'str',
+  d: {
+    a: false,
+    b: 321,
+    c: null
+  },
+  e: []
+}
+
+test('filterObjectByKey does not change object', () => {
+  is(filterObjectByKey(obj), obj)
+})
+
+test('filterObjectByKey filters key on first level', () => {
+  const result = filterObjectByKey(obj, k => k !== 'd')
+  const expected = {
+    a: obj.a,
+    b: obj.b,
+    c: obj.c,
+    e: obj.e
   }
 
-  it('should not change object', () => {
-    expect(filterObjectByKey(obj)).toBe(obj)
-  })
-
-  it('should filter key on first level', () => {
-    const result = filterObjectByKey(obj, k => k !== 'd')
-    const expected = {
-      a: obj.a,
-      b: obj.b,
-      c: obj.c,
-      e: obj.e
-    }
-
-    expect(result).toEqual(expected)
-    expect(result).not.toBe(obj)
-  })
-
-  it('should not change subobject', () => {
-    const result = filterObjectByKey(obj, k => k !== 'e', true)
-    const expected = {
-      a: obj.a,
-      b: obj.b,
-      c: obj.c,
-      d: obj.d
-    }
-
-    expect(result).toEqual(expected)
-    expect(result).not.toBe(obj)
-    expect(result.d).toBe(obj.d)
-  })
-
-  it('should filter key on all levels', () => {
-    const result = filterObjectByKey(obj, k => k !== 'c', true)
-    const expected = {
-      a: obj.a,
-      b: obj.b,
-      d: {
-        a: obj.d.a,
-        b: obj.d.b
-      },
-      e: obj.e
-    }
-
-    expect(result).toEqual(expected)
-    expect(result).not.toBe(obj)
-    expect(result.d).not.toBe(obj.d)
-  })
+  equal(result, expected)
+  is.not(result, obj)
 })
+
+test('filterObjectByKey does not change subobject', () => {
+  const result = filterObjectByKey(obj, k => k !== 'e', true)
+  const expected = {
+    a: obj.a,
+    b: obj.b,
+    c: obj.c,
+    d: obj.d
+  }
+
+  equal(result, expected)
+  is.not(result, obj)
+  is(result.d, obj.d)
+})
+
+test('filterObjectByKey filters key on all levels', () => {
+  const result = filterObjectByKey(obj, k => k !== 'c', true)
+  const expected = {
+    a: obj.a,
+    b: obj.b,
+    d: {
+      a: obj.d.a,
+      b: obj.d.b
+    },
+    e: obj.e
+  }
+
+  equal(result, expected)
+  is.not(result, obj)
+  is(result.d, obj.d)
+})
+
+test.run()
