@@ -9,16 +9,12 @@ export function spawn(cmd, args, opts) {
       stdio: 'pipe'
     })
     let output = ''
-    const onData = (data) => {
+    const onData = data => {
       output += data.toString()
     }
-    const onDone = (error) => {
+    const onDone = error => {
       if (error) {
-        reject(
-          error instanceof Error
-            ? error
-            : new Error(output)
-        )
+        reject(error instanceof Error ? error : new Error(output))
       } else {
         resolve(output)
       }

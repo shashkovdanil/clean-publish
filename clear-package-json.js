@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 
-import { readJson, readJsonFromStdin, writeJson, parseListArg } from './utils.js'
+import {
+  readJson,
+  readJsonFromStdin,
+  writeJson,
+  parseListArg
+} from './utils.js'
 import { clearPackageJSON } from './core.js'
 import { getConfig } from './get-config.js'
 
@@ -14,7 +19,7 @@ const HELP =
   '  --exports     One or more exclude exports conditions\n' +
   '  --output, -o  Output file name'
 
-async function handleOptions () {
+async function handleOptions() {
   const options = {}
   let input, output
 
@@ -54,10 +59,14 @@ async function handleOptions () {
   return [input, output, options]
 }
 
-async function run () {
+async function run() {
   const [input, output, options] = await handleOptions()
   const packageJson = await (input ? readJson(input) : readJsonFromStdin())
-  const cleanPackageJSON = clearPackageJSON(packageJson, options.fields, options.exports)
+  const cleanPackageJSON = clearPackageJSON(
+    packageJson,
+    options.fields,
+    options.exports
+  )
   if (output) {
     await writeJson(output, cleanPackageJSON, { spaces: 2 })
   } else {

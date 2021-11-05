@@ -42,7 +42,7 @@ const DEFAULT_OPTIONS = {
   packageManager: 'npm'
 }
 
-async function handleOptions () {
+async function handleOptions() {
   let options = {}
   for (let i = 2; i < process.argv.length; i++) {
     if (process.argv[i] === '--help') {
@@ -83,7 +83,7 @@ async function handleOptions () {
     } else if (process.argv[i] === '--exports') {
       options.exports = parseListArg(process.argv[i + 1])
       i += 1
-    }  else if (process.argv[i] === '--temp-dir') {
+    } else if (process.argv[i] === '--temp-dir') {
       options.tempDir = process.argv[i + 1]
       i += 1
     } else {
@@ -98,7 +98,7 @@ async function handleOptions () {
   }
 }
 
-async function run () {
+async function run() {
   const options = await handleOptions()
 
   const tempDirectoryName = await createTempDirectory(options.tempDir)
@@ -121,7 +121,11 @@ async function run () {
     await cleanComments(tempDirectoryName)
   }
 
-  const cleanPackageJSON = clearPackageJSON(packageJson, options.fields, options.exports)
+  const cleanPackageJSON = clearPackageJSON(
+    packageJson,
+    options.fields,
+    options.exports
+  )
   await writePackageJSON(tempDirectoryName, cleanPackageJSON)
 
   let prepublishSuccess = true

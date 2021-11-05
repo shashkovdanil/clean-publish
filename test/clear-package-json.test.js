@@ -19,7 +19,7 @@ let cleanPackageJSON
 let cleanPublishConfig
 
 beforeAll(async () => {
-  [cleanPackageJSON, cleanPublishConfig] = await Promise.all([
+  ;[cleanPackageJSON, cleanPublishConfig] = await Promise.all([
     fse.readJSON(cleanPackageJSONPath),
     fse.readJSON(cleanPublishConfigSrcPath)
   ])
@@ -46,9 +46,13 @@ it('test clear-package-json function', async () => {
 })
 
 it('test clear-package-json to omit exports', async () => {
-  await spawn(binPath, [packageJSONPath, '-o', minPackageJSONPath, '--exports', 'development'], {
-    cwd: packagePath
-  })
+  await spawn(
+    binPath,
+    [packageJSONPath, '-o', minPackageJSONPath, '--exports', 'development'],
+    {
+      cwd: packagePath
+    }
+  )
 
   const obj = await fse.readJSON(minPackageJSONPath)
   const cleanerPackageJSON = {
@@ -72,7 +76,7 @@ it('test clear-package-json to get fields from config file', async () => {
     'utf8'
   )
   await spawn(binPath, [packageJSONPath, '-o', minPackageJSONPath], {
-    cwd: packagePath,
+    cwd: packagePath
   })
 
   const obj = await fse.readJSON(minPackageJSONPath)

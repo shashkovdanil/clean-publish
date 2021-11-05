@@ -57,33 +57,33 @@ function isString(value) {
   return typeof value === 'string' && value
 }
 
-function isStrings (value) {
+function isStrings(value) {
   if (!Array.isArray(value)) return false
   return value.every(isString)
 }
 
-function isStringsOrRegExps (value) {
+function isStringsOrRegExps(value) {
   if (!Array.isArray(value)) return false
   return value.every(i => isString(i) || i instanceof RegExp)
 }
 
-function isStringOrUndefined (value) {
+function isStringOrUndefined(value) {
   return typeof value === 'undefined' || isString(value)
 }
 
-function isStringsOrUndefined (value) {
+function isStringsOrUndefined(value) {
   return typeof value === 'undefined' || isStrings(value)
 }
 
-function isStringsOrRegExpsOrUndefined (value) {
+function isStringsOrRegExpsOrUndefined(value) {
   return typeof value === 'undefined' || isStringsOrRegExps(value)
 }
 
-function capitalize (str) {
+function capitalize(str) {
   return str[0].toUpperCase() + str.slice(1)
 }
 
-function configError (config) {
+function configError(config) {
   if (!isObject(config)) {
     return 'notObject'
   }
@@ -105,7 +105,7 @@ function configError (config) {
   return false
 }
 
-export function getConfig () {
+export function getConfig() {
   const explorer = lilconfig('clean-publish', {
     searchPlaces: ['package.json', '.clean-publish', '.clean-publish.js']
   })
