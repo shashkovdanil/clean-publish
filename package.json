@@ -34,11 +34,12 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prefer-let": "^3.0.1",
     "eslint-plugin-promise": "^5.1.1",
-    "jest": "^27.3.1"
+    "tsm": "^2.1.4",
+    "uvu": "^0.5.2"
   },
   "scripts": {
     "lint": "eslint *.js",
-    "unit": "node --experimental-vm-modules node_modules/.bin/jest --runInBand",
+    "unit": "tsm ./test/*.test.js",
     "test": "yarn unit && yarn lint"
   }
 }
