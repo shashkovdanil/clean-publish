@@ -38,7 +38,7 @@
     "uvu": "^0.5.2"
   },
   "scripts": {
-    "lint": "eslint *.js",
+    "lint": "eslint *.js test/*.js",
     "unit": "tsm ./test/*.test.js",
     "test": "yarn unit && yarn lint"
   }
