@@ -46,6 +46,14 @@ export function clearPackageJSON(
     cleanPackageJSON.scripts = filterObjectByKey(packageJson.scripts, script =>
       NPM_SCRIPTS.includes(script)
     )
+
+    if (
+      cleanPackageJSON.scripts.publish &&
+      cleanPackageJSON.scripts.publish.startsWith('clean-publish')
+    ) {
+      // "custom" publish script is actually calling clean-publish
+      delete cleanPackageJSON.scripts.publish
+    }
   }
 
   if (isObject(packageJson.exports) && !ignoreFields.includes('exports')) {
