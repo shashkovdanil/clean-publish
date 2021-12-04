@@ -24,17 +24,17 @@
     "fast-glob": "^3.2.7",
     "fs-extra": "^10.0.0",
     "hosted-git-info": "^4.0.2",
-    "lilconfig": "^2.0.3"
+    "lilconfig": "^2.0.4"
   },
   "devDependencies": {
     "@logux/eslint-config": "^46.1.0",
-    "eslint": "^8.1.0",
+    "eslint": "^8.4.0",
     "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prefer-let": "^3.0.1",
-    "eslint-plugin-promise": "^5.1.1",
-    "tsm": "^2.1.4",
+    "eslint-plugin-promise": "^5.2.0",
+    "tsm": "^2.2.1",
     "uvu": "^0.5.2"
   },
   "scripts": {
