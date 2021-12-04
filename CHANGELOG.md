@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.4.4
+* Fixed cleaning `publish` script with `clean-publish` (by Nikita Karamov).
+
 ## 3.4.3
 * Added `c8` support.
 
