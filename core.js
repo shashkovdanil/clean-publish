@@ -49,7 +49,8 @@ export function clearPackageJSON(
 
     if (
       cleanPackageJSON.scripts.publish &&
-      cleanPackageJSON.scripts.publish.startsWith('clean-publish')
+      (cleanPackageJSON.scripts.publish === 'clean-publish' ||
+        cleanPackageJSON.scripts.publish.startsWith('clean-publish '))
     ) {
       // "custom" publish script is actually calling clean-publish
       delete cleanPackageJSON.scripts.publish
