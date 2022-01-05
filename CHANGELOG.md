@@ -1,5 +1,8 @@
 # Change Log
 
+## 3.4.5
+* Added `pnpm` support.
+
 ## 3.4.4
 * Fixed cleaning `publish` script with `clean-publish` (by Nikita Karamov).
 
