@@ -116,6 +116,54 @@ lerna exec -- clean-publish --without-publish --temp-dir package
 # Publish all packages from `package` subdirectory
 lerna publish --contents package
 ```
+### Usage with [pnpm](https://pnpm.io/)
+
+Just add this in your package.json:
+
+```json
+{
+  "publishConfig": {
+    "directory": "package"
+  },
+  "scripts": {
+    "prepublishOnly": "rm -rf ./package && clean-publish",
+    "postpublish": "rm -rf ./package"
+  },
+  "clean-publish": {
+    "withoutPublish": true,
+    "tempDir": "package"
+  }
+}
+```
+
+Then you can use regular `pnpm publish` command for publishing.
+
+### Usage with [pnpm workspaces](https://pnpm.io/workspaces)
+
+Just create `.clean-publish` in workspace root:
+
+```json
+{
+  "withoutPublish": true,
+  "tempDir": "package"
+}
+```
+
+and add this into each subpackage's package.json:
+
+```json
+{
+  "publishConfig": {
+    "directory": "package"
+  },
+  "scripts": {
+    "prepublishOnly": "rm -rf ./package && clean-publish",
+    "postpublish": "rm -rf ./package"
+  }
+}
+```
+
+Then you can use regular `pnpm publish -r` command for publishing.
 
 ## Config
 
