@@ -3,7 +3,6 @@ import { join, basename } from 'path'
 import spawn from 'cross-spawn'
 import glob from 'fast-glob'
 import micromatch from 'micromatch'
-import hostedGitInfo from 'hosted-git-info'
 
 import {
   writeJson,
@@ -54,7 +53,7 @@ function applyPublishConfig(packageJson) {
     ...packageJson.publishConfig
   }
 
-  PUBLISH_CONFIG_FIELDS.forEach((field) => {
+  PUBLISH_CONFIG_FIELDS.forEach(field => {
     if (publishConfig[field]) {
       packageJson[field] = publishConfig[field]
       delete publishConfig[field]
@@ -130,10 +129,11 @@ export function createFilesFilter(ignoreFiles) {
       return ignoreMatcher
     }
 
-    return (filename, path) => ignoreMatcher(filename, path) && next(filename, path)
+    return (filename, path) =>
+      ignoreMatcher(filename, path) && next(filename, path)
   }, null)
 
-  return (path) => {
+  return path => {
     const filename = basename(path)
 
     return filter(filename, path)
@@ -143,22 +143,21 @@ export function createFilesFilter(ignoreFiles) {
 export async function copyFiles(tempDir, filter) {
   const rootFiles = await readdir('./')
 
-  return Promise.all(rootFiles.map(async (file) => {
-    if (file !== tempDir) {
-      await copy(file, join(tempDir, file), {
-        filter
-      })
-    }
-  }))
+  return Promise.all(
+    rootFiles.map(async file => {
+      if (file !== tempDir) {
+        await copy(file, join(tempDir, file), {
+          filter
+        })
+      }
+    })
+  )
 }
 
-export function publish(cwd, {
-  packageManager,
-  packageManagerOptions = [],
-  access,
-  tag,
-  dryRun
-}) {
+export function publish(
+  cwd,
+  { packageManager, packageManagerOptions = [], access, tag, dryRun }
+) {
   return new Promise((resolve, reject) => {
     const args = ['publish', ...packageManagerOptions]
     if (access) args.push('--access', access)
@@ -209,9 +208,23 @@ export function runScript(script, ...args) {
 }
 
 export function getReadmeUrlFromRepository(repository) {
-  const repoUrl =
-    typeof repository === 'string' ? repository : repository && repository.url
-  if (repoUrl) return hostedGitInfo.fromUrl(repoUrl).docs()
+  const repoUrl = typeof repository === 'object' ? repository.url : repository
+  if (repoUrl) {
+    let url = repository
+    if (url.startsWith('git+https://')) {
+      url = url.replace(/^git\+/, '')
+    }
+    if (url.startsWith('github:')) {
+      url = url.replace(/^github:/, '')
+    }
+    if (!url.startsWith('https://') && !url.startsWith('http://')) {
+      url = 'https://github.com/' + url
+    }
+    if (url.endsWith('.git')) {
+      url = url.replace(/\.git$/, '')
+    }
+    return `${url}#readme`
+  }
 
   return null
 }

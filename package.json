@@ -22,7 +22,6 @@
   "dependencies": {
     "cross-spawn": "^7.0.3",
     "fast-glob": "^3.2.11",
-    "hosted-git-info": "^4.1.0",
     "lilconfig": "^2.0.4",
     "micromatch": "^4.0.4"
   },
