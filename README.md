@@ -1,5 +1,4 @@
 # Clean Publish
-[![Build Status](https://travis-ci.org/shashkovdanil/clean-publish.svg?branch=master)](https://travis-ci.org/shashkovdanil/clean-publish)
 
 <img src="./img/logo.svg" title="Clean Publish logo by Anton Panachev <pana4eow@yandex.ru>" width="180" height="180" align="right">
 
