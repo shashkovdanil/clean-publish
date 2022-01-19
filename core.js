@@ -5,8 +5,8 @@ import glob from 'fast-glob'
 import micromatch from 'micromatch'
 
 import {
-  writeJson,
-  readJson,
+  writeJSON,
+  readJSON,
   readdir,
   mkdtemp,
   copy,
@@ -35,13 +35,11 @@ const PUBLISH_CONFIG_FIELDS = [
 ]
 
 export function readPackageJSON() {
-  return readJson('package.json')
+  return readJSON('package.json')
 }
 
 export function writePackageJSON(directoryName, packageJSON) {
-  return writeJson(join(directoryName, 'package.json'), packageJSON, {
-    spaces: 2
-  })
+  return writeJSON(join(directoryName, 'package.json'), packageJSON)
 }
 
 function applyPublishConfig(packageJson) {
@@ -146,9 +144,7 @@ export async function copyFiles(tempDir, filter) {
   return Promise.all(
     rootFiles.map(async file => {
       if (file !== tempDir) {
-        await copy(file, join(tempDir, file), {
-          filter
-        })
+        await copy(file, join(tempDir, file), { filter })
       }
     })
   )

@@ -2,9 +2,13 @@ import { fileURLToPath } from 'url'
 import { equal, is } from 'uvu/assert'
 import { test } from 'uvu'
 import { join } from 'path'
-import fse from 'fs-extra'
 
-import { clearPackageJSON, getReadmeUrlFromRepository, createFilesFilter } from '../core.js'
+import { readJSON } from '../utils.js'
+import {
+  clearPackageJSON,
+  getReadmeUrlFromRepository,
+  createFilesFilter
+} from '../core.js'
 
 const dirname = join(fileURLToPath(import.meta.url), '..')
 const srcPackageJSONPath = join(dirname, 'package', 'package.json')
@@ -15,8 +19,8 @@ let cleanPackageJson
 
 test.before(async () => {
   ;[srcPackageJson, cleanPackageJson] = await Promise.all([
-    fse.readJSON(srcPackageJSONPath),
-    fse.readJSON(cleanPackageJSONPath)
+    readJSON(srcPackageJSONPath),
+    readJSON(cleanPackageJSONPath)
   ])
 })
 

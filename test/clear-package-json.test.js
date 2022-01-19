@@ -1,9 +1,10 @@
+import { promises as fs } from 'fs'
 import { fileURLToPath } from 'url'
 import { equal } from 'uvu/assert'
 import { test } from 'uvu'
 import { join } from 'path'
-import fse from 'fs-extra'
 
+import { remove, readJSON } from '../utils.js'
 import { spawn } from './utils.js'
 
 const dirname = join(fileURLToPath(import.meta.url), '..')
@@ -22,16 +23,16 @@ let cleanPublishConfig
 
 test.before(async () => {
   ;[cleanPackageJSON, cleanPublishConfig] = await Promise.all([
-    fse.readJSON(cleanPackageJSONPath),
-    fse.readJSON(cleanPublishConfigSrcPath)
+    readJSON(cleanPackageJSONPath),
+    readJSON(cleanPublishConfigSrcPath)
   ])
 })
 
 // Removing artifacts if tests are failed.
 test.after(async () => {
   await Promise.all([
-    fse.remove(minPackageJSONPath),
-    fse.remove(cleanPublishConfigPath)
+    remove(minPackageJSONPath),
+    remove(cleanPublishConfigPath)
   ])
 })
 
@@ -40,15 +41,15 @@ test('clear-package-json function', async () => {
     cwd: packagePath
   })
 
-  const obj = await fse.readJSON(minPackageJSONPath)
+  const obj = await readJSON(minPackageJSONPath)
 
   equal(obj, cleanPackageJSON)
 
-  await fse.remove(minPackageJSONPath)
+  await remove(minPackageJSONPath)
 })
 
 test('clear-package-json to get fields from config file', async () => {
-  await fse.writeFile(
+  await fs.writeFile(
     cleanPublishConfigPath,
     JSON.stringify(cleanPublishConfig),
     'utf8'
@@ -57,15 +58,15 @@ test('clear-package-json to get fields from config file', async () => {
     cwd: packagePath
   })
 
-  const obj = await fse.readJSON(minPackageJSONPath)
+  const obj = await readJSON(minPackageJSONPath)
   const cleanerPackageJSON = { ...cleanPackageJSON }
   delete cleanerPackageJSON.collective
 
   equal(obj, cleanerPackageJSON)
 
   await Promise.all([
-    fse.remove(minPackageJSONPath),
-    fse.remove(cleanPublishConfigPath)
+    remove(minPackageJSONPath),
+    remove(cleanPublishConfigPath)
   ])
 })
 
