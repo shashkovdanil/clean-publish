@@ -82,7 +82,7 @@ $ yarn add clean-publish --dev
 
 - `clean-docs` - keep only main section of `README.md`.
 - `clean-comments` - clean inline comments from JS files.
-- `files` - list of files that you want to delete before publishing
+- `files` - list of files that you want to delete before publishing (supports regex and glob patterns)
 - `fields` - list of fields in the `package.json` file that you want to delete before publishing
 - `exports` - list of [exports conditions](https://nodejs.org/api/packages.html#packages_conditional_exports) in the `package.json` file that you want to delete before publishing
 - `without-publish` - clean project without `npm publish` (tmp directory will not be deleted automatically)

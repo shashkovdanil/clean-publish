@@ -24,7 +24,8 @@
     "fast-glob": "^3.2.7",
     "fs-extra": "^10.0.0",
     "hosted-git-info": "^4.0.2",
-    "lilconfig": "^2.0.4"
+    "lilconfig": "^2.0.4",
+    "micromatch": "^4.0.4"
   },
   "devDependencies": {
     "@logux/eslint-config": "^46.1.1",
