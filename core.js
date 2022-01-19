@@ -210,20 +210,8 @@ export function runScript(script, ...args) {
 export function getReadmeUrlFromRepository(repository) {
   const repoUrl = typeof repository === 'object' ? repository.url : repository
   if (repoUrl) {
-    let url = repository
-    if (url.startsWith('git+https://')) {
-      url = url.replace(/^git\+/, '')
-    }
-    if (url.startsWith('github:')) {
-      url = url.replace(/^github:/, '')
-    }
-    if (!url.startsWith('https://') && !url.startsWith('http://')) {
-      url = 'https://github.com/' + url
-    }
-    if (url.endsWith('.git')) {
-      url = url.replace(/\.git$/, '')
-    }
-    return `${url}#readme`
+    const name = repoUrl.match(/[^/:]+\/[^/:]+$/)?.[0]?.replace(/\.git$/, '')
+    return `https://github.com/${name}#readme`
   }
 
   return null
