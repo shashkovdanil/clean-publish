@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs'
 
 if (!fs.cp) {
-  throw new Error('clean-publish requires Node.js >16 to run')
+  throw new Error('clean-publish requires Node.js >=16 to run')
 }
 
 export async function remove(dir) {
