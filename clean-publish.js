@@ -3,8 +3,7 @@
 import { parseListArg } from './utils.js'
 import {
   createTempDirectory,
-  readSrcDirectory,
-  clearFilesList,
+  createFilesFilter,
   copyFiles,
   readPackageJSON,
   clearPackageJSON,
@@ -103,13 +102,9 @@ async function run() {
 
   const tempDirectoryName = await createTempDirectory(options.tempDir)
 
-  const files = await readSrcDirectory()
+  const filesFilter = createFilesFilter(options.files)
 
-  const filteredFiles = clearFilesList(
-    files,
-    [tempDirectoryName].concat(options.files)
-  )
-  await copyFiles(filteredFiles, tempDirectoryName)
+  await copyFiles(tempDirectoryName, filesFilter)
 
   const packageJson = await readPackageJSON()
 
