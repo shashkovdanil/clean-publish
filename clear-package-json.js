@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 import {
-  readJson,
-  readJsonFromStdin,
-  writeJson,
+  readJSON,
+  readJSONFromStdin,
+  writeJSON,
   parseListArg
 } from './utils.js'
 import { clearPackageJSON } from './core.js'
@@ -56,10 +56,10 @@ async function handleOptions() {
 
 async function run() {
   const [input, output, options] = await handleOptions()
-  const packageJson = await (input ? readJson(input) : readJsonFromStdin())
+  const packageJson = await (input ? readJSON(input) : readJSONFromStdin())
   const cleanPackageJSON = clearPackageJSON(packageJson, options.fields)
   if (output) {
-    await writeJson(output, cleanPackageJSON, { spaces: 2 })
+    await writeJSON(output, cleanPackageJSON)
   } else {
     process.stdout.write(`${JSON.stringify(cleanPackageJSON, null, '  ')}\n`)
   }

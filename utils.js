@@ -1,14 +1,26 @@
 import { promises as fs } from 'fs'
-import fse from 'fs-extra'
 
 export const mkdtemp = fs.mkdtemp
 export const readdir = fs.readdir
-export const remove = fse.remove
-export const readJson = fse.readJSON
-export const writeJson = fse.writeJSON
-export const copy = fse.copy
 
-export function readJsonFromStdin() {
+export async function remove(dir) {
+  await fs.rm(dir, { recursive: true, force: true })
+}
+
+export async function copy(from, to, opts) {
+  await fs.cp(from, to, { recursive: true, ...opts })
+}
+
+export async function readJSON(file) {
+  let data = await fs.readFile(file)
+  return JSON.parse(data.toString())
+}
+
+export async function writeJSON(file, json) {
+  await fs.writeFile(file, JSON.stringify(json, null, '  ') + '\n')
+}
+
+export function readJSONFromStdin() {
   process.stdin.setEncoding('utf8')
   return new Promise((resolve, reject) => {
     let jsonString = ''

@@ -1,4 +1,4 @@
-import { readdir, rm } from 'fs/promises'
+import { promises as fs } from 'fs'
 import { join } from 'path'
 import crossSpawn from 'cross-spawn'
 
@@ -29,7 +29,7 @@ export function spawn(cmd, args, opts) {
 }
 
 export async function findTmpDirs(dir) {
-  const files = await readdir(dir)
+  const files = await fs.readdir(dir)
   const tmpDirPaths = files.reduce((paths, file) => {
     if (!file.includes('tmp')) {
       return paths
@@ -50,7 +50,7 @@ export async function removeTmpDirs(dir) {
   const tmpDirPaths = await findTmpDirs(dir)
   await Promise.all(
     tmpDirPaths.map(tmpDirPath => {
-      return rm(tmpDirPath, { recursive: true, force: true })
+      return fs.rm(tmpDirPath, { recursive: true, force: true })
     })
   )
 }

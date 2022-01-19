@@ -33,7 +33,6 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prefer-let": "^3.0.1",
     "eslint-plugin-promise": "^6.0.0",
-    "fs-extra": "^10.0.0",
     "tsm": "^2.2.1",
     "uvu": "^0.5.3"
   },
