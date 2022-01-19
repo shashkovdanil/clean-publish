@@ -1,16 +1,16 @@
 import { promises as fs } from 'fs'
-import { join } from 'path'
+import { join, basename } from 'path'
 import spawn from 'cross-spawn'
 import glob from 'fast-glob'
+import micromatch from 'micromatch'
 import hostedGitInfo from 'hosted-git-info'
 
 import {
-  regExpIndexOf,
-  multiCp,
   writeJson,
   readJson,
   readdir,
   mkdtemp,
+  copy,
   remove,
   isObject,
   filterObjectByKey
@@ -78,14 +78,51 @@ export function clearPackageJSON(
   return cleanPackageJSON
 }
 
-export function clearFilesList(files, inputIgnoreFiles) {
-  const ignoreFiles = inputIgnoreFiles
-    ? IGNORE_FILES.concat(inputIgnoreFiles)
+export function createIgnoreMatcher(ignorePattern) {
+  if (ignorePattern instanceof RegExp) {
+    return filename => !ignorePattern.test(filename)
+  }
+
+  if (glob.isDynamicPattern(ignorePattern)) {
+    const isMatch = micromatch.matcher(ignorePattern)
+
+    return (_filename, path) => !isMatch(path)
+  }
+
+  return filename => filename !== ignorePattern
+}
+
+export function createFilesFilter(ignoreFiles) {
+  const ignorePatterns = ignoreFiles
+    ? IGNORE_FILES.concat(ignoreFiles).filter(Boolean)
     : IGNORE_FILES
-  const filteredFiles = files.filter(
-    file => regExpIndexOf(ignoreFiles, file) === false
-  )
-  return filteredFiles
+  const filter = ignorePatterns.reduce((next, ignorePattern) => {
+    const ignoreMatcher = createIgnoreMatcher(ignorePattern)
+
+    if (!next) {
+      return ignoreMatcher
+    }
+
+    return (filename, path) => ignoreMatcher(filename, path) && next(filename, path)
+  }, null)
+
+  return (path) => {
+    const filename = basename(path)
+
+    return filter(filename, path)
+  }
+}
+
+export async function copyFiles(tempDir, filter) {
+  const rootFiles = await readdir('./')
+
+  return Promise.all(rootFiles.map(async (file) => {
+    if (file !== tempDir) {
+      await copy(file, join(tempDir, file), {
+        filter
+      })
+    }
+  }))
 }
 
 export function publish(cwd, { packageManager, access, tag, dryRun }) {
@@ -108,10 +145,6 @@ export function publish(cwd, { packageManager, access, tag, dryRun }) {
   })
 }
 
-export function readSrcDirectory() {
-  return readdir('./')
-}
-
 export async function createTempDirectory(name) {
   if (name) {
     try {
@@ -130,15 +163,6 @@ export async function createTempDirectory(name) {
 
 export function removeTempDirectory(directoryName) {
   return remove(directoryName)
-}
-
-export function copyFiles(files, drectoryName) {
-  return multiCp(
-    files.map(file => ({
-      from: join('./', file),
-      to: join(drectoryName, file)
-    }))
-  )
 }
 
 export function runScript(script, ...args) {

@@ -13,6 +13,7 @@ specifiers:
   fs-extra: ^10.0.0
   hosted-git-info: ^4.0.2
   lilconfig: ^2.0.4
+  micromatch: ^4.0.4
   tsm: ^2.2.1
   uvu: ^0.5.3
 
@@ -22,6 +23,7 @@ dependencies:
   fs-extra: 10.0.0
   hosted-git-info: 4.0.2
   lilconfig: 2.0.4
+  micromatch: 4.0.4
 
 devDependencies:
   '@logux/eslint-config': 46.1.1_d1222171c29616668e681fe85aa8127f
