@@ -1,16 +1,12 @@
 {
   "private": true,
   "scripts": {
-    "publish": "yarn build-clean && yarn build && lerna publish --silent",
-    "postinstall": "opencollective postinstall && yarn build"
+    "publish": "yarn build-clean && yarn build",
+    "postinstall": "yarn build"
   },
-  "workspaces": [
-    "packages/*",
-    "website",
-    "examples/*"
-  ],
+  "workspaces": ["packages/*", "website", "examples/*"],
   "dependencies": {
-    "opencollective": "^1.0.3"
+    "nanoevents": "^6.0.2"
   },
   "collective": {
     "type": "opencollective",
