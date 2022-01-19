@@ -3,27 +3,10 @@ import fse from 'fs-extra'
 
 export const mkdtemp = fs.mkdtemp
 export const readdir = fs.readdir
-
-export function regExpIndexOf(array, item) {
-  for (const i in array) {
-    if (typeof array[i] === 'string' && item === array[i]) {
-      return true
-    }
-    if (array[i] instanceof RegExp && array[i].test(item)) {
-      return true
-    }
-  }
-  return false
-}
-
 export const remove = fse.remove
 export const readJson = fse.readJSON
 export const writeJson = fse.writeJSON
 export const copy = fse.copy
-
-export function multiCp(files) {
-  return Promise.all(files.map(({ from, to }) => fse.copy(from, to)))
-}
 
 export function readJsonFromStdin() {
   process.stdin.setEncoding('utf8')
