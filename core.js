@@ -152,9 +152,15 @@ export async function copyFiles(tempDir, filter) {
   }))
 }
 
-export function publish(cwd, { packageManager, access, tag, dryRun }) {
+export function publish(cwd, {
+  packageManager,
+  packageManagerOptions = [],
+  access,
+  tag,
+  dryRun
+}) {
   return new Promise((resolve, reject) => {
-    const args = ['publish']
+    const args = ['publish', ...packageManagerOptions]
     if (access) args.push('--access', access)
     if (tag) args.push('--tag', tag)
     if (dryRun) args.push('--dry-run')

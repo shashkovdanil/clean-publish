@@ -20,8 +20,14 @@ const PACKAGE_ERRORS = {
     'The `fields` in the `"clean-publish"` section ' +
     'of package.json must be `an array of strings`',
   tempDirNotString:
-    'The `temp-dir` in the `"clean-publish"` section ' +
-    'of package.json must be `an string`'
+    'The `tempDir` in the `"clean-publish"` section ' +
+    'of package.json must be `an string`',
+  packageManagerNotString:
+    'The `packageManager` in the `"clean-publish"` section ' +
+    'of package.json must be `an string`',
+  packageManagerOptionsNotStrings:
+    'The `packageManagerOptions` in the `"clean-publish"` section ' +
+    'of package.json must be `an array of strings`'
 }
 const FILE_ERRORS = {
   notObject: 'Clean Publish config must contain `an object`',
@@ -32,7 +38,13 @@ const FILE_ERRORS = {
   fieldsNotStrings:
     'The `fields` in Clean Publish config ' + 'must be `an array of strings`',
   tempDirNotString:
-    'The `temp-dir` in Clean Publish config ' + 'must be `an string`'
+    'The `tempDir` in Clean Publish config ' + 'must be `an string`',
+  packageManagerNotString:
+    'The `packageManager` in Clean Publish config ' +
+    'must be `an string`',
+  packageManagerOptionsNotStrings:
+    'The `packageManagerOptions` in Clean Publish config ' +
+    'must be `an array of strings`'
 }
 
 const PACKAGE_EXAMPLE =
@@ -93,6 +105,12 @@ function configError(config) {
   }
   if (!isStringOrUndefined(config.tempDir)) {
     return 'tempDirNotString'
+  }
+  if (!isStringOrUndefined(config.packageManager)) {
+    return 'packageManagerNotString'
+  }
+  if (!isStringsOrUndefined(config.packageManagerOptions)) {
+    return 'packageManagerOptionsNotStrings'
   }
   return false
 }
