@@ -17,7 +17,6 @@ const cleanFiles = [
   'README.md',
   'TestUtils.js',
   'crowdin.yaml',
-  'docs',
   'eslintImportResolver.js',
   'flow-typed',
   'jsconfig.json',

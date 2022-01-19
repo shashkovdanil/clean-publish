@@ -34,24 +34,12 @@ test('clearPackageJSON cleans additional fields', () => {
   equal(clearPackageJSON(srcPackageJson, ['collective']), expected)
 })
 
-const git = 'https://github.com/org/repo.git'
-const shortcut = 'org/repo'
-const bitbucketShirtcut = 'bitbucket:org/repo'
-const readme = 'https://github.com/org/repo#readme'
-const bitbucketReadme = 'https://bitbucket.org/org/repo#readme'
-
-test('getReadmeUrlFromRepository returns docs url', () => {
-  is(getReadmeUrlFromRepository(git), readme)
-  is(getReadmeUrlFromRepository(shortcut), readme)
-  is(getReadmeUrlFromRepository(bitbucketShirtcut), bitbucketReadme)
-})
-
 test('getReadmeUrlFromRepository handles repo object', () => {
   is(
     getReadmeUrlFromRepository({
-      url: git
+      url: 'git+https://github.com/org/repo.git'
     }),
-    readme
+    'https://github.com/org/repo#readme'
   )
 })
 
