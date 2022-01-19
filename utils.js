@@ -1,7 +1,8 @@
 import { promises as fs } from 'fs'
 
-export const mkdtemp = fs.mkdtemp
-export const readdir = fs.readdir
+if (!fs.cp) {
+  throw new Error('clean-publish requires Node.js >16 to run')
+}
 
 export async function remove(dir) {
   await fs.rm(dir, { recursive: true, force: true })

@@ -7,8 +7,6 @@ import micromatch from 'micromatch'
 import {
   writeJSON,
   readJSON,
-  readdir,
-  mkdtemp,
   copy,
   remove,
   isObject,
@@ -139,7 +137,7 @@ export function createFilesFilter(ignoreFiles) {
 }
 
 export async function copyFiles(tempDir, filter) {
-  const rootFiles = await readdir('./')
+  const rootFiles = await fs.readdir('./')
 
   return Promise.all(
     rootFiles.map(async file => {
@@ -186,7 +184,7 @@ export async function createTempDirectory(name) {
     return name
   }
 
-  return await mkdtemp('tmp')
+  return await fs.mkdtemp('tmp')
 }
 
 export function removeTempDirectory(directoryName) {
