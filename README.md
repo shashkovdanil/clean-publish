@@ -94,10 +94,10 @@ $ yarn add clean-publish --dev
 $ npx clean-publish --files file1.js file2.js --fields scripts name
 ```
 
-Also you are able to pass options to package manager:
+Also you are able to pass additional options to package manager:
 
 ```sh
-$ npx clean-publish --package-manager yarn -- --access public
+$ npx clean-publish --package-manager pnpm -- --no-git-checks
 ```
 
 ### clear-package-json
