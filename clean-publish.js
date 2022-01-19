@@ -26,7 +26,6 @@ const HELP =
   '  --clean-comments   Clean inline comments from JS files' +
   '  --files            One or more exclude files\n' +
   '  --fields           One or more exclude package.json fields\n' +
-  '  --exports          One or more exclude exports conditions\n' +
   '  --without-publish  Clean package without npm publish\n' +
   '  --dry-run          Reports the details of what would have been published\n' +
   '  --package-manager  Package manager to use\n' +
@@ -79,9 +78,6 @@ async function handleOptions() {
     } else if (process.argv[i] === '--fields') {
       options.fields = parseListArg(process.argv[i + 1])
       i += 1
-    } else if (process.argv[i] === '--exports') {
-      options.exports = parseListArg(process.argv[i + 1])
-      i += 1
     } else if (process.argv[i] === '--temp-dir') {
       options.tempDir = process.argv[i + 1]
       i += 1
@@ -116,11 +112,7 @@ async function run() {
     await cleanComments(tempDirectoryName)
   }
 
-  const cleanPackageJSON = clearPackageJSON(
-    packageJson,
-    options.fields,
-    options.exports
-  )
+  const cleanPackageJSON = clearPackageJSON(packageJson, options.fields)
   await writePackageJSON(tempDirectoryName, cleanPackageJSON)
 
   let prepublishSuccess = true

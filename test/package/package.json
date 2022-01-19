@@ -180,5 +180,8 @@
       "development": "./src/index.js",
       "default": "./dist/index.js"
     }
+  },
+  "publishConfig": {
+    "exports": "./dist/index.js"
   }
 }
