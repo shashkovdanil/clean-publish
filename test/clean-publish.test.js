@@ -69,28 +69,6 @@ test('clean-publish function without "npm publish"', async () => {
   await fse.remove(tmpDirPath)
 })
 
-test('clean-publish to omit exports', async () => {
-  await spawn(binPath, ['--without-publish', '--exports', 'development'], {
-    cwd: packagePath
-  })
-
-  const tmpDirPath = await findTmpDir(packagePath)
-  const packageJSONPath = join(tmpDirPath, 'package.json')
-  const obj = await fse.readJSON(packageJSONPath)
-  const cleanerPackageJSON = {
-    ...cleanPackageJSON,
-    exports: {
-      '.': {
-        default: cleanPackageJSON.exports['.'].default
-      }
-    }
-  }
-
-  equal(obj, cleanerPackageJSON)
-
-  await fse.remove(tmpDirPath)
-})
-
 test('clean-publish to make `temp-dir` directory', async () => {
   await spawn(binPath, ['--without-publish', '--temp-dir', tempDir], {
     cwd: packagePath
@@ -140,14 +118,7 @@ test('clean-publish to get config from file', async () => {
   const tmpDirPath = await findTmpDir(packagePath)
   const packageJSONPath = join(tmpDirPath, 'package.json')
   const obj = await fse.readJSON(packageJSONPath)
-  const cleanerPackageJSON = {
-    ...cleanPackageJSON,
-    exports: {
-      '.': {
-        default: cleanPackageJSON.exports['.'].default
-      }
-    }
-  }
+  const cleanerPackageJSON = { ...cleanPackageJSON }
   delete cleanerPackageJSON.collective
 
   equal(obj, cleanerPackageJSON)
