@@ -22,7 +22,6 @@ const cleanFiles = [
   'jsconfig.json',
   'lerna.json',
   'package.json',
-  'packages',
   'scripts',
   'testSetupFile.js',
   'types'
