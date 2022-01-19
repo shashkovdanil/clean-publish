@@ -1,5 +1,13 @@
 # Change Log
 
+## 4.0
+* Dropped Node.js 14 and 12 support.
+* Added `--` support to pass any arguments to package manager (by Dan Onoshko).
+* Added pattern support to `files` option (by Dan Onoshko).
+* Added `package.publishConfig` support in `exports` cleaning (by Dan Onoshko).
+* Removed `--exports` option (by Dan Onoshko).
+* Reduced dependencies.
+
 ## 3.4.5
 * Added `pnpm` support.
 
