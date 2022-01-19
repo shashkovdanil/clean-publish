@@ -84,7 +84,6 @@ $ yarn add clean-publish --dev
 - `clean-comments` - clean inline comments from JS files.
 - `files` - list of files that you want to delete before publishing
 - `fields` - list of fields in the `package.json` file that you want to delete before publishing
-- `exports` - list of [exports conditions](https://nodejs.org/api/packages.html#packages_conditional_exports) in the `package.json` file that you want to delete before publishing
 - `without-publish` - clean project without `npm publish` (tmp directory will not be deleted automatically)
 - `package-manager` - name of package manager to use (`npm` by default)
 - `access` - whether the npm registry publishes this package as a public package, or restricted
@@ -193,6 +192,35 @@ Clean Publish also supports 3 ways to define config.
 module.exports = {
   "files": ["file1.js", "file2.js"],
   "packageManager": "yarn"
+}
+```
+
+## Publish config
+
+All package managers have different support of [`publishConfig` filed in package.json](https://github.com/stereobooster/package.json#publishconfig). `clean-publish` handles this field like [pnpm does](https://pnpm.io/ru/package_json#publishconfig) but also cleans and removes it from package.json if possible.
+
+- Before clean:
+
+```json
+{
+  "main": "./src/index.ts",
+  "publishConfig": {
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "directory": "package"
+  }
+}
+```
+
+- After clean:
+
+```json
+{
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "publishConfig": {
+    "directory": "package"
+  }
 }
 ```
 

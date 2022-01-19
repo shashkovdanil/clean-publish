@@ -19,6 +19,22 @@ import IGNORE_FILES from './exception/ignore-files.js'
 import IGNORE_FIELDS from './exception/ignore-fields.js'
 import NPM_SCRIPTS from './exception/npm-scripts.js'
 
+const PUBLISH_CONFIG_FIELDS = [
+  'bin',
+  'main',
+  'exports',
+  'types',
+  'typings',
+  'module',
+  'browser',
+  'esnext',
+  'es2015',
+  'unpkg',
+  'umd:main',
+  'cpu',
+  'os'
+]
+
 export function readPackageJSON() {
   return readJson('package.json')
 }
@@ -29,11 +45,30 @@ export function writePackageJSON(directoryName, packageJSON) {
   })
 }
 
-export function clearPackageJSON(
-  packageJson,
-  inputIgnoreFields,
-  ignoreExports
-) {
+function applyPublishConfig(packageJson) {
+  if (!packageJson.publishConfig) {
+    return
+  }
+
+  const publishConfig = {
+    ...packageJson.publishConfig
+  }
+
+  PUBLISH_CONFIG_FIELDS.forEach((field) => {
+    if (publishConfig[field]) {
+      packageJson[field] = publishConfig[field]
+      delete publishConfig[field]
+    }
+  })
+
+  if (!Object.keys(publishConfig).length) {
+    delete packageJson.publishConfig
+  } else {
+    packageJson.publishConfig = publishConfig
+  }
+}
+
+export function clearPackageJSON(packageJson, inputIgnoreFields) {
   const ignoreFields = inputIgnoreFields
     ? IGNORE_FIELDS.concat(inputIgnoreFields)
     : IGNORE_FIELDS
@@ -57,15 +92,7 @@ export function clearPackageJSON(
     }
   }
 
-  if (isObject(packageJson.exports) && !ignoreFields.includes('exports')) {
-    const exportsFilter =
-      ignoreExports && (condition => !ignoreExports.includes(condition))
-    cleanPackageJSON.exports = filterObjectByKey(
-      packageJson.exports,
-      exportsFilter,
-      true
-    )
-  }
+  applyPublishConfig(cleanPackageJSON)
 
   for (const i in cleanPackageJSON) {
     if (

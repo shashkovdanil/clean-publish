@@ -34,28 +34,6 @@ test('clearPackageJSON cleans additional fields', () => {
   equal(clearPackageJSON(srcPackageJson, ['collective']), expected)
 })
 
-test('clearPackageJSON cleans exports', () => {
-  const packageJson = {
-    ...srcPackageJson,
-    exports: {
-      '.': {
-        development: './src/index.js',
-        default: './dest/index.js'
-      }
-    }
-  }
-  const expected = {
-    ...cleanPackageJson,
-    exports: {
-      '.': {
-        default: './dest/index.js'
-      }
-    }
-  }
-
-  equal(clearPackageJSON(packageJson, [], ['development']), expected)
-})
-
 const git = 'https://github.com/org/repo.git'
 const shortcut = 'org/repo'
 const bitbucketShirtcut = 'bitbucket:org/repo'
