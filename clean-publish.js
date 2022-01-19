@@ -36,7 +36,8 @@ const HELP =
   '  --tag              Registers the package with the given tag\n' +
   '  --before-script    Run script on the to-release dir before npm\n' +
   '                     publish\n' +
-  '  --temp-dir         Create temporary directory with given name'
+  '  --temp-dir         Create temporary directory with given name' +
+  '  --                 Pass next arguments as package manager options\n'
 
 const DEFAULT_OPTIONS = {
   packageManager: 'npm'
@@ -86,6 +87,9 @@ async function handleOptions() {
     } else if (process.argv[i] === '--temp-dir') {
       options.tempDir = process.argv[i + 1]
       i += 1
+    } else if (process.argv[i] === '--') {
+      options.packageManagerOptions = process.argv.slice(i + 1)
+      break
     } else {
       options._ = process.argv[i]
     }
