@@ -34,8 +34,8 @@ const HELP =
   '  --tag              Registers the package with the given tag\n' +
   '  --before-script    Run script on the to-release dir before npm\n' +
   '                     publish\n' +
-  '  --temp-dir         Create temporary directory with given name' +
-  '  --                 Pass next arguments as package manager options\n'
+  '  --temp-dir         Create temporary directory with given name\n' +
+  '  --                 Pass next arguments as package manager options'
 
 const DEFAULT_OPTIONS = {
   packageManager: 'npm'
