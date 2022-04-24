@@ -19,26 +19,26 @@
     "clean-publish": "clean-publish.js",
     "clear-package-json": "clear-package-json.js"
   },
-  "dependencies": {
-    "cross-spawn": "^7.0.3",
-    "fast-glob": "^3.2.11",
-    "lilconfig": "^2.0.4",
-    "micromatch": "^4.0.4"
-  },
-  "devDependencies": {
-    "@logux/eslint-config": "^46.1.1",
-    "eslint": "^8.8.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.25.4",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prefer-let": "^3.0.1",
-    "eslint-plugin-promise": "^6.0.0",
-    "tsm": "^2.2.1",
-    "uvu": "^0.5.3"
-  },
   "scripts": {
     "lint": "eslint *.js test/*.js",
     "unit": "tsm node_modules/uvu/bin.js . 'test/[^/]+\\.test\\.js$'",
     "test": "yarn unit && yarn lint"
+  },
+  "dependencies": {
+    "cross-spawn": "^7.0.3",
+    "fast-glob": "^3.2.11",
+    "lilconfig": "^2.0.5",
+    "micromatch": "^4.0.5"
+  },
+  "devDependencies": {
+    "@logux/eslint-config": "^47.2.0",
+    "eslint": "^8.14.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.1.0",
+    "eslint-plugin-prefer-let": "^3.0.1",
+    "eslint-plugin-promise": "^6.0.0",
+    "tsm": "^2.2.1",
+    "uvu": "^0.5.3"
   }
 }
