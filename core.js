@@ -233,6 +233,7 @@ export async function cleanComments(drectoryName) {
       const cleaned = content
         .toString()
         .replace(/\s*\/\/.*\n/gm, '\n')
+        .replace(/\s*\/\*[^/]+\*\/\n?/gm, '\n')
         .replace(/\n+/gm, '\n')
         .replace(/^\n+/gm, '')
       await fs.writeFile(file, cleaned)
