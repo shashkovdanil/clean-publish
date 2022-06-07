@@ -1,5 +1,8 @@
 # Change Log
 
+## 4.0.1
+* Fixed `/**/` comments cleaning on `cleanComments` option.
+
 ## 4.0
 * Dropped Node.js 14 and 12 support.
 * Added `--` support to pass any arguments to package manager (by Dan Onoshko).
