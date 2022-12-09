@@ -109,7 +109,7 @@ async function run() {
   const packageJson = await readPackageJSON()
 
   if (options.cleanDocs) {
-    await cleanDocs(tempDirectoryName, packageJson.repository)
+    await cleanDocs(tempDirectoryName, packageJson.repository, packageJson.homepage)
   }
 
   if (options.cleanComments) {

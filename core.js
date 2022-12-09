@@ -211,15 +211,15 @@ export function getReadmeUrlFromRepository(repository) {
   return null
 }
 
-export async function cleanDocs(drectoryName, repository) {
+export async function cleanDocs(drectoryName, repository, homepage) {
   const readmePath = join(drectoryName, 'README.md')
   const readme = await fs.readFile(readmePath)
   const readmeUrl = getReadmeUrlFromRepository(repository)
-  if (readmeUrl) {
+  if (homepage || readmeUrl) {
     const cleaned =
       readme.toString().split(/\n##\s*\w/m)[0] +
       '\n## Docs\n' +
-      `Read **[full docs](${readmeUrl})** on GitHub.\n`
+      `Read full docs **[here](${homepage || readmeUrl})**.\n`
     await fs.writeFile(readmePath, cleaned)
   }
 }
