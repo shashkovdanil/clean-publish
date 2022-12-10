@@ -1,5 +1,8 @@
 # Change Log
 
+## 4.0.2
+* Fixed full docs URL by using homepage (by Morgan Brasseur).
+
 ## 4.0.1
 * Fixed `/**/` comments cleaning on `cleanComments` option.
 
