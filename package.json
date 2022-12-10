@@ -26,19 +26,19 @@
   },
   "dependencies": {
     "cross-spawn": "^7.0.3",
-    "fast-glob": "^3.2.11",
-    "lilconfig": "^2.0.5",
+    "fast-glob": "^3.2.12",
+    "lilconfig": "^2.0.6",
     "micromatch": "^4.0.5"
   },
   "devDependencies": {
-    "@logux/eslint-config": "^47.2.0",
-    "eslint": "^8.17.0",
+    "@logux/eslint-config": "^48.0.0",
+    "eslint": "^8.29.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-n": "^15.2.1",
+    "eslint-plugin-n": "^15.6.0",
     "eslint-plugin-prefer-let": "^3.0.1",
-    "eslint-plugin-promise": "^6.0.0",
-    "tsm": "^2.2.1",
-    "uvu": "^0.5.3"
+    "eslint-plugin-promise": "^6.1.1",
+    "tsm": "^2.3.0",
+    "uvu": "^0.5.6"
   }
 }
