@@ -117,7 +117,7 @@ function configError(config) {
 
 export function getConfig() {
   const explorer = lilconfig('clean-publish', {
-    searchPlaces: ['package.json', '.clean-publish', '.clean-publish.js']
+    searchPlaces: ['package.json', '.clean-publish', '.clean-publish.js', '.clean-publish.json']
   })
   return explorer
     .search()
