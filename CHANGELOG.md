@@ -1,5 +1,8 @@
 # Change Log
 
+## 4.1
+* Added `.clean-publish.json` config support (by Artiom Tretjakovas).
+
 ## 4.0.2
 * Fixed full docs URL by using homepage (by Morgan Brasseur).
 
