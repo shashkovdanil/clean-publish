@@ -1,5 +1,10 @@
 # Change Log
 
+## 4.2.0
+* Added types for config (by Artiom Tretjakovas).
+* Fixed `--clean-comments` (by Artiom Tretjakovas).
+* Fixed `--tag` (by Artiom Tretjakovas).
+
 ## 4.1
 * Added `.clean-publish.json` config support (by Artiom Tretjakovas).
 
