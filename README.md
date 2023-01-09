@@ -90,7 +90,7 @@ $ yarn add clean-publish --dev
 - `temp-dir` - create temporary directory with given name.
 
 ```sh
-$ npx clean-publish --files file1.js file2.js --fields scripts name
+$ npx clean-publish --files "file1.js, file2.js" --fields "scripts, name"
 ```
 
 Also you are able to pass additional options to package manager:
@@ -104,7 +104,7 @@ $ npx clean-publish --package-manager pnpm -- --no-git-checks
 `clear-package-json` is additional tool to work only with `package.json` file.
 
 ```sh
-$ npx clear-package-json package.json -o package/package.json --fields scripts name
+$ npx clear-package-json package.json -o package/package.json --fields "scripts, name"
 # or
 $ npx clear-package-json package.json > package/package.json
 # or
