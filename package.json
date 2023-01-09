@@ -15,6 +15,7 @@
   "license": "MIT",
   "repository": "shashkovdanil/clean-publish",
   "type": "module",
+  "types": "types.d.ts",
   "bin": {
     "clean-publish": "clean-publish.js",
     "clear-package-json": "clear-package-json.js"
@@ -22,6 +23,8 @@
   "scripts": {
     "lint": "eslint *.js test/*.js",
     "unit": "tsm node_modules/uvu/bin.js . 'test/[^/]+\\.test\\.js$'",
+    "schema": "ts-json-schema-generator --path types.d.ts --type Config --no-type-check --out schema.json",
+    "prepare": "yarn schema",
     "test": "yarn unit && yarn lint"
   },
   "dependencies": {
@@ -38,6 +41,7 @@
     "eslint-plugin-n": "^15.6.0",
     "eslint-plugin-prefer-let": "^3.0.1",
     "eslint-plugin-promise": "^6.1.1",
+    "ts-json-schema-generator": "^1.2.0",
     "tsm": "^2.3.0",
     "uvu": "^0.5.6"
   }
