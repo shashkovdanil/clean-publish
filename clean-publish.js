@@ -70,11 +70,11 @@ async function handleOptions() {
     } else if (process.argv[i] === '--clean-docs') {
       options.cleanDocs = true
       i += 1
-    } else if (process.argv[i] === '--clean-commentd') {
+    } else if (process.argv[i] === '--clean-comments') {
       options.cleanComments = true
       i += 1
     } else if (process.argv[i] === '--tag') {
-      options.tag = parseListArg(process.argv[i + 1])
+      options.tag = process.argv[i + 1]
       i += 1
     } else if (process.argv[i] === '--fields') {
       options.fields = parseListArg(process.argv[i + 1])
