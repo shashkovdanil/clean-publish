@@ -55,10 +55,7 @@
         },
         "tag": {
           "description": "Registers the package with the given tag.",
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
+          "type": "string"
         },
         "tempDir": {
           "description": "Create temporary directory with given name.",
