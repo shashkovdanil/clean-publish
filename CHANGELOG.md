@@ -1,6 +1,6 @@
 # Change Log
 
-## 4.2.0
+## 4.1.1
 * Added types for config (by Artiom Tretjakovas).
 * Fixed `--clean-comments` (by Artiom Tretjakovas).
 * Fixed `--tag` (by Artiom Tretjakovas).
