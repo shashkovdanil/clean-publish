@@ -74,7 +74,7 @@ async function handleOptions() {
       options.cleanComments = true
       i += 1
     } else if (process.argv[i] === '--tag') {
-      options.tag = parseListArg(process.argv[i + 1])
+      options.tag = process.argv[i + 1]
       i += 1
     } else if (process.argv[i] === '--fields') {
       options.fields = parseListArg(process.argv[i + 1])

@@ -60,7 +60,7 @@ export interface Config {
     /**
      * Registers the package with the given tag.
      */
-    tag?: string[];
+    tag?: string;
 
     /**
      * Run script on the to-release dir before npm publish.
