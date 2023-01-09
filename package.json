@@ -1,6 +1,6 @@
 {
   "name": "clean-publish",
-  "version": "4.0.2",
+  "version": "4.1.0",
   "description": "Clean your package before publish",
   "keywords": [
     "npm",
@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@logux/eslint-config": "^48.0.0",
-    "eslint": "^8.29.0",
+    "eslint": "^8.31.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-n": "^15.6.0",
