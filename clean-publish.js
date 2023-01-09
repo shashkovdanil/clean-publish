@@ -70,7 +70,7 @@ async function handleOptions() {
     } else if (process.argv[i] === '--clean-docs') {
       options.cleanDocs = true
       i += 1
-    } else if (process.argv[i] === '--clean-commentd') {
+    } else if (process.argv[i] === '--clean-comments') {
       options.cleanComments = true
       i += 1
     } else if (process.argv[i] === '--tag') {
