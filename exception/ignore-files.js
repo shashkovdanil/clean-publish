@@ -17,7 +17,7 @@ export default [
   '.DS_Store',
   '.eslintignore',
   '.editorconfig',
-  /^(babel|commitlint|jest)\.config\.[cm]?js$/,
+  /^(babel|commitlint|jest|webpack|rollup)\.config\.[cm]?js$/,
   '.travis.yml',
   'pnpm-lock.yaml',
   'yarn.lock',
