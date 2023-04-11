@@ -1,5 +1,8 @@
 # Change Log
 
+## 4.2
+* Added Vitest config support (by @azat-io).
+
 ## 4.1.1
 * Added types for config (by Artiom Tretjakovas).
 * Fixed `--clean-comments` (by Artiom Tretjakovas).
