@@ -13,7 +13,6 @@ const cleanPackageJSONPath = join(dirname, './clean-package.json')
 const cleanPublishConfigSrcPath = join(dirname, './clean-publish-config.json')
 
 const cleanFiles = [
-  'CONTRIBUTING.md',
   'LICENSE',
   'README.md',
   'TestUtils.js',
