@@ -1,8 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "publish": "yarn build-clean && yarn build",
-    "postinstall": "yarn build"
+    "publish": "echo test",
+    "postinstall": "echo test"
   },
   "workspaces": ["packages/*", "website", "examples/*"],
   "dependencies": {
