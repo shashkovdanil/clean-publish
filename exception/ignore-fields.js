@@ -8,6 +8,7 @@ export default [
   'devDependencies',
   'babel',
   'lint-staged',
+  'nano-staged',
   'pre-commit',
   'husky',
   'prettier',
