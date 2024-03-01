@@ -5,6 +5,7 @@ export default [
   'node_modules',
   'test',
   /^\.eslintrc/,
+  /eslint.config.(c|m)?js/,
   /^\.babelrc/,
   /^\.yaspellerrc/,
   /^\.prettierrc/,
