@@ -1,11 +1,11 @@
-import { promises as fs } from 'fs'
+import { promises as fs } from 'node:fs'
 
 if (!fs.cp) {
   throw new Error('clean-publish requires Node.js >=16 to run')
 }
 
 export async function remove(dir) {
-  await fs.rm(dir, { recursive: true, force: true })
+  await fs.rm(dir, { force: true, recursive: true })
 }
 
 export async function copy(from, to, opts) {

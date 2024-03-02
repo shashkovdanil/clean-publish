@@ -1,7 +1,7 @@
-import { equal, is } from 'uvu/assert'
 import { test } from 'uvu'
+import { equal, is } from 'uvu/assert'
 
-import { parseListArg, isObject, filterObjectByKey } from '../utils.js'
+import { filterObjectByKey, isObject, parseListArg } from '../utils.js'
 
 test('parseListArg parses arg as list', () => {
   equal(parseListArg('foo,bar,baz'), ['foo', 'bar', 'baz'])

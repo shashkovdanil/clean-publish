@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
-import {
-  readJSON,
-  readJSONFromStdin,
-  writeJSON,
-  parseListArg
-} from './utils.js'
 import { clearPackageJSON } from './core.js'
 import { getConfig } from './get-config.js'
+import {
+  parseListArg,
+  readJSON,
+  readJSONFromStdin,
+  writeJSON
+} from './utils.js'
 
 const HELP =
   'npx clear-package-json <input> [options]\n' +

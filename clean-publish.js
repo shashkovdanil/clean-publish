@@ -1,20 +1,20 @@
 #!/usr/bin/env node
 
-import { parseListArg } from './utils.js'
 import {
-  createTempDirectory,
-  createFilesFilter,
-  copyFiles,
-  readPackageJSON,
-  clearPackageJSON,
-  writePackageJSON,
-  publish,
   cleanComments,
+  cleanDocs,
+  clearPackageJSON,
+  copyFiles,
+  createFilesFilter,
+  createTempDirectory,
+  publish,
+  readPackageJSON,
   removeTempDirectory,
   runScript,
-  cleanDocs
+  writePackageJSON
 } from './core.js'
 import { getConfig } from './get-config.js'
+import { parseListArg } from './utils.js'
 
 const HELP =
   'npx clean-publish\n' +

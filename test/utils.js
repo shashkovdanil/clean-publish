@@ -1,6 +1,6 @@
-import { promises as fs } from 'fs'
-import { join } from 'path'
 import crossSpawn from 'cross-spawn'
+import { promises as fs } from 'node:fs'
+import { join } from 'node:path'
 
 export function spawn(cmd, args, opts) {
   return new Promise((resolve, reject) => {
@@ -50,7 +50,7 @@ export async function removeTmpDirs(dir) {
   const tmpDirPaths = await findTmpDirs(dir)
   await Promise.all(
     tmpDirPaths.map(tmpDirPath => {
-      return fs.rm(tmpDirPath, { recursive: true, force: true })
+      return fs.rm(tmpDirPath, { force: true, recursive: true })
     })
   )
 }

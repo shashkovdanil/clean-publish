@@ -4,47 +4,47 @@
  */
 
 import { lilconfig } from 'lilconfig'
-import { relative } from 'path'
+import { relative } from 'node:path'
 
 import { isObject } from './utils.js'
 
 const PACKAGE_ERRORS = {
-  notObject:
-    'The `"clean-publish"` section of package.json ' + 'must be `an object`',
   empty: 'The `"clean-publish"` section of package.json must `not be empty`',
+  fieldsNotStrings:
+    'The `fields` in the `"clean-publish"` section ' +
+    'of package.json must be `an array of strings`',
   filesNotStringsOrRegExps:
     'The `files` in the `"clean-publish"` section ' +
     'of package.json must be ' +
     '`an array of strings or RegExps`',
-  fieldsNotStrings:
-    'The `fields` in the `"clean-publish"` section ' +
-    'of package.json must be `an array of strings`',
-  tempDirNotString:
-    'The `tempDir` in the `"clean-publish"` section ' +
-    'of package.json must be `an string`',
+  notObject:
+    'The `"clean-publish"` section of package.json ' + 'must be `an object`',
   packageManagerNotString:
     'The `packageManager` in the `"clean-publish"` section ' +
     'of package.json must be `an string`',
   packageManagerOptionsNotStrings:
     'The `packageManagerOptions` in the `"clean-publish"` section ' +
-    'of package.json must be `an array of strings`'
+    'of package.json must be `an array of strings`',
+  tempDirNotString:
+    'The `tempDir` in the `"clean-publish"` section ' +
+    'of package.json must be `an string`'
 }
 const FILE_ERRORS = {
-  notObject: 'Clean Publish config must contain `an object`',
   empty: 'Clean Publish config must `not be empty`',
+  fieldsNotStrings:
+    'The `fields` in Clean Publish config ' + 'must be `an array of strings`',
   filesNotStringsOrRegExps:
     'The `files` in the Clean Publish config ' +
     'must be `an array of strings or RegExps`',
-  fieldsNotStrings:
-    'The `fields` in Clean Publish config ' + 'must be `an array of strings`',
-  tempDirNotString:
-    'The `tempDir` in Clean Publish config ' + 'must be `an string`',
+  notObject: 'Clean Publish config must contain `an object`',
   packageManagerNotString:
     'The `packageManager` in Clean Publish config ' +
     'must be `an string`',
   packageManagerOptionsNotStrings:
     'The `packageManagerOptions` in Clean Publish config ' +
-    'must be `an array of strings`'
+    'must be `an array of strings`',
+  tempDirNotString:
+    'The `tempDir` in Clean Publish config ' + 'must be `an string`'
 }
 
 const PACKAGE_EXAMPLE =

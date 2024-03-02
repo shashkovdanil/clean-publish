@@ -1,14 +1,14 @@
-import { fileURLToPath } from 'url'
-import { equal, is } from 'uvu/assert'
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { test } from 'uvu'
-import { join } from 'path'
+import { equal, is } from 'uvu/assert'
 
-import { readJSON } from '../utils.js'
 import {
   clearPackageJSON,
-  getReadmeUrlFromRepository,
-  createFilesFilter
+  createFilesFilter,
+  getReadmeUrlFromRepository
 } from '../core.js'
+import { readJSON } from '../utils.js'
 
 const dirname = join(fileURLToPath(import.meta.url), '..')
 const srcPackageJSONPath = join(dirname, 'package', 'package.json')

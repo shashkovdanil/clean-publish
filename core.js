@@ -1,20 +1,20 @@
-import { promises as fs } from 'fs'
-import { join, basename } from 'path'
 import spawn from 'cross-spawn'
 import glob from 'fast-glob'
 import micromatch from 'micromatch'
+import { promises as fs } from 'node:fs'
+import { basename, join } from 'node:path'
 
-import {
-  writeJSON,
-  readJSON,
-  copy,
-  remove,
-  isObject,
-  filterObjectByKey
-} from './utils.js'
-import IGNORE_FILES from './exception/ignore-files.js'
 import IGNORE_FIELDS from './exception/ignore-fields.js'
+import IGNORE_FILES from './exception/ignore-files.js'
 import NPM_SCRIPTS from './exception/npm-scripts.js'
+import {
+  copy,
+  filterObjectByKey,
+  isObject,
+  readJSON,
+  remove,
+  writeJSON
+} from './utils.js'
 
 const PUBLISH_CONFIG_FIELDS = [
   'bin',
@@ -150,7 +150,7 @@ export async function copyFiles(tempDir, filter) {
 
 export function publish(
   cwd,
-  { packageManager, packageManagerOptions = [], access, tag, dryRun }
+  { access, dryRun, packageManager, packageManagerOptions = [], tag }
 ) {
   return new Promise((resolve, reject) => {
     const args = ['publish', ...packageManagerOptions]
@@ -158,8 +158,8 @@ export function publish(
     if (tag) args.push('--tag', tag)
     if (dryRun) args.push('--dry-run')
     spawn(packageManager, args, {
-      stdio: 'inherit',
-      cwd
+      cwd,
+      stdio: 'inherit'
     })
       .on('close', (code, signal) => {
         resolve({

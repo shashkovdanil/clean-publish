@@ -1,10 +1,10 @@
-import { promises as fs } from 'fs'
-import { fileURLToPath } from 'url'
-import { equal } from 'uvu/assert'
+import { promises as fs } from 'node:fs'
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { test } from 'uvu'
-import { join } from 'path'
+import { equal } from 'uvu/assert'
 
-import { remove, readJSON } from '../utils.js'
+import { readJSON, remove } from '../utils.js'
 import { spawn } from './utils.js'
 
 const dirname = join(fileURLToPath(import.meta.url), '..')
