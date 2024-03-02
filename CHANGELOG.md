@@ -1,5 +1,9 @@
 # Change Log
 
+## 4.3
+* Added ESLint flat config to ignore files.
+* Added Nano Stages config to ignore files (by Eduard Aksamitov).
+
 ## 4.2
 * Added Vitest config support (by @azat-io).
 
