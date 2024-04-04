@@ -16,6 +16,7 @@ import {
   writeJSON
 } from './utils.js'
 
+// https://pnpm.io/package_json#publishconfig
 const PUBLISH_CONFIG_FIELDS = [
   'bin',
   'main',
@@ -28,6 +29,7 @@ const PUBLISH_CONFIG_FIELDS = [
   'es2015',
   'unpkg',
   'umd:main',
+  'typesVersions',
   'cpu',
   'os'
 ]
@@ -42,7 +44,7 @@ export function writePackageJSON(directoryName, packageJSON) {
 
 function applyPublishConfig(packageJson) {
   if (!packageJson.publishConfig) {
-    return
+    return packageJson
   }
 
   const publishConfig = {
@@ -57,9 +59,16 @@ function applyPublishConfig(packageJson) {
   })
 
   if (!Object.keys(publishConfig).length) {
-    delete packageJson.publishConfig
-  } else {
-    packageJson.publishConfig = publishConfig
+    // delete property by destructuring
+    // eslint-disable-next-line no-unused-vars
+    const { publishConfig: _, ...pkg } = packageJson
+
+    return pkg
+  }
+
+  return {
+    ...packageJson,
+    publishConfig
   }
 }
 
@@ -68,7 +77,7 @@ export function clearPackageJSON(packageJson, inputIgnoreFields) {
     ? IGNORE_FIELDS.concat(inputIgnoreFields)
     : IGNORE_FIELDS
   const cleanPackageJSON = filterObjectByKey(
-    packageJson,
+    applyPublishConfig(packageJson),
     key => !ignoreFields.includes(key) && key !== 'scripts'
   )
 
@@ -79,15 +88,12 @@ export function clearPackageJSON(packageJson, inputIgnoreFields) {
 
     if (
       cleanPackageJSON.scripts.publish &&
-      (cleanPackageJSON.scripts.publish === 'clean-publish' ||
-        cleanPackageJSON.scripts.publish.startsWith('clean-publish '))
+      /^clean-publish( |$)/.test(cleanPackageJSON.scripts.publish)
     ) {
       // "custom" publish script is actually calling clean-publish
       delete cleanPackageJSON.scripts.publish
     }
   }
-
-  applyPublishConfig(cleanPackageJSON)
 
   for (const i in cleanPackageJSON) {
     if (
