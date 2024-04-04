@@ -16,7 +16,7 @@ import {
   writeJSON
 } from './utils.js'
 
-// https://pnpm.io/ru/package_json#publishconfig
+// https://pnpm.io/package_json#publishconfig
 const PUBLISH_CONFIG_FIELDS = [
   'bin',
   'main',
