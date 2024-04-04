@@ -38,6 +38,16 @@ test('clearPackageJSON cleans additional fields', () => {
   equal(clearPackageJSON(srcPackageJson, ['collective']), expected)
 })
 
+test('clearPackageJSON cleans publishConfig field', () => {
+  const expected = {
+    ...cleanPackageJson
+  }
+
+  delete expected.publishConfig
+
+  equal(clearPackageJSON(srcPackageJson, ['publishConfig']), expected)
+})
+
 test('getReadmeUrlFromRepository handles repo object', () => {
   is(
     getReadmeUrlFromRepository({
