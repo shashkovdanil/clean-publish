@@ -1,10 +1,10 @@
 export default [
-  'version',
-  'postversion',
+  'postinstall',
   'postpack',
+  'postpublish',
+  'postversion',
   'prepublish',
   'publish',
-  'postpublish',
-  'postinstall',
-  'uninstall'
+  'uninstall',
+  'version'
 ]
