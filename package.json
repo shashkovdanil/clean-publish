@@ -34,15 +34,10 @@
     "micromatch": "^4.0.5"
   },
   "devDependencies": {
-    "@logux/eslint-config": "^52.0.2",
+    "@logux/eslint-config": "^53.0.0",
     "eslint": "^8.57.0",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-prefer-let": "^3.0.1",
-    "eslint-plugin-promise": "^6.1.1",
     "ts-json-schema-generator": "^1.5.0",
-    "tsx": "^4.7.1",
+    "tsx": "^4.7.2",
     "uvu": "^0.5.6"
   }
 }

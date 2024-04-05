@@ -1,8 +1,0 @@
-{
-  "extends": "@logux/eslint-config",
-  "rules": {
-    "n/global-require": "off",
-    "prefer-let/prefer-let": "off",
-    "no-console": "off"
-  }
-}
