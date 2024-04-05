@@ -1,5 +1,8 @@
 # Change Log
 
+## 4.4
+* Added `publishConfig` to ignore fields (by Dan Onoshko).
+
 ## 4.3
 * Added ESLint flat config to ignore files.
 * Added Nano Stages config to ignore files (by Eduard Aksamitov).
