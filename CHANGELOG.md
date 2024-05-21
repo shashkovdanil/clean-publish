@@ -1,5 +1,8 @@
 # Change Log
 
+## 4.5
+* Added Dev Container config support.
+
 ## 4.4
 * Added `publishConfig` to ignore fields (by Dan Onoshko).
 
