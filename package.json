@@ -25,7 +25,8 @@
     "unit": "tsx node_modules/uvu/bin.js . 'test/[^/]+\\.test\\.js$'",
     "schema": "ts-json-schema-generator --path types.d.ts --type Config --no-type-check --out schema.json",
     "prepare": "pnpm schema",
-    "test": "pnpm unit && pnpm lint"
+    "test": "pnpm unit && pnpm lint",
+    "clean-publish": "node ./clean-publish.js"
   },
   "dependencies": {
     "cross-spawn": "^7.0.3",
