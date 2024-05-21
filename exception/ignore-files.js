@@ -16,6 +16,7 @@ export default [
   'package-lock.json',
   'pnpm-debug.log',
   'pnpm-lock.yaml',
+  '.devcontainer.json',
   'test',
   'yarn-error.log',
   'yarn.lock',
