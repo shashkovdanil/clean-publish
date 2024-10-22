@@ -3,6 +3,7 @@ export default [
   'postpack',
   'postpublish',
   'postversion',
+  'prepare',
   'prepublish',
   'publish',
   'uninstall',
