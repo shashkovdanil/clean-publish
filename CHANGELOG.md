@@ -1,5 +1,8 @@
 # Change Log
 
+## 5.1
+* Keep `prepare` script (by @azat-io).
+
 ## 5.0
 * Removed Node.js 16 support.
 * Added Dev Container config support.
