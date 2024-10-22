@@ -1,24 +1,20 @@
-import { promises as fs } from 'node:fs'
-
-if (!fs.cp) {
-  throw new Error('clean-publish requires Node.js >=16 to run')
-}
+import { cp, readFile, rm, writeFile } from 'node:fs/promises'
 
 export async function remove(dir) {
-  await fs.rm(dir, { force: true, recursive: true })
+  await rm(dir, { force: true, recursive: true })
 }
 
 export async function copy(from, to, opts) {
-  await fs.cp(from, to, { recursive: true, ...opts })
+  await cp(from, to, { recursive: true, ...opts })
 }
 
 export async function readJSON(file) {
-  let data = await fs.readFile(file)
+  let data = await readFile(file)
   return JSON.parse(data.toString())
 }
 
 export async function writeJSON(file, json) {
-  await fs.writeFile(file, JSON.stringify(json, null, '  ') + '\n')
+  await writeFile(file, JSON.stringify(json, null, '  ') + '\n')
 }
 
 export function readJSONFromStdin() {

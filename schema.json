@@ -37,7 +37,15 @@
         "files": {
           "description": "List of files that you want to delete before publishing (supports regex and glob patterns).",
           "items": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "format": "regex",
+                "type": "string"
+              }
+            ]
           },
           "type": "array"
         },
