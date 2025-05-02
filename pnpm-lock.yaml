@@ -11,6 +11,9 @@ importers:
       cross-spawn:
         specifier: ^7.0.3
         version: 7.0.5
+      dot-prop:
+        specifier: ^9.0.0
+        version: 9.0.0
       fast-glob:
         specifier: ^3.3.2
         version: 3.3.2
@@ -489,6 +492,10 @@ packages:
   doctrine@2.1.0:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
     engines: {node: '>=0.10.0'}
+
+  dot-prop@9.0.0:
+    resolution: {integrity: sha512-1gxPBJpI/pcjQhKgIU91II6Wkay+dLcN3M6rf2uwP8hRur3HtQXjVrdAK3sjC0piaEuxzMwjXChcETiJl47lAQ==}
+    engines: {node: '>=18'}
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
@@ -1215,6 +1222,10 @@ packages:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
 
+  type-fest@4.40.1:
+    resolution: {integrity: sha512-9YvLNnORDpI+vghLU/Nf+zSv0kL47KbVJ1o3sKgoTefl6i+zebxbiDQWoe/oWWqPhIgQdRZRT1KA9sCPL810SA==}
+    engines: {node: '>=16'}
+
   typed-array-buffer@1.0.2:
     resolution: {integrity: sha512-gEymJYKZtKXzzBzM4jqa9w6Q1Jjm7x2d+sh19AdsD4wqnMPDYyvwpsIc2Q/835kHuo3BEQ7CjelGhfTsoBb2MQ==}
     engines: {node: '>= 0.4'}
@@ -1712,6 +1723,10 @@ snapshots:
   doctrine@2.1.0:
     dependencies:
       esutils: 2.0.3
+
+  dot-prop@9.0.0:
+    dependencies:
+      type-fest: 4.40.1
 
   eastasianwidth@0.2.0: {}
 
@@ -2529,6 +2544,8 @@ snapshots:
   type-check@0.4.0:
     dependencies:
       prelude-ls: 1.2.1
+
+  type-fest@4.40.1: {}
 
   typed-array-buffer@1.0.2:
     dependencies:
