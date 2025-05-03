@@ -76,7 +76,7 @@ export function pathToKeys(path) {
   return path.split(RE_PATH).map((s) => s.replace('\\.', '.'));
 }
 
-export function deletePropetry(object, keys) {
+export function deleteProperty(object, keys) {
   if (!isObject(object)) {
     return false;
   }
@@ -90,5 +90,5 @@ export function deletePropetry(object, keys) {
     return delete object[key];
   }
 
-  return deletePropetry(object[key], keys)
+  return deleteProperty(object[key], keys)
 }
