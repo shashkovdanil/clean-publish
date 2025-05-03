@@ -1,5 +1,4 @@
 import spawn from 'cross-spawn'
-import { deleteProperty } from 'dot-prop'
 import glob from 'fast-glob'
 import micromatch from 'micromatch'
 import { promises as fs } from 'node:fs'
@@ -10,8 +9,10 @@ import IGNORE_FILES from './exception/ignore-files.js'
 import NPM_SCRIPTS from './exception/npm-scripts.js'
 import {
   copy,
+  deleteProperty,
   filterObjectByKey,
   isObject,
+  pathToKeys,
   readJSON,
   remove,
   writeJSON
@@ -80,7 +81,7 @@ export function clearPackageJSON(packageJson, inputIgnoreFields) {
 
   const cleanPackageJSON = structuredClone(applyPublishConfig(packageJson))
   // Delete ignore fields from packageJson except 'scripts'
-  ignoreFields.forEach(field => field !== 'scripts' && deleteProperty(cleanPackageJSON, field))
+  ignoreFields.forEach(field => field !== 'scripts' && deleteProperty(cleanPackageJSON, pathToKeys(field)))
 
 
   if (packageJson.scripts && !ignoreFields.includes('scripts')) {
