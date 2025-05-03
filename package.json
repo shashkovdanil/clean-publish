@@ -30,7 +30,6 @@
   },
   "dependencies": {
     "cross-spawn": "^7.0.3",
-    "dot-prop": "^9.0.0",
     "fast-glob": "^3.3.2",
     "lilconfig": "^3.1.2",
     "micromatch": "^4.0.8"
