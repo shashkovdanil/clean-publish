@@ -70,3 +70,25 @@ export function filterObjectByKey(object, filterByKey = () => true, deep) {
 
   return changed ? result : object
 }
+
+const RE_PATH = /(?<!\\)\./;
+export function pathToKeys(path) {
+  return path.split(RE_PATH).map((s) => s.replace('\\.', '.'));
+}
+
+export function deleteProperty(object, keys) {
+  if (!isObject(object)) {
+    return false;
+  }
+
+  const key = keys.shift();
+  if (key === undefined) {
+    return false;
+  }
+
+  if (keys.length === 0) {
+    return delete object[key];
+  }
+
+  return deleteProperty(object[key], keys)
+}

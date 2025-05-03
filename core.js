@@ -9,8 +9,10 @@ import IGNORE_FILES from './exception/ignore-files.js'
 import NPM_SCRIPTS from './exception/npm-scripts.js'
 import {
   copy,
+  deleteProperty,
   filterObjectByKey,
   isObject,
+  pathToKeys,
   readJSON,
   remove,
   writeJSON
@@ -76,10 +78,11 @@ export function clearPackageJSON(packageJson, inputIgnoreFields) {
   const ignoreFields = inputIgnoreFields
     ? IGNORE_FIELDS.concat(inputIgnoreFields)
     : IGNORE_FIELDS
-  const cleanPackageJSON = filterObjectByKey(
-    applyPublishConfig(packageJson),
-    key => !ignoreFields.includes(key) && key !== 'scripts'
-  )
+
+  const cleanPackageJSON = structuredClone(applyPublishConfig(packageJson))
+  // Delete ignore fields from packageJson except 'scripts'
+  ignoreFields.forEach(field => field !== 'scripts' && deleteProperty(cleanPackageJSON, pathToKeys(field)))
+
 
   if (packageJson.scripts && !ignoreFields.includes('scripts')) {
     cleanPackageJSON.scripts = filterObjectByKey(packageJson.scripts, script =>
