@@ -1,5 +1,8 @@
 # Change Log
 
+## 5.2
+* Allow to use path in `fields` (by @pyoner).
+
 ## 5.1
 * Keep `prepare` script (by @azat-io).
 
