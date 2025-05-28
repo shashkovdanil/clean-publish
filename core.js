@@ -82,7 +82,7 @@ export function clearPackageJSON(packageJson, inputIgnoreFields) {
   const cleanPackageJSON = structuredClone(applyPublishConfig(packageJson))
   ignoreFields.forEach(
     field =>
-      field !== 'scripts' && deleteProperty(cleanPackageJSON, pathToKeys(field))
+      deleteProperty(cleanPackageJSON, pathToKeys(field))
   )
 
   if (packageJson.scripts && !ignoreFields.includes('scripts')) {
