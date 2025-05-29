@@ -1,5 +1,8 @@
 # Change Log
 
+## 5.2.1
+* Fixed `scripts` removal (by @dangreen).
+
 ## 5.2
 * Allow to use path in `fields` (by @pyoner).
 
