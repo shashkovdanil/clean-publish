@@ -37,7 +37,7 @@ export default [
   /^\.renovaterc/,
   /^\.size-limit/,
   /^\.yaspellerrc/,
-  /^changelog/i,
+  /^changelog(\.md|\.txt)?$/i,
   /eslint.config.(c|m)?js/,
   /README\.[\w-]+\.md/
 ]
