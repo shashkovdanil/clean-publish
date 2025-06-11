@@ -1,5 +1,8 @@
 # Change Log
 
+## 5.2.2
+* Fixed false-positive ChangeLog ignoring (by @dangreen).
+
 ## 5.2.1
 * Fixed `scripts` removal (by @dangreen).
 
