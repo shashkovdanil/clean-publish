@@ -1,8 +1,8 @@
-import spawn from 'cross-spawn'
-import glob from 'fast-glob'
-import micromatch from 'micromatch'
 import { promises as fs } from 'node:fs'
 import { basename, join } from 'node:path'
+import picomatch from 'picomatch'
+import { x } from 'tinyexec'
+import { glob, isDynamicPattern } from 'tinyglobby'
 
 import IGNORE_FIELDS from './exception/ignore-fields.js'
 import IGNORE_FILES from './exception/ignore-files.js'
@@ -115,8 +115,8 @@ export function createIgnoreMatcher(ignorePattern) {
     return filename => !ignorePattern.test(filename)
   }
 
-  if (glob.isDynamicPattern(ignorePattern)) {
-    const isMatch = micromatch.matcher(ignorePattern)
+  if (isDynamicPattern(ignorePattern)) {
+    const isMatch = picomatch(ignorePattern)
 
     return (_filename, path) => !isMatch(path)
   }
@@ -158,27 +158,24 @@ export async function copyFiles(tempDir, filter) {
   )
 }
 
-export function publish(
+export async function publish(
   cwd,
   { access, dryRun, packageManager, packageManagerOptions = [], tag }
 ) {
-  return new Promise((resolve, reject) => {
-    const args = ['publish', ...packageManagerOptions]
-    if (access) args.push('--access', access)
-    if (tag) args.push('--tag', tag)
-    if (dryRun) args.push('--dry-run')
-    spawn(packageManager, args, {
-      cwd,
-      stdio: 'inherit'
-    })
-      .on('close', (code, signal) => {
-        resolve({
-          code,
-          signal
-        })
-      })
-      .on('error', reject)
+  const args = ['publish', ...packageManagerOptions]
+  if (access) args.push('--access', access)
+  if (tag) args.push('--tag', tag)
+  if (dryRun) args.push('--dry-run')
+
+  const exec = await x(packageManager, args, {
+    cwd,
+    stdio: 'inherit'
   })
+
+  return {
+    code: exec.exitCode,
+    signal: null
+  }
 }
 
 export async function createTempDirectory(name) {
@@ -201,14 +198,9 @@ export function removeTempDirectory(directoryName) {
   return remove(directoryName)
 }
 
-export function runScript(script, ...args) {
-  return new Promise((resolve, reject) => {
-    spawn(script, args, { stdio: 'inherit' })
-      .on('close', code => {
-        resolve(code === 0)
-      })
-      .on('error', reject)
-  })
+export async function runScript(script, ...args) {
+  const exec = await x(script, args, { stdio: 'inherit' })
+  return exec.exitCode === 0
 }
 
 export function getReadmeUrlFromRepository(repository) {

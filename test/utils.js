@@ -1,31 +1,15 @@
-import crossSpawn from 'cross-spawn'
 import { promises as fs } from 'node:fs'
 import { join } from 'node:path'
+import { x } from 'tinyexec'
 
-export function spawn(cmd, args, opts) {
-  return new Promise((resolve, reject) => {
-    const child = crossSpawn(cmd, args, {
-      ...opts,
-      stdio: 'pipe'
-    })
-    let output = ''
-    const onData = data => {
-      output += data.toString()
-    }
-    const onDone = error => {
-      if (error) {
-        reject(error instanceof Error ? error : new Error(output))
-      } else {
-        resolve(output)
-      }
-    }
-
-    child.stdout.on('data', onData)
-    child.stderr.on('data', onData)
-    child.on('close', onDone)
-    child.on('exit', onDone)
-    child.on('error', onDone)
-  })
+export async function spawn(cmd, args, opts) {
+  try {
+    const { stderr, stdout } = await x(cmd, args, { nodeOptions: opts })
+    if (stderr) throw new Error(stderr)
+    return stdout;
+  } catch (err) {
+    throw (err instanceof Error ? err : new Error(err))
+  }
 }
 
 export async function findTmpDirs(dir) {
