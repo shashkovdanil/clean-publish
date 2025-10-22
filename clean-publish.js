@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import { readFile } from 'node:fs/promises'
+
 import {
   cleanComments,
   cleanDocs,
@@ -48,7 +50,9 @@ async function handleOptions() {
       process.stdout.write(HELP + '\n')
       process.exit(0)
     } else if (process.argv[i] === '--version') {
-      process.stdout.write(require('./package.json').version + '\n')
+      const packageJsonContent = await readFile('./package.json', 'utf-8')
+      const { version } = JSON.parse(packageJsonContent)
+      process.stdout.write(version + '\n')
       process.exit(0)
     } else if (process.argv[i] === '--without-publish') {
       options.withoutPublish = true
@@ -109,7 +113,11 @@ async function run() {
   const packageJson = await readPackageJSON()
 
   if (options.cleanDocs) {
-    await cleanDocs(tempDirectoryName, packageJson.repository, packageJson.homepage)
+    await cleanDocs(
+      tempDirectoryName,
+      packageJson.repository,
+      packageJson.homepage
+    )
   }
 
   if (options.cleanComments) {
