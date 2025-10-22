@@ -35,7 +35,9 @@
   },
   "devDependencies": {
     "@logux/eslint-config": "^56.1.0",
+    "actions-up": "^1.4.2",
     "eslint": "^9.38.0",
+    "multiocular": "^0.8.1",
     "ts-json-schema-generator": "^2.4.0",
     "tsx": "^4.20.6",
     "uvu": "^0.5.6"
