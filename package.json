@@ -1,6 +1,6 @@
 {
   "name": "clean-publish",
-  "version": "5.2.2",
+  "version": "6.0.0",
   "description": "Clean your package before publish",
   "keywords": [
     "npm",

@@ -1,5 +1,9 @@
 # Change Log
 
+## 6.0.0
+* Removed Node.js 18 support.
+* Reduced dependencies (by @hyperz111).
+
 ## 5.2.2
 * Fixed false-positive ChangeLog ignoring (by @dangreen).
 
