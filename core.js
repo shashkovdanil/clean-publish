@@ -80,9 +80,8 @@ export function clearPackageJSON(packageJson, inputIgnoreFields) {
     : IGNORE_FIELDS
 
   const cleanPackageJSON = structuredClone(applyPublishConfig(packageJson))
-  ignoreFields.forEach(
-    field =>
-      deleteProperty(cleanPackageJSON, pathToKeys(field))
+  ignoreFields.forEach(field =>
+    deleteProperty(cleanPackageJSON, pathToKeys(field))
   )
 
   if (packageJson.scripts && !ignoreFields.includes('scripts')) {
@@ -172,7 +171,7 @@ export async function publish(
       cwd,
       stdio: 'inherit'
     }
-   })
+  })
 
   return {
     code: exec.exitCode,
