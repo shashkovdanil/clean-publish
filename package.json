@@ -34,10 +34,10 @@
     "tinyglobby": "^0.2.15"
   },
   "devDependencies": {
-    "@logux/eslint-config": "^55.2.1",
-    "eslint": "^9.27.0",
+    "@logux/eslint-config": "^56.1.0",
+    "eslint": "^9.38.0",
     "ts-json-schema-generator": "^2.4.0",
-    "tsx": "^4.19.4",
+    "tsx": "^4.20.6",
     "uvu": "^0.5.6"
   }
 }
