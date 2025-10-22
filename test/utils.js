@@ -1,10 +1,10 @@
-import { x } from 'tinyexec'
 import { promises as fs } from 'node:fs'
 import { join } from 'node:path'
+import { x } from 'tinyexec'
 
 export async function spawn(cmd, args, opts) {
   try {
-    const { stdout, stderr } = await x(cmd, args, { nodeOptions: opts })
+    const { stderr, stdout } = await x(cmd, args, { nodeOptions: opts })
     if (stderr) throw new Error(stderr)
     return stdout;
   } catch (err) {
