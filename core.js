@@ -80,9 +80,8 @@ export function clearPackageJSON(packageJson, inputIgnoreFields) {
     : IGNORE_FIELDS
 
   const cleanPackageJSON = structuredClone(applyPublishConfig(packageJson))
-  ignoreFields.forEach(
-    field =>
-      deleteProperty(cleanPackageJSON, pathToKeys(field))
+  ignoreFields.forEach(field =>
+    deleteProperty(cleanPackageJSON, pathToKeys(field))
   )
 
   if (packageJson.scripts && !ignoreFields.includes('scripts')) {
@@ -169,7 +168,9 @@ export async function publish(
 
   const exec = await x(packageManager, args, {
     cwd,
-    stdio: 'inherit'
+    nodeOptions: {
+      stdio: 'inherit'
+    }
   })
 
   return {
@@ -200,6 +201,7 @@ export function removeTempDirectory(directoryName) {
 
 export async function runScript(script, ...args) {
   const exec = await x(script, args, { stdio: 'inherit' })
+  console.log(x)
   return exec.exitCode === 0
 }
 
