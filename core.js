@@ -167,8 +167,8 @@ export async function publish(
   if (dryRun) args.push('--dry-run')
 
   const exec = await x(packageManager, args, {
-    cwd,
     nodeOptions: {
+      cwd,
       stdio: 'inherit'
     }
   })
@@ -200,8 +200,11 @@ export function removeTempDirectory(directoryName) {
 }
 
 export async function runScript(script, ...args) {
-  const exec = await x(script, args, { stdio: 'inherit' })
-  console.log(x)
+  const exec = await x(script, args, {
+    nodeOptions: {
+      stdio: 'inherit'
+    }
+  })
   return exec.exitCode === 0
 }
 
