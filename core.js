@@ -171,7 +171,7 @@ export async function publish(
       cwd,
       stdio: 'inherit'
     }
-   })
+  })
 
   return {
     code: exec.exitCode,
