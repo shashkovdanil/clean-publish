@@ -1,5 +1,8 @@
 # Change Log
 
+## 6.0.2
+* Ignore `.claude` folder.
+
 ## 6.0.1
 * Fixed CLI calls (by @hyperz111).
 
