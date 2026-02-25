@@ -1,5 +1,8 @@
 # Change Log
 
+## 6.0.3
+* Added `pnpm` to ignore `package.json` fields.
+
 ## 6.0.2
 * Ignore `.claude` folder.
 
