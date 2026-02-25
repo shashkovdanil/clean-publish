@@ -22,5 +22,6 @@ export default [
   'simple-pre-commit',
   'size-limit',
   'typeCoverage',
-  'yaspeller'
+  'yaspeller',
+  'pnpm'
 ]
