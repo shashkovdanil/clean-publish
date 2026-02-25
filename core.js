@@ -185,7 +185,9 @@ export async function createTempDirectory(name) {
       await fs.mkdir(name)
     } catch (err) {
       if (err.code === 'EEXIST') {
-        throw new Error(`Temporary directory "${name}" already exists.`)
+        throw new Error(`Temporary directory "${name}" already exists.`, {
+          cause: err
+        })
       }
     }
 
