@@ -20,6 +20,7 @@ export default [
   'test',
   'yarn-error.log',
   'yarn.lock',
+  '.claude',
   /^(babel|commitlint|jest|vitest)\.config\.[cm]?(j|t)s$/,
   /^\.?nano-staged\.(c|m)?js(on)?$/,
   /^\.?simple-git-hooks.js(on)?$/,
