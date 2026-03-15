@@ -19,6 +19,7 @@ export default [
   '.devcontainer.json',
   'test',
   'yarn-error.log',
+  '.prettierignore',
   'yarn.lock',
   '.claude',
   /^(babel|commitlint|jest|vitest)\.config\.[cm]?(j|t)s$/,
