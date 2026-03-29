@@ -1,5 +1,8 @@
 # Change Log
 
+## 6.0.5
+* Ignore `oxfmt` and `oxlint` configs.
+
 ## 6.0.4
 * Ignore `.prettierignore` file.
 
