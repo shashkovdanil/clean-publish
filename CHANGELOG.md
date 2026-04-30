@@ -1,5 +1,10 @@
 # Change Log
 
+## 7.0.0
+
+- Added `pnpm-workspace.yaml` to ignore files.
+- Removed Node.js 20 support.
+
 ## 6.0.5
 
 - Ignore `oxfmt` and `oxlint` configs.
