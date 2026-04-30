@@ -6,9 +6,9 @@ export async function spawn(cmd, args, opts) {
   try {
     const { stderr, stdout } = await x(cmd, args, { nodeOptions: opts })
     if (stderr) throw new Error(stderr)
-    return stdout;
+    return stdout
   } catch (err) {
-    throw (err instanceof Error ? err : new Error(err))
+    throw err instanceof Error ? err : new Error(err)
   }
 }
 

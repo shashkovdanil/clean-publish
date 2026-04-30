@@ -5,6 +5,7 @@
 Clean Publish is a tool for removing configuration files, fields and script for development from `package.json` before publishing to `npm`.
 
 ## Table of Contents
+
 1. [How it works](#how-it-works)
 2. [Usage](#usage)
 3. [Config](#config)
@@ -26,6 +27,7 @@ src
 .prettierrc
 package.json
 ```
+
 ```json
 {
   "name": "author",
@@ -45,9 +47,10 @@ package.json
 src
 package.json
 ```
+
 ```json
 {
-  "name": "author",
+  "name": "author"
 }
 ```
 
@@ -120,6 +123,7 @@ lerna exec -- clean-publish --without-publish --temp-dir package
 # Publish all packages from `package` subdirectory
 lerna publish --contents package
 ```
+
 ### Usage with [pnpm](https://pnpm.io/)
 
 Just add this in your package.json:
@@ -195,8 +199,8 @@ Clean Publish also supports 3 ways to define config.
 
 ```js
 module.exports = {
-  "files": ["file1.js", "file2.js"],
-  "packageManager": "yarn"
+  files: ['file1.js', 'file2.js'],
+  packageManager: 'yarn'
 }
 ```
 

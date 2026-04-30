@@ -1,7 +1,18 @@
 {
   "private": true,
-  "devDependencies": {
-    "nanoid": "^3.2.0"
+  "workspaces": [
+    "packages/*",
+    "website",
+    "examples/*"
+  ],
+  "exports": {
+    ".": {
+      "development": "./src/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "exports": "./dist/index.js"
   },
   "scripts": {
     "build-clean": "echo test",
@@ -24,20 +35,19 @@
     "typecheck": "echo test",
     "watch": "echo test"
   },
-  "workspaces": [
-    "packages/*",
-    "website",
-    "examples/*"
-  ],
+  "dependencies": {
+    "nanoevents": "^6.0.2"
+  },
+  "devDependencies": {
+    "nanoid": "^3.2.0"
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "proseWrap": "never",
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
   "jest": {
-    "modulePathIgnorePatterns": [
-      "examples/.*",
-      "packages/.*/build",
-      "packages/.*/build-es5",
-      "packages/jest-runtime/src/__tests__/test_root.*",
-      "website/.*",
-      "e2e/runtime-internal-module-registry/__mocks__"
-    ],
     "collectCoverageFrom": [
       "**/packages/jest-*/**/*.js",
       "**/packages/eslint-*/**/*.js",
@@ -52,13 +62,18 @@
     "coverageReporters": [
       "json"
     ],
+    "modulePathIgnorePatterns": [
+      "examples/.*",
+      "packages/.*/build",
+      "packages/.*/build-es5",
+      "packages/jest-runtime/src/__tests__/test_root.*",
+      "website/.*",
+      "e2e/runtime-internal-module-registry/__mocks__"
+    ],
     "projects": [
       "<rootDir>",
       "<rootDir>/examples/*/"
     ],
-    "transform": {
-      "^.+\\.js$": "<rootDir>/packages/babel-jest"
-    },
     "setupTestFrameworkScriptFile": "<rootDir>/testSetupFile.js",
     "snapshotSerializers": [
       "<rootDir>/packages/pretty-format/build/plugins/convert_ansi.js"
@@ -85,29 +100,14 @@
       "/packages/jest-worker/src/__performance_tests__",
       "/packages/pretty-format/perf/test.js",
       "/e2e/__tests__/iterator-to-null-test.js"
-    ]
-  },
-  "prettier": {
-    "bracketSpacing": false,
-    "proseWrap": "never",
-    "singleQuote": true,
-    "trailingComma": "all"
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/packages/babel-jest"
+    }
   },
   "collective": {
     "type": "opencollective",
     "url": "https://opencollective.com/jest",
     "logo": "https://opencollective.com/jest/logo.txt"
-  },
-  "exports": {
-    ".": {
-      "development": "./src/index.js",
-      "default": "./dist/index.js"
-    }
-  },
-  "publishConfig": {
-    "exports": "./dist/index.js"
-  },
-  "dependencies": {
-    "nanoevents": "^6.0.2"
   }
 }

@@ -46,19 +46,19 @@ Let's get started by writing a test for a hypothetical function that adds two nu
 
 ```javascript
 function sum(a, b) {
-  return a + b;
+  return a + b
 }
-module.exports = sum;
+module.exports = sum
 ```
 
 Then, create a file named `sum.test.js`. This will contain our actual test:
 
 ```javascript
-const sum = require('./sum');
+const sum = require('./sum')
 
 test('adds 1 + 2 to equal 3', () => {
-  expect(sum(1, 2)).toBe(3);
-});
+  expect(sum(1, 2)).toBe(3)
+})
 ```
 
 Add the following section to your `package.json`:
@@ -122,7 +122,7 @@ You are now set up to use all ES6 features and React specific syntax.
 
 ```json
 {
-  "presets": [["env", {"modules": false}], "react"],
+  "presets": [["env", { "modules": false }], "react"],
   "env": {
     "test": {
       "presets": [["env"], "react"]

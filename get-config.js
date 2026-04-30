@@ -18,7 +18,7 @@ const PACKAGE_ERRORS = {
     'of package.json must be ' +
     '`an array of strings or RegExps`',
   notObject:
-    'The `"clean-publish"` section of package.json ' + 'must be `an object`',
+    'The `"clean-publish"` section of package.json must be `an object`',
   packageManagerNotString:
     'The `packageManager` in the `"clean-publish"` section ' +
     'of package.json must be `an string`',
@@ -32,19 +32,17 @@ const PACKAGE_ERRORS = {
 const FILE_ERRORS = {
   empty: 'Clean Publish config must `not be empty`',
   fieldsNotStrings:
-    'The `fields` in Clean Publish config ' + 'must be `an array of strings`',
+    'The `fields` in Clean Publish config must be `an array of strings`',
   filesNotStringsOrRegExps:
     'The `files` in the Clean Publish config ' +
     'must be `an array of strings or RegExps`',
   notObject: 'Clean Publish config must contain `an object`',
   packageManagerNotString:
-    'The `packageManager` in Clean Publish config ' +
-    'must be `an string`',
+    'The `packageManager` in Clean Publish config must be `an string`',
   packageManagerOptionsNotStrings:
     'The `packageManagerOptions` in Clean Publish config ' +
     'must be `an array of strings`',
-  tempDirNotString:
-    'The `tempDir` in Clean Publish config ' + 'must be `an string`'
+  tempDirNotString: 'The `tempDir` in Clean Publish config must be `an string`'
 }
 
 const PACKAGE_EXAMPLE =
@@ -117,7 +115,12 @@ function configError(config) {
 
 export function getConfig() {
   const explorer = lilconfig('clean-publish', {
-    searchPlaces: ['package.json', '.clean-publish', '.clean-publish.js', '.clean-publish.json']
+    searchPlaces: [
+      'package.json',
+      '.clean-publish',
+      '.clean-publish.js',
+      '.clean-publish.json'
+    ]
   })
   return explorer
     .search()
@@ -162,7 +165,7 @@ export function getConfig() {
       const { config } = result
       const error = configError(config)
       if (error) {
-        if (/package\.json$/.test(config.filepath)) {
+        if (config.filepath.endsWith('package.json')) {
           throw new Error(
             PACKAGE_ERRORS[error] +
               '. ' +

@@ -1,7 +1,3 @@
-.editorconfig
-.eslintrc
-.eslintignore
-
 node_modules/
 
 test/

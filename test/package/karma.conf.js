@@ -11,7 +11,7 @@ module.exports = config => {
     files: ['e2e/browser-support/browser-test.js'],
     frameworks: ['mocha', 'browserify'],
     preprocessors: {
-      'e2e/browser-support/browser-test.js': ['browserify'],
-    },
-  });
-};
+      'e2e/browser-support/browser-test.js': ['browserify']
+    }
+  })
+}
