@@ -1,5 +1,9 @@
 # Change Log
 
+## 7.0.1
+
+- Fixed npm package size regression.
+
 ## 7.0.0
 
 - Added `pnpm-workspace.yaml` to ignore files.
