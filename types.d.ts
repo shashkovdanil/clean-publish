@@ -62,4 +62,10 @@ export interface Config {
    * Run script on the to-release dir before npm publish.
    */
   beforeScript?: string
+
+  /**
+   * Publish as a staged package (i.e. `npm stage publish`).
+   * @default false
+   */
+  stage?: boolean
 }

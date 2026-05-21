@@ -159,9 +159,10 @@ export async function copyFiles(tempDir, filter) {
 
 export async function publish(
   cwd,
-  { access, dryRun, packageManager, packageManagerOptions = [], tag }
+  { access, dryRun, packageManager, packageManagerOptions = [], tag, stage }
 ) {
-  const args = ['publish', ...packageManagerOptions]
+  const commands = stage ? ['stage', 'publish'] : ['publish']
+  const args = [...commands, ...packageManagerOptions]
   if (access) args.push('--access', access)
   if (tag) args.push('--tag', tag)
   if (dryRun) args.push('--dry-run')

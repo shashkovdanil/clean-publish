@@ -91,6 +91,7 @@ $ yarn add clean-publish --dev
 - `access` - whether the npm registry publishes this package as a public package, or restricted
 - `before-script` - run script on the to-release dir before `npm publish`
 - `temp-dir` - create temporary directory with given name.
+- `stage` - publish as a staged package (i.e. `npm stage publish`)
 
 ```sh
 $ npx clean-publish --files "file1.js, file2.js" --fields "scripts, name"
