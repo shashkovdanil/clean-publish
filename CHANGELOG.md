@@ -1,5 +1,9 @@
 # Change Log
 
+## 7.1.0
+
+- Added `--stage` support (by @43081j).
+
 ## 7.0.1
 
 - Fixed npm package size regression.
