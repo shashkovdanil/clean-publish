@@ -37,6 +37,7 @@ const HELP =
   '  --before-script    Run script on the to-release dir before npm\n' +
   '                     publish\n' +
   '  --temp-dir         Create temporary directory with given name\n' +
+  '  --stage            Publish as a staged package (i.e. `npm stage publish`)\n' +
   '  --                 Pass next arguments as package manager options'
 
 const DEFAULT_OPTIONS = {
@@ -86,6 +87,8 @@ async function handleOptions() {
     } else if (process.argv[i] === '--temp-dir') {
       options.tempDir = process.argv[i + 1]
       i += 1
+    } else if (process.argv[i] === '--stage') {
+      options.stage = true
     } else if (process.argv[i] === '--') {
       options.packageManagerOptions = process.argv.slice(i + 1)
       break
